@@ -8,13 +8,12 @@ import hld.coins.util.LogUnit;
 
 public class GameStatusManger {
 
-	private static GameStatusManger instance;
+	private static GameStatusManger instance = new GameStatusManger();
 
 	private GameStatusInterface statusCurrent;
 
 	private GameStatusInterface statusPrevious;
 
-	@SuppressWarnings("unused")
 	private byte statusPreviousKey;
 
 	private byte statusCurrentKey;
@@ -27,9 +26,6 @@ public class GameStatusManger {
 	}
 
 	public static GameStatusManger getInstance() {
-		if (instance == null) {
-			instance = new GameStatusManger();
-		}
 		return instance;
 	}
 
