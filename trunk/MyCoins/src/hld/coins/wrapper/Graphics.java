@@ -34,6 +34,7 @@ public class Graphics {
 		rectF = new RectF();
 		paint = new Paint();
 		paint.setColor(Color.WHITE);
+		currentFont = new Font(paint.getTypeface(), 10);
 	}
 
 	public Graphics() {

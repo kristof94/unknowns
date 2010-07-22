@@ -3,6 +3,8 @@ package hld.coins.activity;
 import java.util.concurrent.TimeUnit;
 
 import hld.coins.constants.EngineConstants;
+import hld.coins.constants.GameStatusConstants;
+import hld.coins.constants.GameStatusConstants.Status;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GameStatusManger;
 import hld.coins.manager.GameViewManager;
@@ -99,6 +101,7 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 						instance.adjust();
 						// TODO
 						// 游戏状态的初始化
+						GameStatusManger.getInstance().setStatusCurrent(Status.GAME_LOADING, GameStatusConstants.getStatus(Status.GAME_LOADING));
 					}
 				} finally {
 					if (c != null)
@@ -120,7 +123,7 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 
 	@Override
 	public void run() {
-		Looper.prepare();
+//		Looper.prepare();
 		musicPlayer.resumeAllMusic();
 		while (isRunning) {
 			while (isPause && isRunning) {
@@ -179,8 +182,8 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 				if (c != null) {
 					graphics.setCanvas(c);
 					viewManager.onDraw(graphics);
-					graphics.drawString("Step : " + step, 0, 0, Graphics.LEFT
-							| Graphics.TOP);
+//					graphics.drawString("Step : " + step, 0, 0, Graphics.LEFT
+//							| Graphics.TOP);
 				}
 			}
 		} finally {
