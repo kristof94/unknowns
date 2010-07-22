@@ -7,6 +7,13 @@ public class Image {
 	public int width;
 	public int height;
 	
+	public Image() {
+	}
+	
+	public Image(Bitmap image) {
+		setImage(image);
+	}
+	
 	public void setImage(Bitmap image){
 		this.imgae = image;
 		this.width = image.getWidth();
