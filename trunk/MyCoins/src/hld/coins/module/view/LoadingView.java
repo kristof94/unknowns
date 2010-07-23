@@ -44,10 +44,13 @@ public class LoadingView extends AbstractView {
 		graphics.drawImage(loadingbar0.imgae, loadingbarPoint.x, loadingbarPoint.y);
 		int w = (int)Math.min(loadingbar1.width, loadingbar1.width*task.now/(float)task.max);
 		if(task.now!=now) {
-			graphics.drawImage(loadingbarPoint.x, loadingbarPoint.y, loadingbar1.imgae, loadingbarPoint.x, loadingbarPoint.y, w, loadingbar1.height);
+			graphics.drawImage(loadingbarPoint.x, loadingbarPoint.y, loadingbar1.imgae, 0, 0, w, loadingbar1.height);
+			graphics.drawImage(loadingpointer.imgae, loadingpointerPoint.x + Math.min(w, p), loadingpointerPoint.y);
 			now = task.now;
+		} else if(task.max==now) {
+			//TODO
+			//½øÈëmenu
 		}
-		graphics.drawImage(loadingpointer.imgae, loadingpointerPoint.x + Math.min(w, p), loadingpointerPoint.y);
 	}
 	
 	private class LoadingTask extends AsyTask {
@@ -61,7 +64,7 @@ public class LoadingView extends AbstractView {
 			super.run();
 			while(now++<max) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(500);
 				} catch(InterruptedException e) {
 					e.printStackTrace();
 				}
