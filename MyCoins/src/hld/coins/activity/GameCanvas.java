@@ -1,30 +1,24 @@
 package hld.coins.activity;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import hld.coins.constants.EngineConstants;
-import hld.coins.constants.GameStatusConstants;
 import hld.coins.constants.GameStatusConstants.Status;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GameStatusManger;
 import hld.coins.manager.GameViewManager;
 import hld.coins.module.music.AsyGameMusicPlayer;
 import hld.coins.task.AsyTimerManager;
-import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
 
 public class GameCanvas extends SurfaceView implements Callback, Runnable {
 
@@ -108,7 +102,7 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 						instance.adjust();
 						// TODO
 						// 游戏状态的初始化
-						GameStatusManger.getInstance().setStatusCurrent(Status.GAME_LOADING, GameStatusConstants.getStatus(Status.GAME_LOADING));
+						GameStatusManger.getInstance().setStatusCurrent(Status.GAME_LOADING);
 					}
 				} finally {
 					if (c != null)

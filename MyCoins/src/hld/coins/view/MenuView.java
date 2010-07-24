@@ -44,31 +44,40 @@ public class MenuView extends AbstractView {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.menubg, scale, false);
-		start0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0000, scale, false);
-		start1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0001, scale, false);
+		start0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0000, scale,
+				false);
+		start1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0001, scale,
+				false);
 		sound0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.sound0000, scale, false);
 		sound1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.sound0001, scale, false);
-		openfeint0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0000, scale, false);
-		openfeint1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0001, scale, false);
+		openfeint0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0000, scale,
+				false);
+		openfeint1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0001, scale,
+				false);
 		help0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.helpa0000, scale, false);
 		help1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.helpa0001, scale, false);
-		other0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0000, scale, false);
-		other1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0001, scale, false);
-		
+		other0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0000, scale,
+				false);
+		other1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0001, scale,
+				false);
 		bgPoint = new Point(offsetX(0), offsetY(0));
 		startPoint = new Point(offsetX(250), offsetY(108));
 		soundPoint = new Point(offsetX(18), offsetY(12));
 		openfeintPoint = new Point(offsetX(391), offsetY(278));
 		helpPoint = new Point(offsetX(250), offsetY(222));
 		otherPoint = new Point(offsetX(285), offsetY(165));
-		
-		startRect = new Rect(startPoint.x, startPoint.y, startPoint.x+start0.width, startPoint.y+start0.height);
-		soundRect = new Rect(soundPoint.x, soundPoint.y, soundPoint.x+sound0.width, soundPoint.y+sound0.height);
-		openfeintRect = new Rect(openfeintPoint.x, openfeintPoint.y, openfeintPoint.x+openfeint0.width, openfeintPoint.y+openfeint0.height);
-		helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x+help0.width, helpPoint.y+help0.height);
-		otherRect = new Rect(otherPoint.x, otherPoint.y, otherPoint.x+other0.width, otherPoint.y+other0.height);
-		
-		isOpenSound = preferences.getBoolean(EngineConstants.IS_OPEN_SOUND, EngineConstants.DEFAULT_OPEN_SOUND);
+		startRect = new Rect(startPoint.x, startPoint.y, startPoint.x + start0.width, startPoint.y
+				+ start0.height);
+		soundRect = new Rect(soundPoint.x, soundPoint.y, soundPoint.x + sound0.width, soundPoint.y
+				+ sound0.height);
+		openfeintRect = new Rect(openfeintPoint.x, openfeintPoint.y, openfeintPoint.x
+				+ openfeint0.width, openfeintPoint.y + openfeint0.height);
+		helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x + help0.width, helpPoint.y
+				+ help0.height);
+		otherRect = new Rect(otherPoint.x, otherPoint.y, otherPoint.x + other0.width, otherPoint.y
+				+ other0.height);
+		isOpenSound = preferences.getBoolean(EngineConstants.IS_OPEN_SOUND,
+				EngineConstants.DEFAULT_OPEN_SOUND);
 	}
 	
 	@Override
@@ -83,8 +92,35 @@ public class MenuView extends AbstractView {
 	
 	@Override
 	public boolean onTouchListener(MotionEvent event) {
-		if(event.getAction()==MotionEvent.ACTION_DOWN) {
-			
+		switch(event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			if(startRect.contains((int)event.getX(), (int)event.getY())) {
+				pressStart = true;
+			} else if(soundRect.contains((int)event.getX(), (int)event.getY())) {
+				pressSound = true;
+			} else if(openfeintRect.contains((int)event.getX(), (int)event.getY())) {
+				pressOpenfeint = true;
+			} else if(helpRect.contains((int)event.getX(), (int)event.getY())) {
+				pressHelp = true;
+			} else if(otherRect.contains((int)event.getX(), (int)event.getY())) {
+				pressOther = true;
+			}
+			break;
+		case MotionEvent.ACTION_UP:
+			if(pressStart && startRect.contains((int)event.getX(), (int)event.getY())) {
+				//TODO
+				//开始游戏
+			} else if(pressSound && soundRect.contains((int)event.getX(), (int)event.getY())) {
+				isOpenSound = !isOpenSound;
+				preferences.putBoolean(EngineConstants.IS_OPEN_SOUND, isOpenSound);
+			} else if(pressOpenfeint
+					&& openfeintRect.contains((int)event.getX(), (int)event.getY())) {} else if(pressHelp
+					&& helpRect.contains((int)event.getX(), (int)event.getY())) {
+				//TODO
+				//游戏帮助
+			} else if(pressOther && otherRect.contains((int)event.getX(), (int)event.getY())) {}
+			reset();
+			break;
 		}
 		return false;
 	}
@@ -92,10 +128,14 @@ public class MenuView extends AbstractView {
 	@Override
 	public void hide() {
 		super.hide();
-		pressStart=false;
-		pressSound=false;
-		pressOpenfeint=false;
-		pressHelp=false;
-		pressOther=false;
+		reset();
+	}
+	
+	private void reset() {
+		pressStart = false;
+		pressSound = false;
+		pressOpenfeint = false;
+		pressHelp = false;
+		pressOther = false;
 	}
 }
