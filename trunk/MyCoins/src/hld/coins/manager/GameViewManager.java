@@ -29,6 +29,10 @@ public class GameViewManager {
 
 	private Channel channel;
 
+	public int gameWindowWidth;
+
+	public int gameWindowHight;
+
 	private GameViewManager() {
 		list = new ArrayList<AbstractView>();
 	}
@@ -105,6 +109,8 @@ public class GameViewManager {
 		int h = (int) (ScreenHight / scale - ScreenHight);
 		int offsetW = Math.abs(w);
 		int offsetH = Math.abs(h);
+		gameWindowWidth = ScreenWidth - offsetW;
+	    gameWindowHight = ScreenHight - offsetH;
 		startX = offsetW / 2;
 		startY = offsetH / 2;
 	}

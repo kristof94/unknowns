@@ -7,8 +7,8 @@ public class EngineConstants {
 	// 游戏画布刷新周期
 	public static final int STEP = 30;
 	// 默认游戏的标准大小
-	public static final float GAME_WIDTH = 320.0f;
-	public static final float GAME_HEIGHT = 480.0f;
+	public static final float GAME_WIDTH = 480.0f;
+	public static final float GAME_HEIGHT = 320.0f;
 	// 是否显示Debug信息
 	public static boolean isShowDebugText = true;
 
@@ -16,10 +16,19 @@ public class EngineConstants {
 	public static final int GAME_MUSIC = 100;
 
 	// 退出游戏
-	public static final String GAME_EXIT_OK = "ok";
-	public static final String GAME_EXIT_CANCEL = "cancel";
-	public static final String GAME_EXIT_TITLE = "退出";
-	public static final String GAME_EXIT_MSG = "确认退出游戏？";
+	public static final String GAME_EXIT_OK = "不玩了";
+	public static final String GAME_EXIT_CANCEL = "再玩一下吧";
+	public static final String GAME_EXIT_TITLE = "离开";
+	public static final String GAME_EXIT_MSG = "你真的不玩了么？";
+	
+	/**
+	 * 是否开启声音
+	 */
+	public static final String IS_OPEN_SOUND = "openSound";
+	/**
+	 * 是否开启声音的默认选项
+	 */
+	public static final boolean DEFAULT_OPEN_SOUND = true;
 	
 	/**
 	 * Bitmap.Config.ARGB_8888
