@@ -1,8 +1,10 @@
 package hld.coins.view;
 
 import hld.coins.R;
+import hld.coins.constants.GameStatusConstants.Status;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
+import hld.coins.manager.GameStatusManger;
 import hld.coins.task.AsyTask;
 import hld.coins.task.AsyTimerManager;
 import hld.coins.wrapper.Graphics;
@@ -19,7 +21,6 @@ public class LoadingView extends AbstractView {
 	private Point loadingpointerPoint;
 	private int p;
 	private LoadingTask task;
-	private int now;
 	
 	public LoadingView() {
 		super(true);
@@ -48,12 +49,6 @@ public class LoadingView extends AbstractView {
 				Math.min(w + loadingpointer.width / 2, loadingbar1.width), loadingbar1.height);
 		graphics.drawImage(loadingpointer.imgae, loadingpointerPoint.x + Math.min(w, p),
 				loadingpointerPoint.y);
-		if(task.now != now) {
-			now = task.now;
-		} else if(task.max == now) {
-			//TODO
-			//½øÈëmenu
-		}
 	}
 	private class LoadingTask extends AsyTask {
 		private int max;
@@ -73,6 +68,8 @@ public class LoadingView extends AbstractView {
 					e.printStackTrace();
 				}
 			}
+			cancel();
+			GameStatusManger.getInstance().setStatusCurrent(Status.GAME_MENU);
 		}
 	}
 }

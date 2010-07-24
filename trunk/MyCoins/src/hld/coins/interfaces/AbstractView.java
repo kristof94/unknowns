@@ -1,17 +1,15 @@
 package hld.coins.interfaces;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.view.MotionEvent;
-
 import hld.coins.manager.GameViewManager;
 import hld.coins.manager.PreferencesManager;
 import hld.coins.wrapper.Graphics;
+import android.content.Intent;
+import android.view.MotionEvent;
 
 public abstract class AbstractView implements ViewInterface {
 
 	private boolean isShowing;
-	protected SharedPreferences preferences;
+	protected PreferencesManager preferences;
 	protected static int height;
 	protected static int width;
 	protected static double scale;
@@ -23,7 +21,7 @@ public abstract class AbstractView implements ViewInterface {
 		if (isJoinViewManager)
 			GameViewManager.getInstance().addView(this);
 		if (!isInit) {
-			preferences = PreferencesManager.getInstance().getPreferences();
+			preferences = PreferencesManager.getInstance();
 			scale = GameViewManager.getInstance().scale;
 			startX = GameViewManager.getInstance().startX;
 			startY = GameViewManager.getInstance().startY;

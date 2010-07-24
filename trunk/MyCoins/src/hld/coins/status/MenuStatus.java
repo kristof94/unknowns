@@ -1,17 +1,18 @@
 package hld.coins.status;
 
+import android.app.Activity;
 import hld.coins.interfaces.AbstractGameStatus;
 import hld.coins.manager.GameViewManager;
-import hld.coins.view.LoadingView;
-import android.app.Activity;
+import hld.coins.view.MenuView;
 
-public class LoadingStatus extends AbstractGameStatus {
+public class MenuStatus extends AbstractGameStatus {
 	@Override
 	public void EntryCurrentStatus(Activity activity) {
 		GameViewManager.getInstance().removeAllView();
-		new LoadingView();
+		new MenuView();
 	}
 	
 	@Override
-	public void RemoveCurrentStatus(Activity activity) {}
+	public void RemoveCurrentStatus(Activity activity) {
+	}
 }

@@ -3,6 +3,7 @@ package hld.coins.manager;
 import android.app.Activity;
 import android.content.Context;
 
+import hld.coins.constants.GameStatusConstants;
 import hld.coins.constants.GameStatusConstants.Status;
 import hld.coins.interfaces.GameStatusInterface;
 import hld.coins.util.LogUnit;
@@ -44,6 +45,7 @@ public class GameStatusManger {
 			return;
 		}
 		if (isChange) {
+			LogUnit.i(statusPrevious+" change "+statusCurrent);
 			if (statusPrevious == statusCurrent) {
 				statusCurrent.EntryCurrentStatus(activity);
 			} else if (statusPrevious != statusCurrent) {
@@ -58,7 +60,9 @@ public class GameStatusManger {
 		return statusCurrent;
 	}
 
-	public void setStatusCurrent(Status key, GameStatusInterface statusCurrent) {
+	public void setStatusCurrent(Status key) {
+		GameStatusInterface statusCurrent = GameStatusConstants.getStatus(key);
+		LogUnit.i(statusCurrent.toString());
 		if (statusPrevious == null) {
 			statusPrevious = statusCurrent;
 			statusPreviousKey = key;
