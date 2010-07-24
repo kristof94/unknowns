@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 public abstract class AbstractView implements ViewInterface {
 
 	private boolean isShowing;
-	protected PreferencesManager preferences;
+	protected static PreferencesManager preferences;
 	protected static int height;
 	protected static int width;
 	protected static double scale;
@@ -25,6 +25,8 @@ public abstract class AbstractView implements ViewInterface {
 			scale = GameViewManager.getInstance().scale;
 			startX = GameViewManager.getInstance().startX;
 			startY = GameViewManager.getInstance().startY;
+			width = GameViewManager.getInstance().gameWindowWidth;
+			height = GameViewManager.getInstance().gameWindowHight;
 			isInit = true;
 		}
 	}

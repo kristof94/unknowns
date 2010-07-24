@@ -84,7 +84,7 @@ public class MenuView extends AbstractView {
 	public void onDraw(Graphics graphics) {
 		graphics.drawImage(bg.imgae, bgPoint);
 		graphics.drawImage(pressStart?start1.imgae:start0.imgae, startPoint);
-		graphics.drawImage(pressSound?sound1.imgae:sound0.imgae, soundPoint);
+		graphics.drawImage(isOpenSound?sound1.imgae:sound0.imgae, soundPoint);
 		graphics.drawImage(pressOpenfeint?openfeint1.imgae:openfeint0.imgae, openfeintPoint);
 		graphics.drawImage(pressHelp?help1.imgae:help0.imgae, helpPoint);
 		graphics.drawImage(pressOther?other1.imgae:other0.imgae, otherPoint);
@@ -114,11 +114,15 @@ public class MenuView extends AbstractView {
 				isOpenSound = !isOpenSound;
 				preferences.putBoolean(EngineConstants.IS_OPEN_SOUND, isOpenSound);
 			} else if(pressOpenfeint
-					&& openfeintRect.contains((int)event.getX(), (int)event.getY())) {} else if(pressHelp
+					&& openfeintRect.contains((int)event.getX(), (int)event.getY())) {
+				//进入平台
+			} else if(pressHelp
 					&& helpRect.contains((int)event.getX(), (int)event.getY())) {
 				//TODO
 				//游戏帮助
-			} else if(pressOther && otherRect.contains((int)event.getX(), (int)event.getY())) {}
+			} else if(pressOther && otherRect.contains((int)event.getX(), (int)event.getY())) {
+				//更多游戏
+			}
 			reset();
 			break;
 		}
