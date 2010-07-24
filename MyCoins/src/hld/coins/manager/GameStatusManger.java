@@ -45,7 +45,6 @@ public class GameStatusManger {
 			return;
 		}
 		if (isChange) {
-			LogUnit.i(statusPrevious+" change "+statusCurrent);
 			if (statusPrevious == statusCurrent) {
 				statusCurrent.EntryCurrentStatus(activity);
 			} else if (statusPrevious != statusCurrent) {
@@ -62,7 +61,6 @@ public class GameStatusManger {
 
 	public void setStatusCurrent(Status key) {
 		GameStatusInterface statusCurrent = GameStatusConstants.getStatus(key);
-		LogUnit.i(statusCurrent.toString());
 		if (statusPrevious == null) {
 			statusPrevious = statusCurrent;
 			statusPreviousKey = key;
