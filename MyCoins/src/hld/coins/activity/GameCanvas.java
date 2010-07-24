@@ -1,5 +1,7 @@
 package hld.coins.activity;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import hld.coins.constants.EngineConstants;
@@ -10,10 +12,12 @@ import hld.coins.manager.GameStatusManger;
 import hld.coins.manager.GameViewManager;
 import hld.coins.module.music.AsyGameMusicPlayer;
 import hld.coins.task.AsyTimerManager;
+import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -31,9 +35,10 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 	private SurfaceHolder holder;
 	private static boolean isFirstEnterGame;
 	private Graphics graphics;
-	private static Handler gameHandler;
+//	private static Handler gameHandler;
 	private AsyGameMusicPlayer musicPlayer;
 	private GameViewManager viewManager;
+	private ExecutorService threadPool;
 
 	// test
 	private int totel;
@@ -54,7 +59,8 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 		// 管理器
 		musicPlayer = new AsyGameMusicPlayer();
 		viewManager = GameViewManager.getInstance();
-		gameHandler = new Handler();
+//		gameHandler = new Handler();
+		threadPool = Executors.newCachedThreadPool();
 	}
 
 	private void test() {
@@ -77,7 +83,8 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 		// 测试
 		test();
 		// 渲染 事件 处理等
-		gameHandler.post(this);
+		threadPool.submit(this);
+//		gameHandler.post(this);
 
 	}
 
@@ -109,7 +116,8 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 				}
 				isFirstEnterGame = false;
 				// 异步音乐
-				gameHandler.postDelayed(musicPlayer, 500);
+				threadPool.submit(musicPlayer);
+//				gameHandler.postDelayed(musicPlayer, 500);
 			}
 		}
 		isRunning= true;
@@ -123,7 +131,7 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 
 	@Override
 	public void run() {
-//		Looper.prepare();
+		Looper.prepare();
 		musicPlayer.resumeAllMusic();
 		while (isRunning) {
 			while (isPause && isRunning) {
@@ -182,8 +190,8 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 				if (c != null) {
 					graphics.setCanvas(c);
 					viewManager.onDraw(graphics);
-//					graphics.drawString("Step : " + step, 0, 0, Graphics.LEFT
-//							| Graphics.TOP);
+					graphics.drawString("Step : " + step, 0, 0, Graphics.LEFT
+							| Graphics.TOP);
 				}
 			}
 		} finally {

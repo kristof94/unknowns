@@ -1,4 +1,4 @@
-package hld.coins.module.view;
+package hld.coins.view;
 
 import android.app.Activity;
 import hld.coins.interfaces.AbstractView;
