@@ -1,44 +1,33 @@
 package hld.coins.view;
 
 import android.graphics.Point;
+import hld.coins.R;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
 import hld.coins.wrapper.Image;
+import hld.coins.wrapper.Images;
 
 public class MainView extends AbstractView {
 	private Image bg;
-	private Image coina0;
-	private Image coina1;
-	private Image coina2;
-	private Image coinb0;
-	private Image coinb1;
-	private Image coinb2;
-	private Image coinc0;
-	private Image coinc1;
-	private Image coinc2;
-	private Image coind0;
-	private Image coind1;
-	private Image coind2;
-	private Image coine0;
-	private Image coine1;
-	private Image coine2;
-	private Image clear0;
-	private Image clear1;
-	private Image help0;
-	private Image help1;
+	private Images coina;
+	private Images coinb;
+	private Images coinc;
+	private Images coind;
+	private Images coine;
+	private Images clear;
+	private Images help;
 	private Image best;
-	private Image bestnum;
-	private Image timenum;
+	private Images bestnum;
+	private Images timenum;
 	private Image timecolon;
-	private Image stagenum;
+	private Images stagenum;
 	private Image stagedash;
 	private Image level;
-	private Image levelnum;
+	private Images levelnum;
 	private Image amount;
-	private Image amountnum;
+	private Images amountnum;
 	private Image coin;
-	private Image coinnum;
-	
+	private Images coinnum;
 	private Point bgPoint;
 	private Point coinlistPoint;
 	private Point helpPoint;
@@ -52,11 +41,34 @@ public class MainView extends AbstractView {
 	private Point amountnumPoint;
 	private Point coinPoint;
 	private Point coinnumPoint;
-	
 	private boolean isShowHelp;
 	
 	public MainView() {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
+		coina = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coina0000,
+				R.drawable.coina0001, R.drawable.coina0002);
+		coinb = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinb0000,
+				R.drawable.coinb0001, R.drawable.coinb0002);
+		coinc = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinc0000,
+				R.drawable.coinc0001, R.drawable.coinc0002);
+		coind = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coind0000,
+				R.drawable.coind0001, R.drawable.coind0002);
+		coine = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coine0000,
+				R.drawable.coine0001, R.drawable.coine0002);
+		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear00, R.drawable.clear01);
+		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
+		best=bitmapManager.getViewScaledImage(getClass(), R.drawable.best, scale, false);
+		bestnum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bestshuzhi, 10, 1);
+		timenum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.daojishi, 12, 1);
+		timecolon=bitmapManager.getViewScaledImage(getClass(), R.drawable.daojishimaohao, scale, false);
+		stagenum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.guangshutimushu, 9, 1);
+		stagedash=bitmapManager.getViewScaledImage(getClass(), R.drawable.ganghao, scale, false);
+		level=bitmapManager.getViewScaledImage(getClass(), R.drawable.level, scale, false);
+		levelnum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.levelshuzi, 10, 1);
+		amount=bitmapManager.getViewScaledImage(getClass(), R.drawable.mianzhi, scale, false);
+		amountnum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.mianzhishuzhi, 12, 1);
+		coin=bitmapManager.getViewScaledImage(getClass(), R.drawable.yingbishu, scale, false);
+		coinnum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.yingbishuzhi, 10, 1);
 	}
 }
