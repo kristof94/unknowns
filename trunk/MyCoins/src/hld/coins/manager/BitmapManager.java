@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import hld.coins.wrapper.Image;
+import hld.coins.wrapper.Images;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -143,6 +144,68 @@ public final class BitmapManager {
 			return image;
 		}
 		return resource;
+	}
+	
+	// ///////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * 获取多帧图片
+	 * @param view
+	 * @param scale 长度与宽度使用同一种缩放比例
+	 * @param filter
+	 * @param drawableId
+	 * @param col 帧的列数
+	 * @param row 帧的行数
+	 * @return
+	 */
+	public Images getViewScaledImages(Class<?> view,
+			double scale, boolean filter, int drawableId, int col, int row) {
+		Bitmap resource = BitmapFactory.decodeResource(activity.getResources(), drawableId);
+		if(scale!=1) {
+			Bitmap bitmap = Bitmap.createScaledBitmap(resource,
+					(int) (resource.getWidth() * scale),
+					(int) (resource.getHeight() * scale), filter);
+			resource.recycle();
+			resource = bitmap;
+		}
+		put(view, resource);
+		return Images.createImages(resource, col, row);
+	}
+	
+	/**
+	 * 获取多帧图片
+	 * @param view
+	 * @param scale 长度与宽度使用同一种缩放比例
+	 * @param filter
+	 * @param drawableId
+	 * @param drawable
+	 * @return
+	 */
+	public Images getViewScaledImages(Class<?> view,
+			double scale, boolean filter, int drawableId, int... drawable) {
+		Bitmap resource = BitmapFactory.decodeResource(activity.getResources(), drawableId);
+		if(scale!=1) {
+			Bitmap bitmap = Bitmap.createScaledBitmap(resource,
+					(int) (resource.getWidth() * scale),
+					(int) (resource.getHeight() * scale), filter);
+			resource.recycle();
+			resource = bitmap;
+		}
+		put(view, resource);
+		Bitmap[] images = new Bitmap[drawable.length];
+		for(int i = 0; i<images.length; i++) {
+			Bitmap image = BitmapFactory.decodeResource(activity.getResources(), drawableId);
+			if(scale!=1) {
+				Bitmap bitmap = Bitmap.createScaledBitmap(image,
+						(int) (image.getWidth() * scale),
+						(int) (image.getHeight() * scale), filter);
+				image.recycle();
+				image = bitmap;
+			}
+			put(view, image);
+			images[i] = image;
+		}
+		return Images.createImages(resource, images);
 	}
 
 	// ///////////////////////////////////////////////////////////////////////

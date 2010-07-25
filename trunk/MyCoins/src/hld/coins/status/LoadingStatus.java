@@ -6,12 +6,15 @@ import hld.coins.view.LoadingView;
 import android.app.Activity;
 
 public class LoadingStatus extends AbstractGameStatus {
+	private LoadingView view;
+	
 	@Override
 	public void EntryCurrentStatus(Activity activity) {
-		GameViewManager.getInstance().removeAllView();
-		new LoadingView();
+		view = new LoadingView();
 	}
 	
 	@Override
-	public void RemoveCurrentStatus(Activity activity) {}
+	public void RemoveCurrentStatus(Activity activity) {
+		GameViewManager.getInstance().removeView(view);
+	}
 }
