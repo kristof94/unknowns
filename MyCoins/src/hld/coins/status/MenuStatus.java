@@ -9,11 +9,11 @@ import hld.coins.view.MenuView;
 public class MenuStatus extends AbstractGameStatus {
 	@Override
 	public void EntryCurrentStatus(Activity activity) {
-		GameViewManager.getInstance().removeAllView();
 		new MenuView();
 	}
 	
 	@Override
 	public void RemoveCurrentStatus(Activity activity) {
+		GameViewManager.getInstance().removeAllView();
 	}
 }

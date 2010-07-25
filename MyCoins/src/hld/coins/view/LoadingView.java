@@ -34,7 +34,7 @@ public class LoadingView extends AbstractView {
 				scale, false);
 		bgPoint = new Point(offsetX(0), offsetY(0));
 		loadingbarPoint = new Point(offsetX(77), offsetY(270));
-		loadingpointerPoint = new Point(offsetX(77), offsetY(278));
+		loadingpointerPoint = new Point(offsetX(77), offsetY(277));
 		p = loadingbar1.width - loadingpointer.width;
 		task = new LoadingTask();
 		AsyTimerManager.addTask(task, 1000);
