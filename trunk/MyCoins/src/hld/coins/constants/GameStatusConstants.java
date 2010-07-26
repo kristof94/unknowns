@@ -3,6 +3,7 @@ package hld.coins.constants;
 import java.util.EnumMap;
 import hld.coins.interfaces.GameStatusInterface;
 import hld.coins.status.LoadingStatus;
+import hld.coins.status.MainStatus;
 import hld.coins.status.MenuStatus;
 
 public class GameStatusConstants {
@@ -14,6 +15,7 @@ public class GameStatusConstants {
 	static {
 		map.put(Status.GAME_LOADING, new LoadingStatus());
 		map.put(Status.GAME_MENU, new MenuStatus());
+		map.put(Status.GAME_MAIN, new MainStatus());
 	}
 	
 	public static GameStatusInterface getStatus(Status status) {
