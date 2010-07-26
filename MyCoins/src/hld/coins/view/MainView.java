@@ -2,8 +2,10 @@ package hld.coins.view;
 
 import android.graphics.Point;
 import hld.coins.R;
+import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
+import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
 
@@ -29,7 +31,12 @@ public class MainView extends AbstractView {
 	private Image coin;
 	private Images coinnum;
 	private Point bgPoint;
-	private Point coinlistPoint;
+	private Point coinaPoint;
+	private Point coinbPoint;
+	private Point coincPoint;
+	private Point coindPoint;
+	private Point coinePoint;
+	private Point clearPoint;
 	private Point helpPoint;
 	private Point bestPoint;
 	private Point bestnumPoint;
@@ -42,6 +49,8 @@ public class MainView extends AbstractView {
 	private Point coinPoint;
 	private Point coinnumPoint;
 	private boolean isShowHelp;
+	private boolean pressClear;
+	private boolean pressHelp;
 	
 	public MainView() {
 		super(true);
@@ -70,5 +79,35 @@ public class MainView extends AbstractView {
 		amountnum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.mianzhishuzhi, 12, 1);
 		coin=bitmapManager.getViewScaledImage(getClass(), R.drawable.yingbishu, scale, false);
 		coinnum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.yingbishuzhi, 10, 1);
+		bgPoint=new Point(offsetX(0), offsetY(0));
+		clearPoint = new Point(offsetX(10),offsetY(215));
+		helpPoint = new Point(offsetX(10),offsetY(290));
+		coinaPoint = new Point(offsetX(116),offsetY(255));
+		coinbPoint = new Point(offsetX(183),offsetY(252));
+		coincPoint = new Point(offsetX(254),offsetY(263));
+		coindPoint = new Point(offsetX(317),offsetY(245));
+		coinePoint = new Point(offsetX(389),offsetY(218));
+		bestPoint = new Point(offsetX(15),offsetY(12));
+	    levelPoint = new Point(offsetX(405),offsetY(15));
+	    amountPoint = new Point(offsetX(206),offsetY(10));
+	    coinPoint = new Point(offsetX(227),offsetY(38));
+	    stagePoint = new Point(offsetX(238),offsetY(168));
+	    isShowHelp=preferences.getBoolean(EngineConstants.IS_SHOW_HELP, EngineConstants.DEFAULT_SHOW_HELP);
+	}
+	
+	@Override
+	public void onDraw(Graphics graphics) {
+		graphics.drawImage(bg.imgae, bgPoint);
+		coina.draw(graphics, coinaPoint, isShowHelp);
+		coinb.draw(graphics, coinbPoint, isShowHelp);
+		coinc.draw(graphics, coincPoint, isShowHelp);
+		coind.draw(graphics, coindPoint, isShowHelp);
+		coine.draw(graphics, coinePoint, isShowHelp);
+		clear.draw(graphics, clearPoint, pressClear);
+		help.draw(graphics, helpPoint, pressHelp);
+		graphics.drawImage(best.imgae, bestPoint);
+		graphics.drawImage(level.imgae, levelPoint);
+		graphics.drawImage(amount.imgae, amountPoint);
+		graphics.drawImage(coin.imgae, coinPoint);
 	}
 }

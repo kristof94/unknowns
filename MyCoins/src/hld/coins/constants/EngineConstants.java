@@ -29,6 +29,14 @@ public class EngineConstants {
 	 * 是否开启声音的默认选项
 	 */
 	public static final boolean DEFAULT_OPEN_SOUND = true;
+	/**
+	 * 是否显示帮助提示
+	 */
+	public static final String IS_SHOW_HELP = "showHelp";
+	/**
+	 * 是否显示帮助提示的默认选项
+	 */
+	public static final boolean DEFAULT_SHOW_HELP = true;
 	
 	/**
 	 * Bitmap.Config.ARGB_8888
