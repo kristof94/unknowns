@@ -2,8 +2,10 @@ package hld.coins.view;
 
 import hld.coins.R;
 import hld.coins.constants.EngineConstants;
+import hld.coins.constants.GameStatusConstants.Status;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
+import hld.coins.manager.GameStatusManger;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import android.graphics.Point;
@@ -108,8 +110,7 @@ public class MenuView extends AbstractView {
 			break;
 		case MotionEvent.ACTION_UP:
 			if(pressStart && startRect.contains((int)event.getX(), (int)event.getY())) {
-				//TODO
-				//¿ªÊ¼ÓÎÏ·
+				GameStatusManger.getInstance().setStatusCurrent(Status.GAME_MAIN);
 			} else if(pressSound && soundRect.contains((int)event.getX(), (int)event.getY())) {
 				isOpenSound = !isOpenSound;
 				preferences.putBoolean(EngineConstants.IS_OPEN_SOUND, isOpenSound);

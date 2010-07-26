@@ -251,6 +251,14 @@ public class Graphics {
 		canvas.drawBitmap(paramImage, x, y, paint);
 	}
 	
+	public void drawImage(Images images, Point point, boolean flag) {
+		images.draw(this, point, flag);
+	}
+	
+	public void drawImage(Images images, int x, int y, int index) {
+		images.draw(this, x, y, index);
+	}
+	
 	public void drawRGB(ImageArray image, int x, int y, int align) {
 		drawRGB(image.piexls, 0, image.width, x, y, image.width, image.height, true, align);
 	}

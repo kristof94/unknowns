@@ -1,6 +1,8 @@
 package hld.coins.view;
 
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.view.MotionEvent;
 import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
@@ -48,6 +50,8 @@ public class MainView extends AbstractView {
 	private Point amountnumPoint;
 	private Point coinPoint;
 	private Point coinnumPoint;
+	private Rect clearRect;
+	private Rect helpRect;
 	private boolean isShowHelp;
 	private boolean pressClear;
 	private boolean pressHelp;
@@ -56,15 +60,15 @@ public class MainView extends AbstractView {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		coina = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coina0000,
-				R.drawable.coina0001, R.drawable.coina0002);
+				R.drawable.coina0001, R.drawable.coina0002, R.drawable.coina0003);
 		coinb = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinb0000,
-				R.drawable.coinb0001, R.drawable.coinb0002);
+				R.drawable.coinb0001, R.drawable.coinb0002, R.drawable.coinb0003);
 		coinc = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinc0000,
-				R.drawable.coinc0001, R.drawable.coinc0002);
+				R.drawable.coinc0001, R.drawable.coinc0002, R.drawable.coinc0003);
 		coind = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coind0000,
-				R.drawable.coind0001, R.drawable.coind0002);
+				R.drawable.coind0001, R.drawable.coind0002, R.drawable.coind0003);
 		coine = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coine0000,
-				R.drawable.coine0001, R.drawable.coine0002);
+				R.drawable.coine0001, R.drawable.coine0002, R.drawable.coine0003);
 		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear00, R.drawable.clear01);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
 		best=bitmapManager.getViewScaledImage(getClass(), R.drawable.best, scale, false);
@@ -92,22 +96,53 @@ public class MainView extends AbstractView {
 	    amountPoint = new Point(offsetX(206),offsetY(10));
 	    coinPoint = new Point(offsetX(227),offsetY(38));
 	    stagePoint = new Point(offsetX(238),offsetY(168));
+	    clearRect = new Rect(clearPoint.x, clearPoint.y, clear.getWidth(), clear.getHeight());
+	    helpRect = new Rect(helpPoint.x, helpPoint.y, help.getWidth(), help.getHeight());
 	    isShowHelp=preferences.getBoolean(EngineConstants.IS_SHOW_HELP, EngineConstants.DEFAULT_SHOW_HELP);
 	}
 	
 	@Override
 	public void onDraw(Graphics graphics) {
 		graphics.drawImage(bg.imgae, bgPoint);
-		coina.draw(graphics, coinaPoint, isShowHelp);
-		coinb.draw(graphics, coinbPoint, isShowHelp);
-		coinc.draw(graphics, coincPoint, isShowHelp);
-		coind.draw(graphics, coindPoint, isShowHelp);
-		coine.draw(graphics, coinePoint, isShowHelp);
-		clear.draw(graphics, clearPoint, pressClear);
-		help.draw(graphics, helpPoint, pressHelp);
+		graphics.drawImage(coina, coinaPoint, isShowHelp);
+		graphics.drawImage(coinb, coinbPoint, isShowHelp);
+		graphics.drawImage(coinc, coincPoint, isShowHelp);
+		graphics.drawImage(coind, coindPoint, isShowHelp);
+		graphics.drawImage(coine, coinePoint, isShowHelp);
+		graphics.drawImage(clear, clearPoint, pressClear);
+		graphics.drawImage(help, helpPoint, pressHelp);
 		graphics.drawImage(best.imgae, bestPoint);
 		graphics.drawImage(level.imgae, levelPoint);
 		graphics.drawImage(amount.imgae, amountPoint);
 		graphics.drawImage(coin.imgae, coinPoint);
+	}
+	
+	@Override
+	public boolean onTouchListener(MotionEvent event) {
+		switch(event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			if(clearRect.contains((int)event.getX(), (int)event.getY())) {
+				pressClear = true;
+			} else if(helpRect.contains((int)event.getX(), (int)event.getY())) {
+				pressHelp = true;
+			}
+			break;
+		case MotionEvent.ACTION_UP:
+			if(pressClear && clearRect.contains((int)event.getX(), (int)event.getY())) {
+				//TODO
+				//Çå³ýÓ²±Ò
+			} else if(pressHelp && helpRect.contains((int)event.getX(), (int)event.getY())) {
+				isShowHelp = !isShowHelp;
+				preferences.putBoolean(EngineConstants.IS_SHOW_HELP, isShowHelp);
+			}
+			reset();
+			break;
+		}
+		return false;
+	}
+	
+	private void reset() {
+		pressClear = false;
+		pressHelp = false;
 	}
 }
