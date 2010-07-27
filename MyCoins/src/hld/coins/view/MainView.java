@@ -50,15 +50,23 @@ public class MainView extends AbstractView {
 	private Point amountnumPoint;
 	private Point coinPoint;
 	private Point coinnumPoint;
+	private Rect coinaRect;
+	private Rect coinbRect;
+	private Rect coincRect;
+	private Rect coindRect;
+	private Rect coineRect;
 	private Rect clearRect;
 	private Rect helpRect;
 	private boolean isShowHelp;
 	private boolean pressClear;
 	private boolean pressHelp;
+	private Image currentImage;
+	private Point currentPoint;
 	
 	public MainView() {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
+		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg, scale, false);
 		coina = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coina0000,
 				R.drawable.coina0001, R.drawable.coina0002, R.drawable.coina0003);
 		coinb = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinb0000,
@@ -96,8 +104,13 @@ public class MainView extends AbstractView {
 	    amountPoint = new Point(offsetX(206),offsetY(10));
 	    coinPoint = new Point(offsetX(227),offsetY(38));
 	    stagePoint = new Point(offsetX(238),offsetY(168));
-	    clearRect = new Rect(clearPoint.x, clearPoint.y, clear.getWidth(), clear.getHeight());
-	    helpRect = new Rect(helpPoint.x, helpPoint.y, help.getWidth(), help.getHeight());
+	    coinaRect = new Rect(coinaPoint.x, coinaPoint.y, coinaPoint.x+coina.getWidth(), coinaPoint.y+coina.getHeight());
+	    coinbRect = new Rect(coinbPoint.x, coinbPoint.y, coinbPoint.x+coinb.getWidth(), coinbPoint.y+coinb.getHeight());
+	    coincRect = new Rect(coincPoint.x, coincPoint.y, coincPoint.x+coinc.getWidth(), coincPoint.y+coinc.getHeight());
+	    coindRect = new Rect(coindPoint.x, coindPoint.y, coindPoint.x+coind.getWidth(), coindPoint.y+coind.getHeight());
+	    coineRect = new Rect(coinePoint.x, coinePoint.y, coinePoint.x+coine.getWidth(), coinePoint.y+coine.getHeight());
+	    clearRect = new Rect(clearPoint.x, clearPoint.y, clearPoint.x+clear.getWidth(), clearPoint.y+clear.getHeight());
+	    helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x+help.getWidth(), helpPoint.y+help.getHeight());
 	    isShowHelp=preferences.getBoolean(EngineConstants.IS_SHOW_HELP, EngineConstants.DEFAULT_SHOW_HELP);
 	}
 	
@@ -119,19 +132,30 @@ public class MainView extends AbstractView {
 	
 	@Override
 	public boolean onTouchListener(MotionEvent event) {
+		int x = (int)event.getX();
+		int y = (int)event.getY();
 		switch(event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			if(clearRect.contains((int)event.getX(), (int)event.getY())) {
+			if(coinaRect.contains(x, y)) {
+				
+			} else if(coinbRect.contains(x, y)) {
+				
+			} else if(coincRect.contains(x, y)) {
+				
+			} else if(coindRect.contains(x, y)) {
+				
+			} else if(coineRect.contains(x, y)) {
+				
+			} else if(clearRect.contains(x, y)) {
 				pressClear = true;
-			} else if(helpRect.contains((int)event.getX(), (int)event.getY())) {
+			} else if(helpRect.contains(x, y)) {
 				pressHelp = true;
 			}
 			break;
 		case MotionEvent.ACTION_UP:
-			if(pressClear && clearRect.contains((int)event.getX(), (int)event.getY())) {
-				//TODO
-				//Çå³ýÓ²±Ò
-			} else if(pressHelp && helpRect.contains((int)event.getX(), (int)event.getY())) {
+			if(pressClear && clearRect.contains(x, y)) {
+				clearAll();
+			} else if(pressHelp && helpRect.contains(x, y)) {
 				isShowHelp = !isShowHelp;
 				preferences.putBoolean(EngineConstants.IS_SHOW_HELP, isShowHelp);
 			}
@@ -144,5 +168,9 @@ public class MainView extends AbstractView {
 	private void reset() {
 		pressClear = false;
 		pressHelp = false;
+	}
+	
+	private void clearAll() {
+		
 	}
 }
