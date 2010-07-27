@@ -1,5 +1,7 @@
 package hld.coins.view;
 
+import java.util.LinkedList;
+import java.util.List;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.GestureDetector;
@@ -10,6 +12,7 @@ import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GestureDetectorManager;
+import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -65,8 +68,10 @@ public class MainView extends AbstractView {
 	private boolean pressHelp;
 	private Image currentImage;
 	private Point currentPoint;
+	private List<Images> coinList;
 	private GestureDetectorManager gestureDetectorManager;
 	private SimpleOnGestureListener coinGestureListener;
+	private Point test;
 	
 	public MainView() {
 		super(true);
@@ -85,8 +90,8 @@ public class MainView extends AbstractView {
 				R.drawable.coind0001, R.drawable.coind0002, R.drawable.coind0003);
 		coine = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coine0000,
 				R.drawable.coine0001, R.drawable.coine0002, R.drawable.coine0003);
-		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear00, R.drawable.clear01);
-		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
+		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear0000, R.drawable.clear0001);
+		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help0000, R.drawable.help0001);
 		best=bitmapManager.getViewScaledImage(getClass(), R.drawable.best, scale, false);
 		bestnum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bestshuzhi, 10, 1);
 		timenum=bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.daojishi, 12, 1);
@@ -120,6 +125,7 @@ public class MainView extends AbstractView {
 	    clearRect = new Rect(clearPoint.x, clearPoint.y, clearPoint.x+clear.getWidth(), clearPoint.y+clear.getHeight());
 	    helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x+help.getWidth(), helpPoint.y+help.getHeight());
 	    isShowHelp=preferences.getBoolean(EngineConstants.IS_SHOW_HELP, EngineConstants.DEFAULT_SHOW_HELP);
+	    coinList = new LinkedList<Images>();
 	}
 	
 	@Override
@@ -136,6 +142,13 @@ public class MainView extends AbstractView {
 		graphics.drawImage(level.imgae, levelPoint);
 		graphics.drawImage(amount.imgae, amountPoint);
 		graphics.drawImage(coin.imgae, coinPoint);
+		graphics.drawRect(clearRect.left, clearRect.top, clearRect.right, clearRect.bottom);
+		graphics.drawString("clearRect:"+clearRect.left+","+clearRect.top+","+clearRect.right+","+clearRect.bottom, 0, 20, Graphics.TOP|Graphics.LEFT);
+		graphics.drawString("clear.getWidth:"+clear.getWidth()+"  clear.getHeight:"+clear.getHeight(), 0, 40, Graphics.TOP|Graphics.LEFT);
+		graphics.drawRect(helpRect.left, helpRect.top, helpRect.right, helpRect.bottom);
+		graphics.drawString("helpRect:"+helpRect.left+","+helpRect.top+","+helpRect.right+","+helpRect.bottom, 0, 60, Graphics.TOP|Graphics.LEFT);
+		graphics.drawString("help.getWidth:"+help.getWidth()+"  help.getHeight:"+help.getHeight(), 0, 80, Graphics.TOP|Graphics.LEFT);
+		if(test!=null) graphics.drawRect(test.x, test.y, test.x+10, test.y+10);
 	}
 	
 	@Override
@@ -144,17 +157,7 @@ public class MainView extends AbstractView {
 		int y = (int)event.getY();
 		switch(event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			if(coinaRect.contains(x, y)) {
-				
-			} else if(coinbRect.contains(x, y)) {
-				
-			} else if(coincRect.contains(x, y)) {
-				
-			} else if(coindRect.contains(x, y)) {
-				
-			} else if(coineRect.contains(x, y)) {
-				
-			} else if(clearRect.contains(x, y)) {
+			if(clearRect.contains(x, y)) {
 				pressClear = true;
 			} else if(helpRect.contains(x, y)) {
 				pressHelp = true;
@@ -170,6 +173,7 @@ public class MainView extends AbstractView {
 			reset();
 			break;
 		}
+		gestureDetectorManager.onTouchEvent(event);
 		return false;
 	}
 	
@@ -189,6 +193,32 @@ public class MainView extends AbstractView {
 	}
 	
 	private class CoinGestureListener extends SimpleOnGestureListener {
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			if (e1 == null || e2 == null){
+				return false;
+			}
+			int x = (int)e2.getX();
+			int y = (int)e2.getY();
+			test = new Point(x, y);
+			if(coinaRect.contains(x, y)) {
+				addCoin(coina, coinaPoint, e1, e2, velocityX, velocityY);
+			} else if(coinbRect.contains(x, y)) {
+				addCoin(coinb, coinbPoint, e1, e2, velocityX, velocityY);
+			} else if(coincRect.contains(x, y)) {
+				addCoin(coinc, coincPoint, e1, e2, velocityX, velocityY);				
+			} else if(coindRect.contains(x, y)) {
+				addCoin(coind, coindPoint, e1, e2, velocityX, velocityY);
+			} else if(coineRect.contains(x, y)) {
+				addCoin(coine, coinePoint, e1, e2, velocityX, velocityY);
+			}
+			e1.recycle();
+			e2.recycle();
+			return false;
+		}
 		
+		private void addCoin(Images images, Point point, MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			
+		}
 	}
 }
