@@ -2,11 +2,14 @@ package hld.coins.view;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
+import hld.coins.manager.GestureDetectorManager;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -62,9 +65,14 @@ public class MainView extends AbstractView {
 	private boolean pressHelp;
 	private Image currentImage;
 	private Point currentPoint;
+	private GestureDetectorManager gestureDetectorManager;
+	private SimpleOnGestureListener coinGestureListener;
 	
 	public MainView() {
 		super(true);
+		coinGestureListener = new SimpleOnGestureListener();
+		gestureDetectorManager = GestureDetectorManager.getInstance();
+		gestureDetectorManager.addListener(coinGestureListener);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg, scale, false);
 		coina = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coina0000,
@@ -171,6 +179,16 @@ public class MainView extends AbstractView {
 	}
 	
 	private void clearAll() {
+		
+	}
+	
+	@Override
+	public void hide() {
+		super.hide();
+		gestureDetectorManager.remove(coinGestureListener);
+	}
+	
+	private class CoinGestureListener extends SimpleOnGestureListener {
 		
 	}
 }
