@@ -15,6 +15,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -188,6 +189,9 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 							| Graphics.TOP);
 				}
 			}
+		} catch(Exception e) {
+			Log.e("GameCanvas", "updateAnimations()", e);
+			setExitGame(true);
 		} finally {
 			if (c != null)
 				holder.unlockCanvasAndPost(c);
