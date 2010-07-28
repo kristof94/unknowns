@@ -194,7 +194,7 @@ public final class BitmapManager {
 		put(view, resource);
 		Bitmap[] images = new Bitmap[drawable.length];
 		for(int i = 0; i<images.length; i++) {
-			Bitmap image = BitmapFactory.decodeResource(activity.getResources(), drawableId);
+			Bitmap image = BitmapFactory.decodeResource(activity.getResources(), drawable[i]);
 			if(scale!=1) {
 				Bitmap bitmap = Bitmap.createScaledBitmap(image,
 						(int) (image.getWidth() * scale),
