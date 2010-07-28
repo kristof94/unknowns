@@ -33,8 +33,8 @@ public class LoadingView extends AbstractView {
 		loadingpointer = bitmapManager.getViewScaledImage(getClass(), R.drawable.loadingpointer,
 				scale, false);
 		bgPoint = new Point(offsetX(0), offsetY(0));
-		loadingbarPoint = new Point(offsetX(77), offsetY(270));
-		loadingpointerPoint = new Point(offsetX(77), offsetY(277));
+		loadingbarPoint = new Point(offsetX(70), offsetY(270));
+		loadingpointerPoint = new Point(offsetX(70), offsetY(275));
 		p = loadingbar1.width - loadingpointer.width;
 		task = new LoadingTask();
 		AsyTimerManager.addTask(task, 1000);

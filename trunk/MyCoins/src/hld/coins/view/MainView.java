@@ -136,15 +136,12 @@ public class MainView extends AbstractView {
 		graphics.drawImage(coinc, coincPoint, isShowHelp);
 		graphics.drawImage(coind, coindPoint, isShowHelp);
 		graphics.drawImage(coine, coinePoint, isShowHelp);
-//		graphics.drawImage(clear, clearPoint, pressClear);
-		graphics.drawImage(help, clearPoint, !pressHelp);
+		graphics.drawImage(clear, clearPoint, pressClear);
 		graphics.drawImage(help, helpPoint, pressHelp);
 		graphics.drawImage(best.imgae, bestPoint);
 		graphics.drawImage(level.imgae, levelPoint);
 		graphics.drawImage(amount.imgae, amountPoint);
 		graphics.drawImage(coin.imgae, coinPoint);
-		graphics.drawRect(clearRect);
-		graphics.drawRect(helpRect);
 		if(test!=null) graphics.drawRect(test.x, test.y, 10, 10);
 	}
 	
