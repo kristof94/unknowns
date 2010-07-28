@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import hld.coins.R;
@@ -12,7 +11,6 @@ import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GestureDetectorManager;
-import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -189,9 +187,9 @@ public class MainView extends AbstractView {
 	private class CoinGestureListener extends SimpleOnGestureListener {
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			if (e1 == null || e2 == null){
-				return false;
-			}
+//			if (e1 == null || e2 == null){
+//				return false;
+//			}
 			int x = (int)e2.getX();
 			int y = (int)e2.getY();
 			test = new Point(x, y);
@@ -206,8 +204,8 @@ public class MainView extends AbstractView {
 			} else if(coineRect.contains(x, y)) {
 				addCoin(coine, coinePoint, e1, e2, velocityX, velocityY);
 			}
-			e1.recycle();
-			e2.recycle();
+//			e1.recycle();
+//			e2.recycle();
 			return false;
 		}
 		
