@@ -75,7 +75,7 @@ public class MainView extends AbstractView {
 	
 	public MainView() {
 		super(true);
-		coinGestureListener = new SimpleOnGestureListener();
+		coinGestureListener = new CoinGestureListener();
 		gestureDetectorManager = GestureDetectorManager.getInstance();
 		gestureDetectorManager.addListener(coinGestureListener);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
@@ -136,19 +136,16 @@ public class MainView extends AbstractView {
 		graphics.drawImage(coinc, coincPoint, isShowHelp);
 		graphics.drawImage(coind, coindPoint, isShowHelp);
 		graphics.drawImage(coine, coinePoint, isShowHelp);
-		graphics.drawImage(clear, clearPoint, pressClear);
+//		graphics.drawImage(clear, clearPoint, pressClear);
+		graphics.drawImage(help, clearPoint, !pressHelp);
 		graphics.drawImage(help, helpPoint, pressHelp);
 		graphics.drawImage(best.imgae, bestPoint);
 		graphics.drawImage(level.imgae, levelPoint);
 		graphics.drawImage(amount.imgae, amountPoint);
 		graphics.drawImage(coin.imgae, coinPoint);
-		graphics.drawRect(clearRect.left, clearRect.top, clearRect.right, clearRect.bottom);
-		graphics.drawString("clearRect:"+clearRect.left+","+clearRect.top+","+clearRect.right+","+clearRect.bottom, 0, 20, Graphics.TOP|Graphics.LEFT);
-		graphics.drawString("clear.getWidth:"+clear.getWidth()+"  clear.getHeight:"+clear.getHeight(), 0, 40, Graphics.TOP|Graphics.LEFT);
-		graphics.drawRect(helpRect.left, helpRect.top, helpRect.right, helpRect.bottom);
-		graphics.drawString("helpRect:"+helpRect.left+","+helpRect.top+","+helpRect.right+","+helpRect.bottom, 0, 60, Graphics.TOP|Graphics.LEFT);
-		graphics.drawString("help.getWidth:"+help.getWidth()+"  help.getHeight:"+help.getHeight(), 0, 80, Graphics.TOP|Graphics.LEFT);
-		if(test!=null) graphics.drawRect(test.x, test.y, test.x+10, test.y+10);
+		graphics.drawRect(clearRect);
+		graphics.drawRect(helpRect);
+		if(test!=null) graphics.drawRect(test.x, test.y, 10, 10);
 	}
 	
 	@Override
