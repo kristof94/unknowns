@@ -67,6 +67,13 @@ public class MainView extends AbstractView {
 	private Image currentImage;
 	private Point currentPoint;
 	private List<Images> coinList;
+	private List<Rect> coinRectList;
+	private float coinaAmount;
+	private float coinbAmount;
+	private float coincAmount;
+	private float coindAmount;
+	private float coineAmount;
+	private float totalValue;
 	private GestureDetectorManager gestureDetectorManager;
 	private SimpleOnGestureListener coinGestureListener;
 	private Point test;
@@ -124,6 +131,13 @@ public class MainView extends AbstractView {
 	    helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x+help.getWidth(), helpPoint.y+help.getHeight());
 	    isShowHelp=preferences.getBoolean(EngineConstants.IS_SHOW_HELP, EngineConstants.DEFAULT_SHOW_HELP);
 	    coinList = new LinkedList<Images>();
+	    coinRectList = new LinkedList<Rect>();
+	    coinaAmount = 0.01f;
+	    coinbAmount = 0.05f;
+		coincAmount = 0.10f;
+		coindAmount = 0.25f;
+		coineAmount = 0.50f;
+		totalValue = 0.00f;
 	}
 	
 	@Override
@@ -140,7 +154,8 @@ public class MainView extends AbstractView {
 		graphics.drawImage(level.imgae, levelPoint);
 		graphics.drawImage(amount.imgae, amountPoint);
 		graphics.drawImage(coin.imgae, coinPoint);
-		if(test!=null) graphics.drawRect(test.x, test.y, 10, 10);
+//		if(test!=null) graphics.drawRect(test.x, test.y, 10, 10);
+		graphics.drawString("totalValue:"+totalValue, 0, 25, Graphics.TOP|Graphics.LEFT);
 	}
 	
 	@Override
@@ -190,27 +205,33 @@ public class MainView extends AbstractView {
 //			if (e1 == null || e2 == null){
 //				return false;
 //			}
-			int x = (int)e2.getX();
-			int y = (int)e2.getY();
-			test = new Point(x, y);
+			int x = (int)e1.getX();
+			int y = (int)e1.getY();
 			if(coinaRect.contains(x, y)) {
-				addCoin(coina, coinaPoint, e1, e2, velocityX, velocityY);
+				addCoin(coina, coinaAmount, e2);
 			} else if(coinbRect.contains(x, y)) {
-				addCoin(coinb, coinbPoint, e1, e2, velocityX, velocityY);
+				addCoin(coinb, coinbAmount, e2);
 			} else if(coincRect.contains(x, y)) {
-				addCoin(coinc, coincPoint, e1, e2, velocityX, velocityY);				
+				addCoin(coinc, coincAmount, e2);				
 			} else if(coindRect.contains(x, y)) {
-				addCoin(coind, coindPoint, e1, e2, velocityX, velocityY);
+				addCoin(coind, coindAmount, e2);
 			} else if(coineRect.contains(x, y)) {
-				addCoin(coine, coinePoint, e1, e2, velocityX, velocityY);
+				addCoin(coine, coineAmount, e2);
 			}
 //			e1.recycle();
 //			e2.recycle();
 			return false;
 		}
 		
-		private void addCoin(Images images, Point point, MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			
+		private void addCoin(Images images, float amount, MotionEvent e) {
+			int x = (int)e.getX();
+			int y = (int)e.getY();
+//			test = new Point(x, y);
+			coinList.add(images);
+			int w = images.getWidth()/2;
+			int h = images.getHeight()/2;
+			coinRectList.add(new Rect(x-w, y-h, x+w, y+h));
+			totalValue+=amount;
 		}
 	}
 }
