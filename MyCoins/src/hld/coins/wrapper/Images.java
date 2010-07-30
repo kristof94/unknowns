@@ -2,6 +2,7 @@ package hld.coins.wrapper;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 public abstract class Images {
 	/**
@@ -46,6 +47,24 @@ public abstract class Images {
 	public abstract void draw(Graphics graphics, int x, int y, int index);
 	
 	/**
+	 * 在指定矩形内绘制图片，供只有两帧图片的类调用
+	 * @param graphics
+	 * @param rect
+	 * @param flag false表示绘制第一帧图片，true表示绘制第二帧图片
+	 */
+	public void draw(Graphics graphics, Rect rect, boolean flag) {
+		draw(graphics, rect, flag?1:0);
+	}
+	
+	/**
+	 * 在指定矩形内绘制指定下标的图片，下标从0开始
+	 * @param graphics
+	 * @param rect
+	 * @param index
+	 */
+	public abstract void draw(Graphics graphics, Rect rect, int index);
+	
+	/**
 	 * 获取首帧的宽度
 	 * @return
 	 */
@@ -78,9 +97,13 @@ public abstract class Images {
 
 class SingleImages extends Images {
 	private Bitmap sourceImage;
+	
 	private int framesWidth;
+	
 	private int framesHeight;
+	
 	private int[] framesX;
+	
 	private int[] framesY;
 	
 	public SingleImages(Bitmap image, int col, int row) {
@@ -104,8 +127,7 @@ class SingleImages extends Images {
 	
 	@Override
 	public void draw(Graphics graphics, int x, int y, int index) {
-		graphics.drawImage(x, y, sourceImage, framesX[index], framesY[index], framesWidth,
-				framesHeight);
+		graphics.drawImage(x, y, sourceImage, framesX[index], framesY[index], framesWidth, framesHeight);
 	}
 	
 	@Override
@@ -117,16 +139,32 @@ class SingleImages extends Images {
 	public int getHeight(int index) {
 		return framesHeight;
 	}
+	
+	@Override
+	public void draw(Graphics graphics, Rect rect, int index) {
+		graphics.drawImage(rect.left, rect.top, sourceImage, framesX[index], framesY[index], framesWidth, framesHeight);
+	}
 }
 
 class MultiImages extends Images {
 	private Bitmap[] sourceImage;
 	
+	private int[] imageWidth;
+	
+	private int[] imageHeight;
+	
 	public MultiImages(Bitmap image, Bitmap... images) {
 		sourceImage = new Bitmap[images.length + 1];
+		imageWidth = new int[sourceImage.length];
+		imageHeight = new int[sourceImage.length];
 		sourceImage[0] = image;
+		imageWidth[0] = image.getWidth();
+		imageHeight[0] = image.getHeight();
 		for(int i = 1; i < sourceImage.length; i++) {
-			sourceImage[i] = images[i - 1];
+			image = images[i - 1];
+			sourceImage[i] = image;
+			imageWidth[i] = image.getWidth();
+			imageHeight[i] = image.getHeight();
 		}
 	}
 	
@@ -137,11 +175,16 @@ class MultiImages extends Images {
 	
 	@Override
 	public int getWidth(int index) {
-		return sourceImage[index].getWidth();
+		return imageWidth[index];
 	}
 	
 	@Override
 	public int getHeight(int index) {
-		return sourceImage[index].getHeight();
+		return imageHeight[index];
+	}
+	
+	@Override
+	public void draw(Graphics graphics, Rect rect, int index) {
+		graphics.drawImage(rect.left, rect.top, sourceImage[index], 0, 0, imageWidth[index], imageHeight[index]);
 	}
 }
