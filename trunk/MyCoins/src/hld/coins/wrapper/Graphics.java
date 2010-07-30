@@ -266,6 +266,14 @@ public class Graphics {
 		images.draw(this, x, y, index);
 	}
 	
+	public void drawImage(Images images, Rect rect, boolean flag) {
+		images.draw(this, rect, flag);
+	}
+	
+	public void drawImage(Images images, Rect rect, int index) {
+		images.draw(this, rect, index);
+	}
+	
 	public void drawRGB(ImageArray image, int x, int y, int align) {
 		drawRGB(image.piexls, 0, image.width, x, y, image.width, image.height, true, align);
 	}
