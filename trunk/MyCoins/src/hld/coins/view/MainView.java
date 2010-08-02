@@ -160,7 +160,7 @@ public class MainView extends AbstractView {
 	
 	private int currentLevel;
 	
-	private int dragAddCoin,dragMoveCoin = -1;
+	private int dragAddCoin, dragMoveCoin = -1;
 	
 	private Point dragAddCoinPoint;
 	
@@ -178,7 +178,7 @@ public class MainView extends AbstractView {
 		coincx = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinc0002, R.drawable.coinc0003);
 		coindx = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coind0002, R.drawable.coind0003);
 		coinex = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coine0002, R.drawable.coine0003);
-		coins = new Images[]{coinax,coinbx,coincx,coindx,coinex};
+		coins = new Images[]{coinax, coinbx, coincx, coindx, coinex};
 		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear0000, R.drawable.clear0001);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help0000, R.drawable.help0001);
 		best = bitmapManager.getViewScaledImage(getClass(), R.drawable.best, scale, false);
@@ -241,7 +241,7 @@ public class MainView extends AbstractView {
 			Rect rect = coinRectList.get(index);
 			graphics.drawImage(images, rect, isShowHelp);
 		}
-		if(dragAddCoin>-1) {
+		if(dragAddCoin > -1) {
 			graphics.drawImage(coins[dragAddCoin], dragAddCoinPoint, false);
 		}
 		graphics.drawImage(coina, coinaPoint, isShowHelp);
@@ -279,7 +279,7 @@ public class MainView extends AbstractView {
 			} else if(coineRect.contains(x, y)) {
 				dragAddCoin = 4;
 			} else {
-				for(int i = 0; i<coinRectList.size(); i++) {
+				for(int i = 0; i < coinRectList.size(); i++) {
 					Rect rect = coinRectList.get(i);
 					if(rect.contains(x, y)) {
 						dragMoveCoin = i;
@@ -289,13 +289,13 @@ public class MainView extends AbstractView {
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
-			if(dragAddCoin>-1) {
+			if(dragAddCoin > -1) {
 				Images images = coins[dragAddCoin];
-				dragAddCoinPoint.set(x+images.getWidth()/2, y+images.getHeight()/2);
-			} else if(dragMoveCoin>-1) {
+				dragAddCoinPoint.set(x + images.getWidth() / 2, y + images.getHeight() / 2);
+			} else if(dragMoveCoin > -1) {
 				Images images = coinList.get(dragMoveCoin);
-				int w = images.getWidth()/2;
-				int h = images.getHeight()/2;
+				int w = images.getWidth() / 2;
+				int h = images.getHeight() / 2;
 				coinRectList.get(dragMoveCoin).set(x - w, y - h, x + w, y + h);
 				Collections.rotate(coinShowList.subList(dragMoveCoin, coinShowList.size()), -1);
 			}
@@ -306,7 +306,7 @@ public class MainView extends AbstractView {
 			} else if(pressHelp && helpRect.contains(x, y)) {
 				isShowHelp = !isShowHelp;
 				preferences.putBoolean(EngineConstants.IS_SHOW_HELP, isShowHelp);
-			} else if(dragAddCoin>-1 && y < offsetY(160)) {
+			} else if(dragAddCoin > -1 && y < offsetY(160)) {
 				Images images = coins[dragAddCoin];
 				coinList.add(images);
 				int w = images.getWidth() / 2;
@@ -316,7 +316,7 @@ public class MainView extends AbstractView {
 				coinAmountList.add(coinsAmount[dragAddCoin]);
 				currentAmount += coinsAmount[dragAddCoin];
 				juge();
-			} else if(dragMoveCoin>-1 && y > offsetY(160)) {
+			} else if(dragMoveCoin > -1 && y > offsetY(160)) {
 				coinList.remove(dragMoveCoin);
 				coinRectList.remove(dragMoveCoin);
 				coinShowList.remove(Integer.valueOf(dragMoveCoin));
@@ -367,10 +367,5 @@ public class MainView extends AbstractView {
 		coinShowList.clear();
 		coinAmountList.clear();
 		dragAddCoin = dragMoveCoin = -1;
-	}
-	
-	@Override
-	public void hide() {
-		super.hide();
 	}
 }
