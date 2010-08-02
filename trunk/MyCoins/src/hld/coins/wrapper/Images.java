@@ -108,13 +108,15 @@ class SingleImages extends Images {
 	
 	public SingleImages(Bitmap image, int col, int row) {
 		sourceImage = image;
-		framesWidth = sourceImage.getWidth() / col;
-		framesHeight = sourceImage.getHeight() / row;
+		int imageWidth = sourceImage.getWidth();
+		int imageHeight = sourceImage.getHeight();
+		framesWidth = imageWidth / col;
+		if(imageWidth%col!=0) framesWidth++;
+		framesHeight = imageHeight / row;
+		if(imageHeight%row!=0) framesHeight++;
 		int count = row * col;
 		framesX = new int[count];
 		framesY = new int[count];
-		int imageHeight = sourceImage.getHeight();
-		int imageWidth = sourceImage.getWidth();
 		int i = 0;
 		for(int y = 0; y < imageHeight; y += framesHeight) {
 			for(int x = 0; x < imageWidth; x += framesWidth) {
