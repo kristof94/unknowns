@@ -7,6 +7,8 @@ import hld.coins.manager.BitmapManager;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -251,9 +253,11 @@ public class MainView extends AbstractView {
 		graphics.drawImage(coine, coinePoint, isShowHelp);
 		graphics.drawImage(clear, clearPoint, pressClear);
 		graphics.drawImage(help, helpPoint, pressHelp);
+		int x;
 		graphics.drawImage(best.imgae, bestPoint);
 		graphics.drawImage(level.imgae, levelPoint);
 		graphics.drawImage(amount.imgae, amountPoint);
+		x = amountnumPoint.x+15;
 		graphics.drawImage(coin.imgae, coinPoint);
 		graphics.drawString("currentAmount:" + currentAmount, 0, 25, Graphics.TOP | Graphics.LEFT);
 	}
@@ -315,12 +319,14 @@ public class MainView extends AbstractView {
 				coinShowList.add(coinShowList.size());
 				coinAmountList.add(coinsAmount[dragAddCoin]);
 				currentAmount += coinsAmount[dragAddCoin];
+				currentAmount = new BigDecimal(currentAmount, new MathContext(2)).floatValue();
 				juge();
 			} else if(dragMoveCoin > -1 && y > offsetY(160)) {
 				coinList.remove(dragMoveCoin);
 				coinRectList.remove(dragMoveCoin);
 				coinShowList.remove(Integer.valueOf(dragMoveCoin));
 				currentAmount -= coinAmountList.remove(dragMoveCoin);
+				currentAmount = new BigDecimal(currentAmount, new MathContext(2)).floatValue();
 				juge();
 			}
 			reset();
@@ -340,6 +346,7 @@ public class MainView extends AbstractView {
 		for(int i = 0; i < targetCount; i++) {
 			targetAmount += coinsAmount[random.nextInt(coinsAmount.length)];
 		}
+		targetAmount = new BigDecimal(targetAmount, new MathContext(2)).floatValue();
 	}
 	
 	private void juge() {
