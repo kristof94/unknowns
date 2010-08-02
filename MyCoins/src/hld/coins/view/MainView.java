@@ -283,6 +283,7 @@ public class MainView extends AbstractView {
 					Rect rect = coinRectList.get(i);
 					if(rect.contains(x, y)) {
 						dragMoveCoin = i;
+						Collections.rotate(coinShowList.subList(dragMoveCoin, coinShowList.size()), -1);
 						break;
 					}
 				}
@@ -297,7 +298,6 @@ public class MainView extends AbstractView {
 				int w = images.getWidth() / 2;
 				int h = images.getHeight() / 2;
 				coinRectList.get(dragMoveCoin).set(x - w, y - h, x + w, y + h);
-				Collections.rotate(coinShowList.subList(dragMoveCoin, coinShowList.size()), -1);
 			}
 			break;
 		case MotionEvent.ACTION_UP:
@@ -358,6 +358,7 @@ public class MainView extends AbstractView {
 	private void reset() {
 		pressClear = false;
 		pressHelp = false;
+		dragAddCoin = dragMoveCoin = -1;
 	}
 	
 	private void clearAll() {
