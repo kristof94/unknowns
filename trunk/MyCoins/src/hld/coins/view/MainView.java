@@ -1,5 +1,6 @@
 package hld.coins.view;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -135,6 +136,8 @@ public class MainView extends AbstractView {
 	
 	private List<Integer> coinShowList;
 	
+	private List<Float> coinAmountList;
+	
 	private float coinaAmount;
 	
 	private float coinbAmount;
@@ -159,19 +162,21 @@ public class MainView extends AbstractView {
 	
 	private int currentLevel;
 	
-	private int dragAddCoin,dragRemoveCoin = -1;
+	private int dragAddCoin,dragMoveCoin = -1;
 	
-	private GestureDetectorManager gestureDetectorManager;
+	private Point dragAddCoinPoint;
 	
-	private SimpleOnGestureListener coinGestureListener;
+//	private GestureDetectorManager gestureDetectorManager;
+//	
+//	private SimpleOnGestureListener coinGestureListener;
 	
 	private Point test;
 	
 	public MainView() {
 		super(true);
-		coinGestureListener = new CoinGestureListener();
-		gestureDetectorManager = GestureDetectorManager.getInstance();
-		gestureDetectorManager.addListener(coinGestureListener);
+//		coinGestureListener = new CoinGestureListener();
+//		gestureDetectorManager = GestureDetectorManager.getInstance();
+//		gestureDetectorManager.addListener(coinGestureListener);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg, scale, false);
 		coina = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coina0000, R.drawable.coina0001);
@@ -224,6 +229,7 @@ public class MainView extends AbstractView {
 		coinList = new LinkedList<Images>();
 		coinRectList = new LinkedList<Rect>();
 		coinShowList = new LinkedList<Integer>();
+		coinAmountList = new LinkedList<Float>();
 		coinaAmount = 0.01f;
 		coinbAmount = 0.05f;
 		coincAmount = 0.10f;
@@ -231,6 +237,7 @@ public class MainView extends AbstractView {
 		coineAmount = 0.50f;
 		coinsAmount = new float[]{coinaAmount, coinbAmount, coincAmount, coindAmount, coineAmount};
 		random = new Random();
+		dragAddCoinPoint = new Point();
 		currentStage = 1;
 		currentLevel = 1;
 		rules();
@@ -239,6 +246,15 @@ public class MainView extends AbstractView {
 	@Override
 	public void onDraw(Graphics graphics) {
 		graphics.drawImage(bg.imgae, bgPoint);
+		for(int i = 0; i < coinShowList.size(); i++) {
+			int index = coinShowList.get(i);
+			Images images = coinList.get(index);
+			Rect rect = coinRectList.get(index);
+			graphics.drawImage(images, rect, isShowHelp);
+		}
+		if(dragAddCoin>-1) {
+			graphics.drawImage(coins[dragAddCoin], dragAddCoinPoint, false);
+		}
 		graphics.drawImage(coina, coinaPoint, isShowHelp);
 		graphics.drawImage(coinb, coinbPoint, isShowHelp);
 		graphics.drawImage(coinc, coincPoint, isShowHelp);
@@ -250,12 +266,6 @@ public class MainView extends AbstractView {
 		graphics.drawImage(level.imgae, levelPoint);
 		graphics.drawImage(amount.imgae, amountPoint);
 		graphics.drawImage(coin.imgae, coinPoint);
-		for(int i = 0; i < coinShowList.size(); i++) {
-			int index = coinShowList.get(i);
-			Images images = coinList.get(index);
-			Rect rect = coinRectList.get(index);
-			graphics.drawImage(images, rect, isShowHelp);
-		}
 		//		if(test!=null) graphics.drawRect(test.x, test.y, 10, 10);
 		graphics.drawString("currentAmount:" + currentAmount, 0, 25, Graphics.TOP | Graphics.LEFT);
 	}
@@ -284,14 +294,23 @@ public class MainView extends AbstractView {
 				for(int i = 0; i<coinRectList.size(); i++) {
 					Rect rect = coinRectList.get(i);
 					if(rect.contains(x, y)) {
-						dragRemoveCoin = i;
+						dragMoveCoin = i;
 						break;
 					}
 				}
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
-			
+			if(dragAddCoin>-1) {
+				Images images = coins[dragAddCoin];
+				dragAddCoinPoint.set(x+images.getWidth()/2, y+images.getHeight()/2);
+			} else if(dragMoveCoin>-1) {
+				Images images = coinList.get(dragMoveCoin);
+				int w = images.getWidth()/2;
+				int h = images.getHeight()/2;
+				coinRectList.get(dragMoveCoin).set(x - w, y - h, x + w, y + h);
+				Collections.rotate(coinShowList.subList(dragMoveCoin, coinShowList.size()), -1);
+			}
 			break;
 		case MotionEvent.ACTION_UP:
 			if(pressClear && clearRect.contains(x, y)) {
@@ -299,6 +318,22 @@ public class MainView extends AbstractView {
 			} else if(pressHelp && helpRect.contains(x, y)) {
 				isShowHelp = !isShowHelp;
 				preferences.putBoolean(EngineConstants.IS_SHOW_HELP, isShowHelp);
+			} else if(dragAddCoin>-1 && y < offsetY(160)) {
+				Images images = coins[dragAddCoin];
+				coinList.add(images);
+				int w = images.getWidth() / 2;
+				int h = images.getHeight() / 2;
+				coinRectList.add(new Rect(x - w, y - h, x + w, y + h));
+				coinShowList.add(coinShowList.size());
+				coinAmountList.add(coinsAmount[dragAddCoin]);
+				currentAmount += coinsAmount[dragAddCoin];
+				juge();
+			} else if(dragMoveCoin>-1 && y > offsetY(160)) {
+				coinList.remove(dragMoveCoin);
+				coinRectList.remove(dragMoveCoin);
+				coinShowList.remove(Integer.valueOf(dragMoveCoin));
+				currentAmount -= coinAmountList.remove(dragMoveCoin);
+				juge();
 			}
 			reset();
 			break;
@@ -343,12 +378,14 @@ public class MainView extends AbstractView {
 		coinList.clear();
 		coinRectList.clear();
 		coinShowList.clear();
+		coinAmountList.clear();
+		dragAddCoin = dragMoveCoin = -1;
 	}
 	
 	@Override
 	public void hide() {
 		super.hide();
-		gestureDetectorManager.remove(coinGestureListener);
+//		gestureDetectorManager.remove(coinGestureListener);
 	}
 	private class CoinGestureListener extends SimpleOnGestureListener {
 		@Override
@@ -383,6 +420,7 @@ public class MainView extends AbstractView {
 			int h = images.getHeight() / 2;
 			coinRectList.add(new Rect(x - w, y - h, x + w, y + h));
 			coinShowList.add(coinShowList.size());
+			coinAmountList.add(amount);
 			currentAmount += amount;
 			juge();
 		}
