@@ -38,6 +38,11 @@ public class EngineConstants {
 	 */
 	public static final boolean DEFAULT_SHOW_HELP = true;
 	
+	public static final String LEVEL = "level";
+	public static final int DEFAULT_LEVEL = 1;
+	public static final String BEST_TIME = "bestTime";
+	public static final long DEFAULT_BEST_TIME = 0;
+	
 	/**
 	 * Bitmap.Config.ARGB_8888
 	 */

@@ -38,7 +38,7 @@ public abstract class Images {
 	}
 	
 	/**
-	 * 绘制指定下标的图片，下标从0开始
+	 * 绘制指定索引的图片，索引从0开始
 	 * @param graphics
 	 * @param x
 	 * @param y
@@ -57,7 +57,7 @@ public abstract class Images {
 	}
 	
 	/**
-	 * 在指定矩形内绘制指定下标的图片，下标从0开始
+	 * 在指定矩形内绘制指定索引的图片，索引从0开始
 	 * @param graphics
 	 * @param rect
 	 * @param index
@@ -81,14 +81,14 @@ public abstract class Images {
 	}
 	
 	/**
-	 * 获取指定帧的宽度，下标从0开始
+	 * 获取指定帧的宽度，索引从0开始
 	 * @param index
 	 * @return
 	 */
 	public abstract int getWidth(int index);
 	
 	/**
-	 * 获取指定帧的高度，下标从0开始
+	 * 获取指定帧的高度，索引从0开始
 	 * @param index
 	 * @return
 	 */
