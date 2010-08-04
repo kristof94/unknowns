@@ -4,19 +4,18 @@ import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
-import hld.coins.util.TimeUnit;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -107,11 +106,7 @@ public class MainView extends AbstractView {
 	
 	private Point amountPoint;
 	
-	private Point amountnumPoint;
-	
 	private Point coinPoint;
-	
-	private Point coinnumPoint;
 	
 	private Point topicPoint;
 	
@@ -161,11 +156,17 @@ public class MainView extends AbstractView {
 	
 	private int targetCount;
 	
+	private long countdown;
+	
 	private float currentAmount;
 	
 	private int currentStage;
 	
 	private int currentLevel;
+	
+	private long currentTime;
+	
+	private boolean goTime;
 	
 	private int dragAddCoin, dragMoveCoin = -1;
 	
@@ -219,7 +220,7 @@ public class MainView extends AbstractView {
 		coindPoint = new Point(offsetX(317), offsetY(245));
 		coinePoint = new Point(offsetX(389), offsetY(218));
 		bestPoint = new Point(offsetX(15), offsetY(12));
-		timePoint = new Point(offsetX(54), offsetY(263));
+		timePoint = new Point(offsetX(-3), offsetY(255));
 		levelPoint = new Point(offsetX(405), offsetY(15));
 		amountPoint = new Point(offsetX(206), offsetY(10));
 		coinPoint = new Point(offsetX(227), offsetY(38));
@@ -245,7 +246,7 @@ public class MainView extends AbstractView {
 		coinsAmount = new float[]{coinaAmount, coinbAmount, coincAmount, coindAmount, coineAmount};
 		random = new Random();
 		dragAddCoinPoint = new Point();
-		decimalFormat = new DecimalFormat("#.##");
+		decimalFormat = new DecimalFormat("0.00");
 		dateFormat = new SimpleDateFormat("mm:ss");
 		currentStage = 1;
 		currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
@@ -253,11 +254,18 @@ public class MainView extends AbstractView {
 		if(bestTime>EngineConstants.DEFAULT_BEST_TIME) {
 			bestStr = dateFormat.format(new Date(bestTime));
 		}
+		currentTime = System.currentTimeMillis();
+		goTime = true;
 		rules();
 	}
 	
 	@Override
 	public void onDraw(Graphics graphics) {
+		if(goTime) {
+			long l = System.currentTimeMillis();
+			countdown = countdown-(l-currentTime);
+			currentTime = l;
+		}
 		graphics.drawImage(bg.imgae, bgPoint);
 		for(int i = 0; i < coinShowList.size(); i++) {
 			int index = coinShowList.get(i);
@@ -293,9 +301,21 @@ public class MainView extends AbstractView {
 				}
 			}
 		}
+		//time
+		c = dateFormat.format(new Date(countdown)).toCharArray();
+		for(int i = 0; i<c.length; i++) {
+			switch(c[i]) {
+			case ':':
+				graphics.drawImage(timecolon.imgae, i*timenum.getWidth()+timePoint.x, timePoint.y);
+				break;
+			default:
+				graphics.drawImage(timenum, i*timenum.getWidth()+timePoint.x, timePoint.y, Character.getNumericValue(c[i])+2);
+				break;
+			}
+		}
 		//c总值
 		graphics.drawImage(amount.imgae, amountPoint);
-		x = amountnumPoint.x+15;
+		x = amountPoint.x+15;
 		c = decimalFormat.format(currentAmount).toCharArray();
 		for(int i = 0; i<c.length; i++) {
 			int index;
@@ -310,14 +330,14 @@ public class MainView extends AbstractView {
 				index = Character.getNumericValue(c[i]) + 2;
 				break;
 			}
-			graphics.drawImage(amountnum, i*(amountnum.getWidth()-4)+x, amountnumPoint.y, index);
+			graphics.drawImage(amountnum, i*(amountnum.getWidth()-4)+x, amountPoint.y, index);
 		}
 		//c数
 		graphics.drawImage(coin.imgae, coinPoint);
 		x = coinPoint.x -20;
 		c = String.valueOf(coinList.size()).toCharArray();
 		for(int i = 0; i<c.length; i++) {
-			graphics.drawImage(coinnum, i*coinnum.getWidth()+x, coinnumPoint.y, Character.getNumericValue(c[i]));
+			graphics.drawImage(coinnum, i*coinnum.getWidth()+x, coinPoint.y, Character.getNumericValue(c[i]));
 		}
 		//l数
 		graphics.drawImage(level.imgae, levelPoint);
@@ -392,7 +412,7 @@ public class MainView extends AbstractView {
 		case MotionEvent.ACTION_MOVE:
 			if(dragAddCoin > -1) {
 				Images images = coins[dragAddCoin];
-				dragAddCoinPoint.set(x + images.getWidth() / 2, y + images.getHeight() / 2);
+				dragAddCoinPoint.set(x - images.getWidth() / 2, y - images.getHeight() / 2);
 			} else if(dragMoveCoin > -1) {
 				Images images = coinList.get(dragMoveCoin);
 				int w = images.getWidth() / 2;
@@ -421,6 +441,11 @@ public class MainView extends AbstractView {
 				coinList.remove(dragMoveCoin);
 				coinRectList.remove(dragMoveCoin);
 				coinShowList.remove(Integer.valueOf(dragMoveCoin));
+				ListIterator<Integer> iter = coinShowList.listIterator();
+				while(iter.hasNext()) {
+					int i = iter.next();
+					if(i>dragMoveCoin) iter.set(i-1);
+				}
 				currentAmount -= coinAmountList.remove(dragMoveCoin);
 				currentAmount = new BigDecimal(currentAmount, new MathContext(2)).floatValue();
 				juge();
@@ -437,6 +462,10 @@ public class MainView extends AbstractView {
 			targetCount += 2;
 		} else if(currentStage > 4) {
 			targetCount += 1;
+		} else if(currentStage == 1) {
+			int i = currentLevel;
+			if(i>11) i = 11;
+			countdown = (50+(i-1)*20)*1000;
 		}
 		targetAmount = 0;
 		for(int i = 0; i < targetCount; i++) {
