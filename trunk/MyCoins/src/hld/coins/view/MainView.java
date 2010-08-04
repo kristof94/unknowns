@@ -375,7 +375,6 @@ public class MainView extends AbstractView {
 		for(int i = 0; i<c.length; i++) {
 			graphics.drawImage(coinnum, i*coinnum.getWidth()+x, y, Character.getNumericValue(c[i]));
 		}
-		graphics.drawString("currentAmount:" + currentAmount, 0, 25, Graphics.TOP | Graphics.LEFT);
 	}
 	
 	@Override
