@@ -403,7 +403,7 @@ public class MainView extends AbstractView {
 					Rect rect = coinRectList.get(i);
 					if(rect.contains(x, y)) {
 						dragMoveCoin = i;
-						Collections.rotate(coinShowList.subList(dragMoveCoin, coinShowList.size()), -1);
+						Collections.rotate(coinShowList.subList(coinShowList.indexOf(Integer.valueOf(dragMoveCoin)), coinShowList.size()), -1);
 						break;
 					}
 				}
