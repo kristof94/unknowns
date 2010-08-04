@@ -169,6 +169,10 @@ public class Graphics {
 		canvas.drawText(paramString, x, y, paint);
 	}
 	
+	public void drawString(String paramString, int x, int y) {
+		canvas.drawText(paramString, x, y, paint);
+	}
+	
 	public void drawSubstring(String text, int start, int end, int x, int y, int align) {
 		switch(align) {
 		case LEFT | TOP:

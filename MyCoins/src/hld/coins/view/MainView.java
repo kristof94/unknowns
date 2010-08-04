@@ -96,8 +96,6 @@ public class MainView extends AbstractView {
 	
 	private Point bestPoint;
 	
-	private Point bestnumPoint;
-	
 	private Point timePoint;
 	
 	private Point stagePoint;
@@ -220,7 +218,7 @@ public class MainView extends AbstractView {
 		coindPoint = new Point(offsetX(317), offsetY(245));
 		coinePoint = new Point(offsetX(389), offsetY(218));
 		bestPoint = new Point(offsetX(15), offsetY(12));
-		timePoint = new Point(offsetX(-3), offsetY(255));
+		timePoint = new Point(offsetX(18), offsetY(255));
 		levelPoint = new Point(offsetX(405), offsetY(15));
 		amountPoint = new Point(offsetX(206), offsetY(10));
 		coinPoint = new Point(offsetX(227), offsetY(38));
@@ -247,7 +245,7 @@ public class MainView extends AbstractView {
 		random = new Random();
 		dragAddCoinPoint = new Point();
 		decimalFormat = new DecimalFormat("0.00");
-		dateFormat = new SimpleDateFormat("mm:ss");
+		dateFormat = new SimpleDateFormat("m:ss");
 		currentStage = 1;
 		currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
 		bestTime = preferences.getLong(EngineConstants.BEST_TIME+currentLevel, EngineConstants.DEFAULT_BEST_TIME);
