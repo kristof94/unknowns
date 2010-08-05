@@ -16,6 +16,8 @@ public class MenuView extends AbstractView {
 	private Image bg;
 	private Image start0;
 	private Image start1;
+	private Image continue0;
+	private Image continue1;
 	private Image sound0;
 	private Image sound1;
 	private Image openfeint0;
@@ -26,16 +28,19 @@ public class MenuView extends AbstractView {
 	private Image other1;
 	private Point bgPoint;
 	private Point startPoint;
+	private Point continuePoint;
 	private Point soundPoint;
 	private Point openfeintPoint;
 	private Point helpPoint;
 	private Point otherPoint;
 	private Rect startRect;
+	private Rect continueRect;
 	private Rect soundRect;
 	private Rect openfeintRect;
 	private Rect helpRect;
 	private Rect otherRect;
 	private boolean pressStart;
+	private boolean pressContinue;
 	private boolean pressSound;
 	private boolean pressOpenfeint;
 	private boolean pressHelp;
@@ -50,6 +55,8 @@ public class MenuView extends AbstractView {
 				false);
 		start1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0001, scale,
 				false);
+		continue0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.continue0000, scale, false);
+		continue1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.continue0001, scale, false);
 		sound0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.sound0000, scale, false);
 		sound1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.sound0001, scale, false);
 		openfeint0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0000, scale,
@@ -63,13 +70,15 @@ public class MenuView extends AbstractView {
 		other1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0001, scale,
 				false);
 		bgPoint = new Point(offsetX(0), offsetY(0));
-		startPoint = new Point(offsetX(250), offsetY(108));
+		startPoint = new Point(offsetX(251), offsetY(106));
+		continuePoint = new Point(offsetX(285), offsetY(159));
 		soundPoint = new Point(offsetX(18), offsetY(12));
 		openfeintPoint = new Point(offsetX(391), offsetY(278));
-		helpPoint = new Point(offsetX(250), offsetY(222));
-		otherPoint = new Point(offsetX(285), offsetY(165));
+		helpPoint = new Point(offsetX(254), offsetY(215));
+		otherPoint = new Point(offsetX(193), offsetY(269));
 		startRect = new Rect(startPoint.x, startPoint.y, startPoint.x + start0.width, startPoint.y
 				+ start0.height);
+		continueRect = new Rect(continuePoint.x, continuePoint.y, continuePoint.x+continue0.width, continuePoint.y+continue0.height);
 		soundRect = new Rect(soundPoint.x, soundPoint.y, soundPoint.x + sound0.width, soundPoint.y
 				+ sound0.height);
 		openfeintRect = new Rect(openfeintPoint.x, openfeintPoint.y, openfeintPoint.x

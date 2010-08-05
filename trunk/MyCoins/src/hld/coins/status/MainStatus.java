@@ -8,7 +8,7 @@ import android.app.Activity;
 public class MainStatus extends AbstractGameStatus {
 	@Override
 	public void EntryCurrentStatus(Activity activity) {
-		new MainView();
+		new MainView(true);
 	}
 	
 	@Override
