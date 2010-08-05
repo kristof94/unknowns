@@ -178,7 +178,7 @@ public class MainView extends AbstractView {
 	
 	private SimpleDateFormat dateFormat;
 	
-	public MainView() {
+	public MainView(boolean isNew) {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg, scale, false);
@@ -247,7 +247,8 @@ public class MainView extends AbstractView {
 		decimalFormat = new DecimalFormat("0.00");
 		dateFormat = new SimpleDateFormat("m:ss");
 		currentStage = 1;
-		currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
+		if(isNew) currentLevel = 1;
+		else currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
 		bestTime = preferences.getLong(EngineConstants.BEST_TIME+currentLevel, EngineConstants.DEFAULT_BEST_TIME);
 		if(bestTime>EngineConstants.DEFAULT_BEST_TIME) {
 			bestStr = dateFormat.format(new Date(bestTime));
