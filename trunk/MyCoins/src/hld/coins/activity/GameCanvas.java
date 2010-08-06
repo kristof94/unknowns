@@ -103,7 +103,7 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 						instance.adjust();
 						// TODO
 						// 游戏状态的初始化
-						GameStatusManger.getInstance().setStatusCurrent(Status.GAME_LOADING);
+						GameStatusManger.getInstance().setStatusCurrent(Status.LOADING);
 					}
 				} finally {
 					if (c != null)

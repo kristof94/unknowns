@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 public abstract class AbstractView implements ViewInterface {
 
 	private boolean isShowing;
+	boolean isEnable = true;
 	protected static PreferencesManager preferences;
 	protected static int height;
 	protected static int width;
@@ -31,6 +32,10 @@ public abstract class AbstractView implements ViewInterface {
 		}
 	}
 
+	public boolean isEnable() {
+		return isEnable;
+	}
+	
 	@Override
 	public void hide() {
 		isShowing = false;

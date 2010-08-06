@@ -65,8 +65,10 @@ public class GameViewManager {
 
 	public void onDraw(Graphics graphics) {
 		for (AbstractView view : list) {
-			view.checkShowing();
-			view.onDraw(graphics);
+			if(view.isEnable()) {
+				view.checkShowing();
+				view.onDraw(graphics);
+			}
 		}
 	}
 
@@ -75,9 +77,12 @@ public class GameViewManager {
 		int size = list.size();
 		for (MotionEvent event : motionEvent) {
 			for (int i = size - 1; i <= 0; i--) {
-				boolean b = list.get(i).onTouchListener(event);
-				if (!b)
-					break;
+				AbstractView view = list.get(i);
+				if(view.isEnable()) {
+					boolean b = view.onTouchListener(event);
+					if (!b)
+						break;
+				}
 			}
 			event.recycle();
 		}
@@ -87,7 +92,7 @@ public class GameViewManager {
 		Intent[] IntentEvent = channel.getIntentEvent();
 		for (Intent event : IntentEvent) {
 			for (AbstractView view : list) {
-				view.onIntentListener(event);
+				if(view.isEnable()) view.onIntentListener(event);
 			}
 		}
 	}
