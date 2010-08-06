@@ -2,20 +2,22 @@ package hld.coins.constants;
 
 import java.util.EnumMap;
 import hld.coins.interfaces.GameStatusInterface;
+import hld.coins.status.ContinueGameStatus;
 import hld.coins.status.LoadingStatus;
-import hld.coins.status.MainStatus;
+import hld.coins.status.NewGameStatus;
 import hld.coins.status.MenuStatus;
 
 public class GameStatusConstants {
 	public static enum Status {
-		GAME_LOADING, GAME_MENU, GAME_HELP, GAME_MAIN, GAME_RESULT
+		LOADING, MENU, NEW, CONTINUE, HELP
 	}
 	
 	private static EnumMap<Status, GameStatusInterface> map = new EnumMap<Status, GameStatusInterface>(Status.class);
 	static {
-		map.put(Status.GAME_LOADING, new LoadingStatus());
-		map.put(Status.GAME_MENU, new MenuStatus());
-		map.put(Status.GAME_MAIN, new MainStatus());
+		map.put(Status.LOADING, new LoadingStatus());
+		map.put(Status.MENU, new MenuStatus());
+		map.put(Status.NEW, new NewGameStatus());
+		map.put(Status.CONTINUE, new ContinueGameStatus());
 	}
 	
 	public static GameStatusInterface getStatus(Status status) {

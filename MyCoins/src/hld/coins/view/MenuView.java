@@ -95,6 +95,7 @@ public class MenuView extends AbstractView {
 	public void onDraw(Graphics graphics) {
 		graphics.drawImage(bg.imgae, bgPoint);
 		graphics.drawImage(pressStart?start1.imgae:start0.imgae, startPoint);
+		graphics.drawImage(pressContinue?continue1.imgae:continue0.imgae, continuePoint);
 		graphics.drawImage(isOpenSound?sound1.imgae:sound0.imgae, soundPoint);
 		graphics.drawImage(pressOpenfeint?openfeint1.imgae:openfeint0.imgae, openfeintPoint);
 		graphics.drawImage(pressHelp?help1.imgae:help0.imgae, helpPoint);
@@ -119,19 +120,20 @@ public class MenuView extends AbstractView {
 			break;
 		case MotionEvent.ACTION_UP:
 			if(pressStart && startRect.contains((int)event.getX(), (int)event.getY())) {
-				GameStatusManger.getInstance().setStatusCurrent(Status.GAME_MAIN);
+				GameStatusManger.getInstance().setStatusCurrent(Status.NEW);
+			} else if(pressContinue && continueRect.contains((int)event.getX(), (int)event.getY())) {
+				GameStatusManger.getInstance().setStatusCurrent(Status.CONTINUE);
 			} else if(pressSound && soundRect.contains((int)event.getX(), (int)event.getY())) {
 				isOpenSound = !isOpenSound;
 				preferences.putBoolean(EngineConstants.IS_OPEN_SOUND, isOpenSound);
 			} else if(pressOpenfeint
 					&& openfeintRect.contains((int)event.getX(), (int)event.getY())) {
-				//进入平台
+				//平台
 			} else if(pressHelp
 					&& helpRect.contains((int)event.getX(), (int)event.getY())) {
-				//TODO
-				//游戏帮助
+				//帮助
 			} else if(pressOther && otherRect.contains((int)event.getX(), (int)event.getY())) {
-				//更多游戏
+				//更多
 			}
 			reset();
 			break;

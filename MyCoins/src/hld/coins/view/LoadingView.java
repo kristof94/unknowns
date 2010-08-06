@@ -69,7 +69,7 @@ public class LoadingView extends AbstractView {
 				}
 			}
 			cancel();
-			GameStatusManger.getInstance().setStatusCurrent(Status.GAME_MENU);
+			GameStatusManger.getInstance().setStatusCurrent(Status.MENU);
 		}
 	}
 }

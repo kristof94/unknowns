@@ -5,7 +5,7 @@ import hld.coins.manager.GameViewManager;
 import hld.coins.view.MainView;
 import android.app.Activity;
 
-public class MainStatus extends AbstractGameStatus {
+public class NewGameStatus extends AbstractGameStatus {
 	@Override
 	public void EntryCurrentStatus(Activity activity) {
 		new MainView(true);
