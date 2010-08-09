@@ -478,6 +478,7 @@ public class MainView extends AbstractView {
 			if(currentStage == 9) {
 				currentStage = 1;
 				currentLevel++;
+				disable();
 			} else {
 				currentStage++;
 			}
