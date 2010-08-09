@@ -35,7 +35,9 @@ public class SuccessView extends AbstractView {
 	
 	private int level;
 	
-	public SuccessView() {
+	private MainView view;
+	
+	public SuccessView(MainView view) {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.shenglibg, scale, false);
@@ -48,6 +50,7 @@ public class SuccessView extends AbstractView {
 		againRect = new Rect(againPoint.x, againPoint.y, againPoint.x+again.getWidth(), againPoint.y+again.getHeight());
 		nextRect = new Rect(nextPoint.x, nextPoint.y, nextPoint.x+next.getWidth(), nextPoint.y+next.getHeight());
 		level = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
+		this.view = view;
 	}
 	
 	@Override
@@ -72,9 +75,10 @@ public class SuccessView extends AbstractView {
 			break;
 		case MotionEvent.ACTION_UP:
 			if(pressAgain && againRect.contains((int)event.getX(), (int)event.getY())) {
-				
+				view.enable();
 			} else if(pressNext && nextRect.contains((int)event.getX(), (int)event.getY())) {
 				preferences.putInt(EngineConstants.LEVEL, level+1);
+				view.enable();
 			}
 			pressAgain = pressNext = false;
 			break;
