@@ -1,8 +1,5 @@
 package hld.coins.view;
 
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.view.MotionEvent;
 import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
@@ -10,6 +7,9 @@ import hld.coins.manager.BitmapManager;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.view.MotionEvent;
 
 public class SuccessView extends AbstractView {
 	private Image bg;
@@ -49,8 +49,8 @@ public class SuccessView extends AbstractView {
 		levelPoint = new Point(offsetX(340), offsetY(189));
 		againRect = new Rect(againPoint.x, againPoint.y, againPoint.x+again.getWidth(), againPoint.y+again.getHeight());
 		nextRect = new Rect(nextPoint.x, nextPoint.y, nextPoint.x+next.getWidth(), nextPoint.y+next.getHeight());
-		level = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
 		this.view = view;
+		enable();
 	}
 	
 	@Override
@@ -75,14 +75,24 @@ public class SuccessView extends AbstractView {
 			break;
 		case MotionEvent.ACTION_UP:
 			if(pressAgain && againRect.contains((int)event.getX(), (int)event.getY())) {
-				view.enable();
+				close();
 			} else if(pressNext && nextRect.contains((int)event.getX(), (int)event.getY())) {
 				preferences.putInt(EngineConstants.LEVEL, level+1);
-				view.enable();
+				close();
 			}
 			pressAgain = pressNext = false;
 			break;
 		}
 		return false;
+	}
+	
+	public void open() {
+		super.enable();
+		level = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
+	}
+	
+	public void close() {
+		super.disable();
+		view.enable();
 	}
 }
