@@ -2,6 +2,7 @@ package hld.coins.interfaces;
 
 import hld.coins.manager.GameViewManager;
 import hld.coins.manager.PreferencesManager;
+import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import android.content.Intent;
 import android.view.MotionEvent;

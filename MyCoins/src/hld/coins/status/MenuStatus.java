@@ -1,10 +1,9 @@
 package hld.coins.status;
 
-import android.app.Activity;
 import hld.coins.interfaces.AbstractGameStatus;
 import hld.coins.manager.GameViewManager;
-import hld.coins.util.LogUnit;
 import hld.coins.view.MenuView;
+import android.app.Activity;
 
 public class MenuStatus extends AbstractGameStatus {
 	@Override
