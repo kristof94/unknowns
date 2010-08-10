@@ -4,6 +4,7 @@ import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
+import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -23,161 +24,86 @@ import android.view.MotionEvent;
 
 public class MainView extends AbstractView {
 	private Image bg;
-	
 	private Images coina;
-	
 	private Images coinb;
-	
 	private Images coinc;
-	
 	private Images coind;
-	
 	private Images coine;
-	
 	private Images coinax;
-	
 	private Images coinbx;
-	
 	private Images coincx;
-	
 	private Images coindx;
-	
 	private Images coinex;
-	
 	private Images[] coins;
-	
 	private Images clear;
-	
 	private Images help;
-	
 	private Image best;
-	
 	private Images bestnum;
-	
 	private Image colon;
-	
 	private Images timenum;
-	
 	private Image timecolon;
-	
 	private Images stagenum;
-	
 	private Image stagedash;
-	
 	private Image level;
-	
 	private Images levelnum;
-	
 	private Image amount;
-	
 	private Images amountnum;
-	
 	private Image coin;
-	
 	private Images coinnum;
-	
 	private Image topic;
-	
+	private Images agcup;
+	private Images bgcup;
+	private Images cgcup;
 	private Point bgPoint;
-	
 	private Point coinaPoint;
-	
 	private Point coinbPoint;
-	
 	private Point coincPoint;
-	
 	private Point coindPoint;
-	
 	private Point coinePoint;
-	
 	private Point clearPoint;
-	
 	private Point helpPoint;
-	
 	private Point bestPoint;
-	
 	private Point timePoint;
-	
 	private Point stagePoint;
-	
 	private Point levelPoint;
-	
 	private Point amountPoint;
-	
 	private Point coinPoint;
-	
 	private Point topicPoint;
-	
 	private Rect coinaRect;
-	
 	private Rect coinbRect;
-	
 	private Rect coincRect;
-	
 	private Rect coindRect;
-	
 	private Rect coineRect;
-	
 	private Rect clearRect;
-	
 	private Rect helpRect;
-	
 	private boolean isShowHelp;
-	
 	private boolean pressClear;
-	
 	private boolean pressHelp;
-	
 	private List<Images> coinList;
-	
 	private List<Rect> coinRectList;
-	
 	private List<Integer> coinShowList;
-	
 	private List<Float> coinAmountList;
-	
 	private float coinaAmount;
-	
 	private float coinbAmount;
-	
 	private float coincAmount;
-	
 	private float coindAmount;
-	
 	private float coineAmount;
-	
 	private float[] coinsAmount;
-	
 	private Random random;
-	
 	private float targetAmount;
-	
 	private int targetCount;
-	
 	private long countdown;
-	
 	private float currentAmount;
-	
 	private int currentStage;
-	
 	private int currentLevel;
-	
 	private long currentTime;
-	
 	private boolean goTime;
-	
 	private int dragAddCoin, dragMoveCoin = -1;
-	
 	private Point dragAddCoinPoint;
-	
 	private long bestTime;
-	
 	private String bestStr;
-	
 	private DecimalFormat decimalFormat;
-	
 	private SimpleDateFormat dateFormat;
-	
 	private SuccessView successView;
 	private FailureView failureView;
 	
@@ -212,6 +138,9 @@ public class MainView extends AbstractView {
 		coin = bitmapManager.getViewScaledImage(getClass(), R.drawable.yingbishu, scale, false);
 		coinnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.yingbishuzhi, 10, 1);
 		topic = bitmapManager.getViewScaledImage(getClass(), R.drawable.timu, scale, false);
+		agcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.agcup0000, R.drawable.agcup0001);
+		bgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bgcup0000, R.drawable.bgcup0001);
+		cgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.cgcup0000, R.drawable.cgcup0001);
 		bgPoint = new Point(offsetX(0), offsetY(0));
 		clearPoint = new Point(offsetX(10), offsetY(215));
 		helpPoint = new Point(offsetX(10), offsetY(290));
@@ -251,9 +180,9 @@ public class MainView extends AbstractView {
 		dateFormat = new SimpleDateFormat("m:ss");
 		currentStage = 1;
 		successView = new SuccessView(this);
-		successView.enable();
+		successView.disable();
 		failureView = new FailureView(this);
-		failureView.enable();
+		failureView.disable();
 		open(isNew);
 	}
 	
@@ -261,7 +190,14 @@ public class MainView extends AbstractView {
 	public void onDraw(Graphics graphics) {
 		if(goTime) {
 			long l = System.currentTimeMillis();
-			countdown = countdown-(l-currentTime);
+			countdown = countdown - (l - currentTime);
+			if(countdown<0) {
+				countdown = 0;
+				disable();
+				successView.disable();
+				failureView.open();
+				return;
+			}
 			currentTime = l;
 		}
 		graphics.drawImage(bg.imgae, bgPoint);
@@ -271,9 +207,6 @@ public class MainView extends AbstractView {
 			Rect rect = coinRectList.get(index);
 			graphics.drawImage(images, rect, isShowHelp);
 		}
-		if(dragAddCoin > -1) {
-			graphics.drawImage(coins[dragAddCoin], dragAddCoinPoint, false);
-		}
 		graphics.drawImage(coina, coinaPoint, isShowHelp);
 		graphics.drawImage(coinb, coinbPoint, isShowHelp);
 		graphics.drawImage(coinc, coincPoint, isShowHelp);
@@ -281,41 +214,41 @@ public class MainView extends AbstractView {
 		graphics.drawImage(coine, coinePoint, isShowHelp);
 		graphics.drawImage(clear, clearPoint, pressClear);
 		graphics.drawImage(help, helpPoint, pressHelp);
-		int x,y;
+		int x, y;
 		char[] c = null;
 		//best
 		graphics.drawImage(best.imgae, bestPoint);
 		x = bestPoint.x + 40;
-		if(bestStr!=null) {
+		if(bestStr != null) {
 			c = bestStr.toCharArray();
-			for(int i = 0; i<c.length; i++) {
+			for(int i = 0; i < c.length; i++) {
 				switch(c[i]) {
 				case ':':
-					graphics.drawImage(colon.imgae, i*(bestnum.getWidth()-2)+x, bestPoint.y);
+					graphics.drawImage(colon.imgae, i * (bestnum.getWidth() - 2) + x, bestPoint.y);
 					break;
 				default:
-					graphics.drawImage(bestnum, i*(bestnum.getWidth()-3)+x, bestPoint.y, Character.getNumericValue(c[i]));
+					graphics.drawImage(bestnum, i * (bestnum.getWidth() - 3) + x, bestPoint.y, Character.getNumericValue(c[i]));
 					break;
 				}
 			}
 		}
 		//time
 		c = dateFormat.format(new Date(countdown)).toCharArray();
-		for(int i = 0; i<c.length; i++) {
+		for(int i = 0; i < c.length; i++) {
 			switch(c[i]) {
 			case ':':
-				graphics.drawImage(timecolon.imgae, i*timenum.getWidth()+timePoint.x, timePoint.y);
+				graphics.drawImage(timecolon.imgae, i * timenum.getWidth() + timePoint.x, timePoint.y);
 				break;
 			default:
-				graphics.drawImage(timenum, i*timenum.getWidth()+timePoint.x, timePoint.y, Character.getNumericValue(c[i])+2);
+				graphics.drawImage(timenum, i * timenum.getWidth() + timePoint.x, timePoint.y, Character.getNumericValue(c[i]) + 2);
 				break;
 			}
 		}
 		//c总值
 		graphics.drawImage(amount.imgae, amountPoint);
-		x = amountPoint.x+15;
+		x = amountPoint.x + 15;
 		c = decimalFormat.format(currentAmount).toCharArray();
-		for(int i = 0; i<c.length; i++) {
+		for(int i = 0; i < c.length; i++) {
 			int index;
 			switch(c[i]) {
 			case '.':
@@ -328,31 +261,36 @@ public class MainView extends AbstractView {
 				index = Character.getNumericValue(c[i]) + 2;
 				break;
 			}
-			graphics.drawImage(amountnum, i*(amountnum.getWidth()-4)+x, amountPoint.y, index);
+			graphics.drawImage(amountnum, i * (amountnum.getWidth() - 4) + x, amountPoint.y, index);
 		}
 		//c数
 		graphics.drawImage(coin.imgae, coinPoint);
-		x = coinPoint.x -20;
+		x = coinPoint.x - 20;
 		c = String.valueOf(coinList.size()).toCharArray();
-		for(int i = 0; i<c.length; i++) {
-			graphics.drawImage(coinnum, i*coinnum.getWidth()+x, coinPoint.y, Character.getNumericValue(c[i]));
+		for(int i = 0; i < c.length; i++) {
+			graphics.drawImage(coinnum, i * coinnum.getWidth() + x, coinPoint.y, Character.getNumericValue(c[i]));
 		}
 		//l数
 		graphics.drawImage(level.imgae, levelPoint);
-		x = levelPoint.x+50;
-		y = levelPoint.y+5;
+		x = levelPoint.x + 50;
+		y = levelPoint.y + 5;
 		c = String.valueOf(currentLevel).toCharArray();
-		for(int i = 0; i<c.length; i++) {
-			graphics.drawImage(levelnum, i*levelnum.getWidth()+x, y, Character.getNumericValue(c[i]));
+		for(int i = 0; i < c.length; i++) {
+			graphics.drawImage(levelnum, i * levelnum.getWidth() + x, y, Character.getNumericValue(c[i]));
 		}
 		//目标
 		graphics.drawImage(topic.imgae, topicPoint.x, topicPoint.y, Graphics.VCENTER | Graphics.HCENTER);
+		x = stagePoint.x - 30;
+		y = stagePoint.y - 10;
+		for(int i = 0; i < c.length; i++) {
+			graphics.drawImage(stagenum, x, y, Character.getNumericValue(c[i])-1);
+		}
 		graphics.drawImage(stagedash.imgae, stagePoint.x, stagePoint.y, Graphics.HCENTER | Graphics.VCENTER);
-		graphics.drawImage(stagenum, stagePoint.x+20, stagePoint.y-10, currentStage);
-		x = topicPoint.x+70;
-		y = topicPoint.y-12;
+		graphics.drawImage(stagenum, stagePoint.x + 20, stagePoint.y - 10, currentStage-1);
+		x = topicPoint.x + 70;
+		y = topicPoint.y - 12;
 		c = decimalFormat.format(targetAmount).toCharArray();
-		for(int i = 0; i<c.length; i++) {
+		for(int i = 0; i < c.length; i++) {
 			int index;
 			switch(c[i]) {
 			case '.':
@@ -365,13 +303,16 @@ public class MainView extends AbstractView {
 				index = Character.getNumericValue(c[i]) + 2;
 				break;
 			}
-			graphics.drawImage(amountnum, i*(amountnum.getWidth()-4)+x, y, index);
+			graphics.drawImage(amountnum, i * (amountnum.getWidth() - 4) + x, y, index);
 		}
-		x = topicPoint.x-85;
-		y = topicPoint.y-13;
+		x = topicPoint.x - 85;
+		y = topicPoint.y - 13;
 		c = String.valueOf(targetCount).toCharArray();
-		for(int i = 0; i<c.length; i++) {
-			graphics.drawImage(coinnum, i*coinnum.getWidth()+x, y, Character.getNumericValue(c[i]));
+		for(int i = 0; i < c.length; i++) {
+			graphics.drawImage(coinnum, i * coinnum.getWidth() + x, y, Character.getNumericValue(c[i]));
+		}
+		if(dragAddCoin > -1) {
+			graphics.drawImage(coins[dragAddCoin], dragAddCoinPoint, isShowHelp);
 		}
 	}
 	
@@ -404,6 +345,10 @@ public class MainView extends AbstractView {
 						break;
 					}
 				}
+			}
+			if(dragAddCoin > -1) {
+				Images images = coins[dragAddCoin];
+				dragAddCoinPoint.set(x - images.getWidth() / 2, y - images.getHeight() / 2);
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
@@ -441,7 +386,7 @@ public class MainView extends AbstractView {
 				ListIterator<Integer> iter = coinShowList.listIterator();
 				while(iter.hasNext()) {
 					int i = iter.next();
-					if(i>dragMoveCoin) iter.set(i-1);
+					if(i > dragMoveCoin) iter.set(i - 1);
 				}
 				currentAmount -= coinAmountList.remove(dragMoveCoin);
 				currentAmount = new BigDecimal(currentAmount, new MathContext(2)).floatValue();
@@ -458,11 +403,12 @@ public class MainView extends AbstractView {
 	}
 	
 	public void open(boolean isNew) {
+		clearAll();
 		enable();
 		if(isNew) currentLevel = 1;
 		else currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
-		bestTime = preferences.getLong(EngineConstants.BEST_TIME+currentLevel, EngineConstants.DEFAULT_BEST_TIME);
-		if(bestTime>EngineConstants.DEFAULT_BEST_TIME) {
+		bestTime = preferences.getLong(EngineConstants.BEST_TIME + currentLevel, EngineConstants.DEFAULT_BEST_TIME);
+		if(bestTime > EngineConstants.DEFAULT_BEST_TIME) {
 			bestStr = dateFormat.format(new Date(bestTime));
 		}
 		currentTime = System.currentTimeMillis();
@@ -477,9 +423,7 @@ public class MainView extends AbstractView {
 		} else if(currentStage > 4) {
 			targetCount += 1;
 		} else if(currentStage == 1) {
-			int i = currentLevel;
-			if(i>11) i = 11;
-			countdown = (50+(i-1)*20)*1000;
+			countdown = getCountdown();
 		}
 		targetAmount = 0;
 		for(int i = 0; i < targetCount; i++) {
@@ -493,12 +437,29 @@ public class MainView extends AbstractView {
 			clearAll();
 			if(currentStage == 9) {
 				currentStage = 1;
+				if(countdown>bestTime) preferences.putLong(EngineConstants.BEST_TIME + currentLevel, countdown);
 				disable();
+				failureView.disable();
+				successView.open();
+				float time = (getCountdown()-countdown)/1000f-currentLevel*10;
+				if(time<=10) {
+					successView.setCup(agcup);
+				} else if((currentLevel==1 && time<=20) || (currentLevel!=1 && time <= 30)) {
+					successView.setCup(bgcup);
+				} else {
+					successView.setCup(cgcup);
+				}
 			} else {
 				currentStage++;
+				rules();
 			}
-			rules();
 		}
+	}
+	
+	private long getCountdown() {
+		int i = currentLevel;
+		if(i > 11) i = 11;
+		return (50 + (i - 1) * 20) * 1000;
 	}
 	
 	private void reset() {

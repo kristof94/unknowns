@@ -108,6 +108,8 @@ public class MenuView extends AbstractView {
 		case MotionEvent.ACTION_DOWN:
 			if(startRect.contains((int)event.getX(), (int)event.getY())) {
 				pressStart = true;
+			} else if(continueRect.contains((int)event.getX(), (int)event.getY())) {
+				pressContinue = true;
 			} else if(soundRect.contains((int)event.getX(), (int)event.getY())) {
 				pressSound = true;
 			} else if(openfeintRect.contains((int)event.getX(), (int)event.getY())) {
@@ -149,6 +151,7 @@ public class MenuView extends AbstractView {
 	
 	private void reset() {
 		pressStart = false;
+		pressContinue = false;
 		pressSound = false;
 		pressOpenfeint = false;
 		pressHelp = false;

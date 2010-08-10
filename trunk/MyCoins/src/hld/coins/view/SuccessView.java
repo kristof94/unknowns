@@ -13,28 +13,20 @@ import android.view.MotionEvent;
 
 public class SuccessView extends AbstractView {
 	private Image bg;
-	
 	private Images again;
-	
 	private Images next;
-	
+	private Images cup;
 	private Point bgPoint;
-	
 	private Point againPoint;
-	
 	private Point nextPoint;
-	
 	private Point levelPoint;
-	
+	private Point cupPoint;
 	private Rect againRect;
 	private Rect nextRect;
-	
 	private boolean pressAgain;
-	
 	private boolean pressNext;
-	
+	private boolean flag;
 	private int level;
-	
 	private MainView view;
 	
 	public SuccessView(MainView view) {
@@ -47,18 +39,24 @@ public class SuccessView extends AbstractView {
 		againPoint = new Point(offsetX(285), offsetY(224));
 		nextPoint = new Point(offsetX(93), offsetY(224));
 		levelPoint = new Point(offsetX(340), offsetY(189));
-		againRect = new Rect(againPoint.x, againPoint.y, againPoint.x+again.getWidth(), againPoint.y+again.getHeight());
-		nextRect = new Rect(nextPoint.x, nextPoint.y, nextPoint.x+next.getWidth(), nextPoint.y+next.getHeight());
+		cupPoint = new Point(offsetX(206), offsetY(88));
+		againRect = new Rect(againPoint.x, againPoint.y, againPoint.x + again.getWidth(), againPoint.y + again.getHeight());
+		nextRect = new Rect(nextPoint.x, nextPoint.y, nextPoint.x + next.getWidth(), nextPoint.y + next.getHeight());
 		this.view = view;
 		enable();
+	}
+	
+	public void setCup(Images cup) {
+		this.cup = cup;
 	}
 	
 	@Override
 	public void onDraw(Graphics graphics) {
 		graphics.drawImage(bg.imgae, bgPoint);
-		graphics.drawString(level+"", levelPoint.x, levelPoint.y);
+		graphics.drawString(level + "", levelPoint.x, levelPoint.y);
 		graphics.drawImage(again, againPoint, pressAgain);
 		graphics.drawImage(next, nextPoint, pressNext);
+		graphics.drawImage(cup, cupPoint, flag=!flag);
 	}
 	
 	@Override
@@ -77,7 +75,7 @@ public class SuccessView extends AbstractView {
 			if(pressAgain && againRect.contains((int)event.getX(), (int)event.getY())) {
 				close();
 			} else if(pressNext && nextRect.contains((int)event.getX(), (int)event.getY())) {
-				preferences.putInt(EngineConstants.LEVEL, level+1);
+				preferences.putInt(EngineConstants.LEVEL, level + 1);
 				close();
 			}
 			pressAgain = pressNext = false;
@@ -93,6 +91,6 @@ public class SuccessView extends AbstractView {
 	
 	public void close() {
 		super.disable();
-		view.enable();
+		view.open();
 	}
 }

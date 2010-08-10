@@ -1,15 +1,14 @@
 package hld.coins.manager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.content.Intent;
-import android.view.MotionEvent;
-
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.interfaces.Channel;
+import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import android.content.Intent;
+import android.view.MotionEvent;
 
 public class GameViewManager {
 
@@ -34,7 +33,7 @@ public class GameViewManager {
 	public int gameWindowHight;
 
 	private GameViewManager() {
-		list = new ArrayList<AbstractView>();
+		list = new CopyOnWriteArrayList<AbstractView>();
 	}
 
 	public static GameViewManager getInstance() {
@@ -76,7 +75,7 @@ public class GameViewManager {
 		MotionEvent[] motionEvent = channel.getMotionEvent();
 		int size = list.size();
 		for (MotionEvent event : motionEvent) {
-			for (int i = size - 1; i <= 0; i--) {
+			for (int i = size - 1; i >= 0; i--) {
 				AbstractView view = list.get(i);
 				if(view.isEnable()) {
 					boolean b = view.onTouchListener(event);
