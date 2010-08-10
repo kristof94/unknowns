@@ -26,7 +26,9 @@ public class FailureView extends AbstractView {
 	private boolean pressAgain;
 	private boolean pressHighScore;
 	
-	public FailureView() {
+	private MainView view;
+	
+	public FailureView(MainView view) {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.shibaibg, scale, false);
@@ -40,6 +42,7 @@ public class FailureView extends AbstractView {
 		menuRect = new Rect(menuPoint.x, menuPoint.y, menuPoint.x+menu.getWidth(), menuPoint.y+menu.getHeight());
 		againRect = new Rect(againPoint.x, againPoint.y, againPoint.x+again.getWidth(), againPoint.y+again.getHeight());
 		highScoreRect = new Rect(highScorePoint.x, highScorePoint.y, highScorePoint.x+highScore.getWidth(), highScorePoint.y+highScore.getHeight());
+		this.view = view;
 	}
 	
 	@Override

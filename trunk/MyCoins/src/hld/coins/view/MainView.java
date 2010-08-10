@@ -178,6 +178,9 @@ public class MainView extends AbstractView {
 	
 	private SimpleDateFormat dateFormat;
 	
+	private SuccessView successView;
+	private FailureView failureView;
+	
 	public MainView(boolean isNew) {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
@@ -247,15 +250,11 @@ public class MainView extends AbstractView {
 		decimalFormat = new DecimalFormat("0.00");
 		dateFormat = new SimpleDateFormat("m:ss");
 		currentStage = 1;
-		if(isNew) currentLevel = 1;
-		else currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
-		bestTime = preferences.getLong(EngineConstants.BEST_TIME+currentLevel, EngineConstants.DEFAULT_BEST_TIME);
-		if(bestTime>EngineConstants.DEFAULT_BEST_TIME) {
-			bestStr = dateFormat.format(new Date(bestTime));
-		}
-		currentTime = System.currentTimeMillis();
-		goTime = true;
-		rules();
+		successView = new SuccessView(this);
+		successView.enable();
+		failureView = new FailureView(this);
+		failureView.enable();
+		open(isNew);
 	}
 	
 	@Override
@@ -454,6 +453,23 @@ public class MainView extends AbstractView {
 		return false;
 	}
 	
+	public void open() {
+		open(false);
+	}
+	
+	public void open(boolean isNew) {
+		enable();
+		if(isNew) currentLevel = 1;
+		else currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
+		bestTime = preferences.getLong(EngineConstants.BEST_TIME+currentLevel, EngineConstants.DEFAULT_BEST_TIME);
+		if(bestTime>EngineConstants.DEFAULT_BEST_TIME) {
+			bestStr = dateFormat.format(new Date(bestTime));
+		}
+		currentTime = System.currentTimeMillis();
+		goTime = true;
+		rules();
+	}
+	
 	private void rules() {
 		targetCount = currentLevel;
 		if(currentStage > 8) {
@@ -477,7 +493,6 @@ public class MainView extends AbstractView {
 			clearAll();
 			if(currentStage == 9) {
 				currentStage = 1;
-				currentLevel++;
 				disable();
 			} else {
 				currentStage++;
