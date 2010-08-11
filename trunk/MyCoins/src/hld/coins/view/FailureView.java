@@ -85,11 +85,13 @@ public class FailureView extends AbstractView {
 	}
 	
 	public void open() {
+		super.show();
 		super.enable();
 	}
 	
 	public void close() {
 		super.disable();
+		super.hide();
 		view.open();
 	}
 }

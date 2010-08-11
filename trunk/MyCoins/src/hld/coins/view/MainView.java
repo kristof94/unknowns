@@ -4,7 +4,6 @@ import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
-import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -111,16 +110,16 @@ public class MainView extends AbstractView {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg, scale, false);
-		coina = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coina0000, R.drawable.coina0001);
-		coinb = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinb0000, R.drawable.coinb0001);
-		coinc = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinc0000, R.drawable.coinc0001);
-		coind = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coind0000, R.drawable.coind0001);
-		coine = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coine0000, R.drawable.coine0001);
-		coinax = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coina0002, R.drawable.coina0003);
-		coinbx = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinb0002, R.drawable.coinb0003);
-		coincx = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coinc0002, R.drawable.coinc0003);
-		coindx = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coind0002, R.drawable.coind0003);
-		coinex = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.coine0002, R.drawable.coine0003);
+		coina = bitmapManager.getGolbalImages(R.drawable.coina0000, R.drawable.coina0001);
+		coinb = bitmapManager.getGolbalImages(R.drawable.coinb0000, R.drawable.coinb0001);
+		coinc = bitmapManager.getGolbalImages(R.drawable.coinc0000, R.drawable.coinc0001);
+		coind = bitmapManager.getGolbalImages(R.drawable.coind0000, R.drawable.coind0001);
+		coine = bitmapManager.getGolbalImages(R.drawable.coine0000, R.drawable.coine0001);
+		coinax = bitmapManager.getGolbalImages(R.drawable.coina0002, R.drawable.coina0003);
+		coinbx = bitmapManager.getGolbalImages(R.drawable.coinb0002, R.drawable.coinb0003);
+		coincx = bitmapManager.getGolbalImages(R.drawable.coinc0002, R.drawable.coinc0003);
+		coindx = bitmapManager.getGolbalImages(R.drawable.coind0002, R.drawable.coind0003);
+		coinex = bitmapManager.getGolbalImages(R.drawable.coine0002, R.drawable.coine0003);
 		coins = new Images[]{coinax, coinbx, coincx, coindx, coinex};
 		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear00, R.drawable.clear01);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
@@ -194,8 +193,10 @@ public class MainView extends AbstractView {
 			if(countdown<0) {
 				countdown = 0;
 				disable();
+				hide();
 				successView.disable();
 				failureView.open();
+				goTime = false;
 				return;
 			}
 			currentTime = l;
@@ -404,6 +405,7 @@ public class MainView extends AbstractView {
 	
 	public void open(boolean isNew) {
 		clearAll();
+		show();
 		enable();
 		if(isNew) currentLevel = 1;
 		else currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
@@ -441,6 +443,7 @@ public class MainView extends AbstractView {
 				disable();
 				failureView.disable();
 				successView.open();
+				goTime = false;
 				float time = (getCountdown()-countdown)/1000f-currentLevel*10;
 				if(time<=10) {
 					successView.setCup(agcup);
