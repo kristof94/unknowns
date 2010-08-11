@@ -6,6 +6,7 @@ import hld.coins.constants.GameStatusConstants.Status;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GameStatusManger;
+import hld.coins.manager.SoundManager;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import android.graphics.Point;
@@ -51,24 +52,18 @@ public class MenuView extends AbstractView {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.menubg, scale, false);
-		start0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0000, scale,
-				false);
-		start1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0001, scale,
-				false);
+		start0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0000, scale, false);
+		start1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.startgame0001, scale, false);
 		continue0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.continue0000, scale, false);
 		continue1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.continue0001, scale, false);
 		sound0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.sound0000, scale, false);
 		sound1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.sound0001, scale, false);
-		openfeint0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0000, scale,
-				false);
-		openfeint1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0001, scale,
-				false);
+		openfeint0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0000, scale, false);
+		openfeint1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.openfeint0001, scale, false);
 		help0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.helpa0000, scale, false);
 		help1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.helpa0001, scale, false);
-		other0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0000, scale,
-				false);
-		other1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0001, scale,
-				false);
+		other0 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0000, scale, false);
+		other1 = bitmapManager.getViewScaledImage(getClass(), R.drawable.othergames0001, scale, false);
 		bgPoint = new Point(offsetX(0), offsetY(0));
 		startPoint = new Point(offsetX(251), offsetY(106));
 		continuePoint = new Point(offsetX(285), offsetY(159));
@@ -76,19 +71,13 @@ public class MenuView extends AbstractView {
 		openfeintPoint = new Point(offsetX(391), offsetY(278));
 		helpPoint = new Point(offsetX(254), offsetY(215));
 		otherPoint = new Point(offsetX(193), offsetY(269));
-		startRect = new Rect(startPoint.x, startPoint.y, startPoint.x + start0.width, startPoint.y
-				+ start0.height);
-		continueRect = new Rect(continuePoint.x, continuePoint.y, continuePoint.x+continue0.width, continuePoint.y+continue0.height);
-		soundRect = new Rect(soundPoint.x, soundPoint.y, soundPoint.x + sound0.width, soundPoint.y
-				+ sound0.height);
-		openfeintRect = new Rect(openfeintPoint.x, openfeintPoint.y, openfeintPoint.x
-				+ openfeint0.width, openfeintPoint.y + openfeint0.height);
-		helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x + help0.width, helpPoint.y
-				+ help0.height);
-		otherRect = new Rect(otherPoint.x, otherPoint.y, otherPoint.x + other0.width, otherPoint.y
-				+ other0.height);
-		isOpenSound = preferences.getBoolean(EngineConstants.IS_OPEN_SOUND,
-				EngineConstants.DEFAULT_OPEN_SOUND);
+		startRect = new Rect(startPoint.x, startPoint.y, startPoint.x + start0.width, startPoint.y + start0.height);
+		continueRect = new Rect(continuePoint.x, continuePoint.y, continuePoint.x + continue0.width, continuePoint.y + continue0.height);
+		soundRect = new Rect(soundPoint.x, soundPoint.y, soundPoint.x + sound0.width, soundPoint.y + sound0.height);
+		openfeintRect = new Rect(openfeintPoint.x, openfeintPoint.y, openfeintPoint.x + openfeint0.width, openfeintPoint.y + openfeint0.height);
+		helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x + help0.width, helpPoint.y + help0.height);
+		otherRect = new Rect(otherPoint.x, otherPoint.y, otherPoint.x + other0.width, otherPoint.y + other0.height);
+		isOpenSound = preferences.getBoolean(EngineConstants.IS_OPEN_SOUND, EngineConstants.DEFAULT_OPEN_SOUND);
 	}
 	
 	@Override
@@ -122,20 +111,24 @@ public class MenuView extends AbstractView {
 			break;
 		case MotionEvent.ACTION_UP:
 			if(pressStart && startRect.contains((int)event.getX(), (int)event.getY())) {
-				GameStatusManger.getInstance().setStatusCurrent(Status.NEW);
+				GameStatusManger.getInstance().setStatusCurrent(Status.HELP);
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
 			} else if(pressContinue && continueRect.contains((int)event.getX(), (int)event.getY())) {
 				GameStatusManger.getInstance().setStatusCurrent(Status.CONTINUE);
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
 			} else if(pressSound && soundRect.contains((int)event.getX(), (int)event.getY())) {
 				isOpenSound = !isOpenSound;
 				preferences.putBoolean(EngineConstants.IS_OPEN_SOUND, isOpenSound);
-			} else if(pressOpenfeint
-					&& openfeintRect.contains((int)event.getX(), (int)event.getY())) {
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
+			} else if(pressOpenfeint && openfeintRect.contains((int)event.getX(), (int)event.getY())) {
 				//平台
-			} else if(pressHelp
-					&& helpRect.contains((int)event.getX(), (int)event.getY())) {
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
+			} else if(pressHelp && helpRect.contains((int)event.getX(), (int)event.getY())) {
 				//帮助
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
 			} else if(pressOther && otherRect.contains((int)event.getX(), (int)event.getY())) {
 				//更多
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
 			}
 			reset();
 			break;

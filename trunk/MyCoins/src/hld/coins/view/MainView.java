@@ -4,6 +4,7 @@ import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
+import hld.coins.manager.SoundManager;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -76,6 +77,7 @@ public class MainView extends AbstractView {
 	private Rect clearRect;
 	private Rect helpRect;
 	private boolean isShowHelp;
+	private boolean isOpenSound;
 	private boolean pressClear;
 	private boolean pressHelp;
 	private List<Images> coinList;
@@ -163,6 +165,7 @@ public class MainView extends AbstractView {
 		clearRect = new Rect(clearPoint.x, clearPoint.y, clearPoint.x + clear.getWidth(), clearPoint.y + clear.getHeight());
 		helpRect = new Rect(helpPoint.x, helpPoint.y, helpPoint.x + help.getWidth(), helpPoint.y + help.getHeight());
 		isShowHelp = preferences.getBoolean(EngineConstants.IS_SHOW_HELP, EngineConstants.DEFAULT_SHOW_HELP);
+		isOpenSound = preferences.getBoolean(EngineConstants.IS_OPEN_SOUND, EngineConstants.DEFAULT_OPEN_SOUND);
 		coinList = new LinkedList<Images>();
 		coinRectList = new LinkedList<Rect>();
 		coinShowList = new LinkedList<Integer>();
@@ -180,8 +183,10 @@ public class MainView extends AbstractView {
 		currentStage = 1;
 		successView = new SuccessView(this);
 		successView.disable();
+		successView.hide();
 		failureView = new FailureView(this);
 		failureView.disable();
+		failureView.hide();
 		open(isNew);
 	}
 	
@@ -407,7 +412,10 @@ public class MainView extends AbstractView {
 		clearAll();
 		show();
 		enable();
-		if(isNew) currentLevel = 1;
+		if(isNew) {
+			currentLevel = 1;
+			preferences.putInt(EngineConstants.LEVEL, currentLevel);
+		}
 		else currentLevel = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
 		bestTime = preferences.getLong(EngineConstants.BEST_TIME + currentLevel, EngineConstants.DEFAULT_BEST_TIME);
 		if(bestTime > EngineConstants.DEFAULT_BEST_TIME) {
@@ -435,6 +443,7 @@ public class MainView extends AbstractView {
 	}
 	
 	private void juge() {
+		if(isOpenSound) SoundManager.getInstance().play(R.raw.clickcoin);
 		if(coinList.size() == targetCount && currentAmount == targetAmount) {
 			clearAll();
 			if(currentStage == 9) {
@@ -446,13 +455,14 @@ public class MainView extends AbstractView {
 				goTime = false;
 				float time = (getCountdown()-countdown)/1000f-currentLevel*10;
 				if(time<=10) {
-					successView.setCup(agcup);
+					successView.setCup(agcup, R.raw.gold);
 				} else if((currentLevel==1 && time<=20) || (currentLevel!=1 && time <= 30)) {
-					successView.setCup(bgcup);
+					successView.setCup(bgcup, R.raw.silver);
 				} else {
-					successView.setCup(cgcup);
+					successView.setCup(cgcup, R.raw.bronze);
 				}
 			} else {
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.finishtopic);
 				currentStage++;
 				rules();
 			}

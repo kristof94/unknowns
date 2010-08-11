@@ -1,17 +1,18 @@
 package hld.coins.view;
 
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.view.MotionEvent;
 import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.constants.GameStatusConstants.Status;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GameStatusManger;
+import hld.coins.manager.SoundManager;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.view.MotionEvent;
 
 public class FailureView extends AbstractView {
 	private Image bg;
@@ -29,6 +30,8 @@ public class FailureView extends AbstractView {
 	private boolean pressAgain;
 	private boolean pressHighScore;
 	private MainView view;
+	private boolean alreadyPlay;
+	private boolean isOpenSound;
 	
 	public FailureView(MainView view) {
 		super(true);
@@ -54,6 +57,10 @@ public class FailureView extends AbstractView {
 		graphics.drawImage(menu, menuPoint, pressMenu);
 		graphics.drawImage(again, againPoint, pressAgain);
 		graphics.drawImage(highScore, highScorePoint, pressHighScore);
+		if(isOpenSound && !alreadyPlay) {
+			SoundManager.getInstance().play(R.raw.timeup);
+			alreadyPlay = true;
+		}
 	}
 	
 	@Override
@@ -87,9 +94,13 @@ public class FailureView extends AbstractView {
 	public void open() {
 		super.show();
 		super.enable();
+		isOpenSound = preferences.getBoolean(EngineConstants.IS_OPEN_SOUND, EngineConstants.DEFAULT_OPEN_SOUND);
 	}
 	
 	public void close() {
+		if(isOpenSound) {
+			alreadyPlay = false;
+		}
 		super.disable();
 		super.hide();
 		view.open();

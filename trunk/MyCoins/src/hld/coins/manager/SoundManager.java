@@ -49,6 +49,10 @@ public class SoundManager {
 		}
 	}
 
+	public void load(int resId) {
+		load(resId, 1);
+	}
+	
 	/**
 	 * resIdº”‘ÿ
 	 * 
