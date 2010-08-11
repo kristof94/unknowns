@@ -23,14 +23,5 @@ public interface ViewInterface {
 
 	public void onIntentListener(Intent intent);
 
-	/**
-	 * 每次View被打开时都调用
-	 */
-	public void show();
-
-	/**
-	 * 每次View被关闭时都调用
-	 */
-	public void hide();
 
 }

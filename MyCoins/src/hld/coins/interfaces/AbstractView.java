@@ -2,7 +2,6 @@ package hld.coins.interfaces;
 
 import hld.coins.manager.GameViewManager;
 import hld.coins.manager.PreferencesManager;
-import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import android.content.Intent;
 import android.view.MotionEvent;
@@ -10,7 +9,7 @@ import android.view.MotionEvent;
 public abstract class AbstractView implements ViewInterface {
 
 	private boolean isShowing;
-	protected boolean isEnable = true;
+	private boolean isEnable;
 	protected static PreferencesManager preferences;
 	protected static int height;
 	protected static int width;
@@ -31,6 +30,8 @@ public abstract class AbstractView implements ViewInterface {
 			height = GameViewManager.getInstance().gameWindowHight;
 			isInit = true;
 		}
+		show();
+		enable();
 	}
 
 	public boolean isEnable() {
@@ -45,9 +46,21 @@ public abstract class AbstractView implements ViewInterface {
 		isEnable = false;
 	}
 	
-	@Override
+	public boolean isShow() {
+		return isShowing;
+	}
+
+	public void show() {
+		isShowing = true;
+	}
+	
 	public void hide() {
 		isShowing = false;
+	}
+	
+	public void destroy() {
+		disable();
+		hide();
 	}
 
 	@Override
@@ -63,20 +76,6 @@ public abstract class AbstractView implements ViewInterface {
 	@Override
 	public boolean onTouchListener(MotionEvent event) {
 		return false;
-	}
-
-	@Override
-	public void show() {
-
-	}
-
-	/**
-	 * 供{#GameViewManager}画图前检查VIew是否已经被打开
-	 */
-	public void checkShowing() {
-		if (!isShowing)
-			show();
-		isShowing = true;
 	}
 
 	protected final int offsetX(int number) {

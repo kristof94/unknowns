@@ -20,7 +20,7 @@ import android.graphics.Bitmap.Config;
 
 public final class BitmapManager {
 
-	private final static List<Bitmap> globalList = new ArrayList<Bitmap>();
+	private final static Map<Integer, Bitmap> globalMap = new HashMap<Integer, Bitmap>();
 	private final static Map<Class<?>, List<Bitmap>> viewMap = new HashMap<Class<?>, List<Bitmap>>();
 
 	private Activity activity;
@@ -310,46 +310,56 @@ public final class BitmapManager {
 	public Image getGlobalScaledImage(int drawableId, double scale,
 			boolean filter) {
 		Image image = new Image();
-		Bitmap resource = BitmapFactory.decodeResource(activity.getResources(),
-				drawableId);
-		if (scale != 1) {
-			Bitmap bitmap = Bitmap.createScaledBitmap(resource,
-					(int) (resource.getWidth() * scale),
-					(int) (resource.getHeight() * scale), filter);
-			globalList.add(bitmap);
-			resource.recycle();
-			image.setImage(bitmap);
-			return image;
+		Bitmap bitmap = globalMap.get(drawableId);
+		if(bitmap==null) {
+			bitmap = BitmapFactory.decodeResource(activity.getResources(),
+					drawableId);
+			if (scale != 1) {
+				Bitmap resource = Bitmap.createScaledBitmap(bitmap,
+						(int) (bitmap.getWidth() * scale),
+						(int) (bitmap.getHeight() * scale), filter);
+				bitmap.recycle();
+				bitmap = resource;
+			}
+			put(drawableId, bitmap);
 		}
-		globalList.add(resource);
-		image.setImage(resource);
+		image.setImage(bitmap);
 		return image;
 	}
+	
+	public Images getGolbalImages(int drawableId, int... drawable) {
+		Bitmap[] images = new Bitmap[drawable.length];
+		for(int i = 0; i<images.length; i++) {
+			images[i] = globalMap.get(drawable[i]);
+		}
+		return Images.createImages(globalMap.get(drawableId), images);
+	}
 
-	public Image createGobalBitmap(int[] pixels, int width, int height,
+	public Image createGobalBitmap(int id, int[] pixels, int width, int height,
 			Bitmap.Config config) {
-		return createGobalBitmap(pixels, width, height,
+		return createGobalBitmap(id, pixels, width, height,
 				Bitmap.Config.ARGB_4444, false);
 	}
 
-	public Image createGobalBitmap(int[] pixels, int width, int height,
+	public Image createGobalBitmap(int id, int[] pixels, int width, int height,
 			Bitmap.Config config, boolean isMutable) {
-		return createGobalBitmap(pixels, 0, width, width, height, config, false);
+		return createGobalBitmap(id, pixels, 0, width, width, height, config, false);
 	}
 
-	public Image createGobalBitmap(int[] pixels, int offset, int stride,
+	public Image createGobalBitmap(int id, int[] pixels, int offset, int stride,
 			int width, int height, Config config, boolean isMutable) {
 		Image image = new Image();
-		Bitmap bitmap = Bitmap.createBitmap(pixels, offset, stride, width,
-				height, config);
-		if (isMutable) {
-			Bitmap copy = bitmap.copy(config, isMutable);
-			globalList.add(copy);
-			bitmap.recycle();
-			image.setImage(copy);
-			return image;
+		Bitmap bitmap = globalMap.get(id);
+		if(bitmap==null) {
+			bitmap = Bitmap.createBitmap(pixels, offset, stride, width,
+					height, config);
+			if (isMutable) {
+				Bitmap copy = bitmap.copy(config, isMutable);
+				bitmap.recycle();
+				bitmap = copy;
+			}
+			put(id, bitmap);
 		}
-		globalList.add(bitmap);
 		image.setImage(bitmap);
 		return image;
 	}
@@ -377,32 +387,40 @@ public final class BitmapManager {
 
 	}
 	
-	public Bitmap getGoablBitmap(FileDescriptor fd, double scale, boolean filter) {
+	public Bitmap getGoablBitmap(int id, FileDescriptor fd, double scale, boolean filter) {
+		Bitmap bitmap = globalMap.get(id);
+		if(bitmap!=null) return bitmap;
 		Bitmap src = BitmapFactory.decodeFileDescriptor(fd);
 		Bitmap createScaledBitmap = Bitmap.createScaledBitmap(src,
 				(int) (src.getWidth() * scale),
 				(int) (src.getHeight() * scale), filter);
 		src.recycle();
-		globalList.add(createScaledBitmap);
+		put(id, createScaledBitmap);
 		return createScaledBitmap;
 	}
 
-	public Bitmap getGoablBitmap(InputStream in, double scale, boolean filter) {
+	public Bitmap getGoablBitmap(int id, InputStream in, double scale, boolean filter) {
+		Bitmap bitmap = globalMap.get(id);
+		if(bitmap!=null) return bitmap;
 		Bitmap src = BitmapFactory.decodeStream(in);
 		Bitmap createScaledBitmap = Bitmap.createScaledBitmap(src,
 				(int) (src.getWidth() * scale),
 				(int) (src.getHeight() * scale), filter);
 		src.recycle();
-		globalList.add(createScaledBitmap);
+		put(id, createScaledBitmap);
 		return createScaledBitmap;
 	}
 
+	private void put(Integer id, Bitmap bitmap) {
+		globalMap.put(id, bitmap);
+	}
 	// //////////////////////////////////ÇåÀíÍ¼Æ¬/////////////////////////////////////////
 
 	public void releaseGobalImage() {
-		for (Bitmap bitmap : globalList) {
+		for (Bitmap bitmap : globalMap.values()) {
 			bitmap.recycle();
 		}
+		globalMap.clear();
 	}
 
 	public void releaseAllImage() {
@@ -414,6 +432,7 @@ public final class BitmapManager {
 				bitmap.recycle();
 			}
 		}
+		viewMap.clear();
 	}
 
 	public void releaseViewImage(Class<?> view) {

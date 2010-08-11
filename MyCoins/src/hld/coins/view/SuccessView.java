@@ -85,12 +85,14 @@ public class SuccessView extends AbstractView {
 	}
 	
 	public void open() {
+		super.show();
 		super.enable();
 		level = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
 	}
 	
 	public void close() {
 		super.disable();
+		super.hide();
 		view.open();
 	}
 }

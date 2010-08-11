@@ -101,7 +101,6 @@ public class GameCanvas extends SurfaceView implements Callback, Runnable {
 						instance.ScreenHight = c.getHeight();
 						instance.ScreenWidth = c.getWidth();
 						instance.adjust();
-						// TODO
 						// 游戏状态的初始化
 						GameStatusManger.getInstance().setStatusCurrent(Status.LOADING);
 					}

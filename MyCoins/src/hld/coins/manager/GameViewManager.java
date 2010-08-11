@@ -3,7 +3,6 @@ package hld.coins.manager;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.interfaces.Channel;
-import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -49,7 +48,7 @@ public class GameViewManager {
 
 	public boolean removeView(AbstractView view) {
 		BitmapManager.getInstance().releaseViewImage(view.getClass());
-		view.hide();
+		view.destroy();
 		return list.remove(view);
 	}
 
@@ -57,15 +56,14 @@ public class GameViewManager {
 		BitmapManager instance = BitmapManager.getInstance();
 		for (AbstractView view : list) {
 			instance.releaseViewImage(view.getClass());
-			view.hide();
+			view.destroy();
 		}
 		list.clear();
 	}
 
 	public void onDraw(Graphics graphics) {
 		for (AbstractView view : list) {
-			if(view.isEnable()) {
-				view.checkShowing();
+			if(view.isShow()) {
 				view.onDraw(graphics);
 			}
 		}
