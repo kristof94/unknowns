@@ -4,6 +4,7 @@ import hld.coins.R;
 import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
+import hld.coins.manager.SoundManager;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -28,6 +29,9 @@ public class SuccessView extends AbstractView {
 	private boolean flag;
 	private int level;
 	private MainView view;
+	private int musicId;
+	private boolean alreadyPlay;
+	private boolean isOpenSound;
 	
 	public SuccessView(MainView view) {
 		super(true);
@@ -46,8 +50,9 @@ public class SuccessView extends AbstractView {
 		enable();
 	}
 	
-	public void setCup(Images cup) {
+	public void setCup(Images cup, int musicId) {
 		this.cup = cup;
+		this.musicId = musicId;
 	}
 	
 	@Override
@@ -57,6 +62,10 @@ public class SuccessView extends AbstractView {
 		graphics.drawImage(again, againPoint, pressAgain);
 		graphics.drawImage(next, nextPoint, pressNext);
 		graphics.drawImage(cup, cupPoint, flag=!flag);
+		if(isOpenSound && !alreadyPlay) {
+			SoundManager.getInstance().play(musicId);
+			alreadyPlay = true;
+		}
 	}
 	
 	@Override
@@ -88,9 +97,13 @@ public class SuccessView extends AbstractView {
 		super.show();
 		super.enable();
 		level = preferences.getInt(EngineConstants.LEVEL, EngineConstants.DEFAULT_LEVEL);
+		isOpenSound = preferences.getBoolean(EngineConstants.IS_OPEN_SOUND, EngineConstants.DEFAULT_OPEN_SOUND);
 	}
 	
 	public void close() {
+		if(isOpenSound) {
+			alreadyPlay = false;
+		}
 		super.disable();
 		super.hide();
 		view.open();
