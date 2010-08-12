@@ -35,6 +35,7 @@ public class MainView extends AbstractView {
 	private Images coindx;
 	private Images coinex;
 	private Images[] coins;
+	private Images[] coinxs;
 	private Images clear;
 	private Images help;
 	private Image best;
@@ -122,7 +123,8 @@ public class MainView extends AbstractView {
 		coincx = bitmapManager.getGolbalImages(R.drawable.coinc0002, R.drawable.coinc0003);
 		coindx = bitmapManager.getGolbalImages(R.drawable.coind0002, R.drawable.coind0003);
 		coinex = bitmapManager.getGolbalImages(R.drawable.coine0002, R.drawable.coine0003);
-		coins = new Images[]{coinax, coinbx, coincx, coindx, coinex};
+		coins = new Images[]{coina, coinb, coinc, coind, coine};
+		coinxs = new Images[]{coinax, coinbx, coincx, coindx, coinex};
 		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear00, R.drawable.clear01);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
 		best = bitmapManager.getViewScaledImage(getClass(), R.drawable.best, scale, false);
@@ -353,13 +355,13 @@ public class MainView extends AbstractView {
 				}
 			}
 			if(dragAddCoin > -1) {
-				Images images = coins[dragAddCoin];
+				Images images = coinxs[dragAddCoin];
 				dragAddCoinPoint.set(x - images.getWidth() / 2, y - images.getHeight() / 2);
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if(dragAddCoin > -1) {
-				Images images = coins[dragAddCoin];
+				Images images = coinxs[dragAddCoin];
 				dragAddCoinPoint.set(x - images.getWidth() / 2, y - images.getHeight() / 2);
 			} else if(dragMoveCoin > -1) {
 				Images images = coinList.get(dragMoveCoin);
@@ -375,7 +377,7 @@ public class MainView extends AbstractView {
 				isShowHelp = !isShowHelp;
 				preferences.putBoolean(EngineConstants.IS_SHOW_HELP, isShowHelp);
 			} else if(dragAddCoin > -1 && y < offsetY(160)) {
-				Images images = coins[dragAddCoin];
+				Images images = coinxs[dragAddCoin];
 				coinList.add(images);
 				int w = images.getWidth() / 2;
 				int h = images.getHeight() / 2;
