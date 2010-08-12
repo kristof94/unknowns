@@ -397,6 +397,8 @@ public class MainView extends AbstractView {
 				currentAmount -= coinAmountList.remove(dragMoveCoin);
 				currentAmount = new BigDecimal(currentAmount, new MathContext(2)).floatValue();
 				juge();
+			} else if(dragMoveCoin > -1) {
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickcoin);
 			}
 			reset();
 			break;
