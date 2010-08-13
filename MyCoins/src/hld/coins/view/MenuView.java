@@ -111,11 +111,11 @@ public class MenuView extends AbstractView {
 			break;
 		case MotionEvent.ACTION_UP:
 			if(pressStart && startRect.contains((int)event.getX(), (int)event.getY())) {
+				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
 				GameStatusManger.getInstance().setStatusCurrent(Status.HELP);
-				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
 			} else if(pressContinue && continueRect.contains((int)event.getX(), (int)event.getY())) {
-				GameStatusManger.getInstance().setStatusCurrent(Status.CONTINUE);
 				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
+				GameStatusManger.getInstance().setStatusCurrent(Status.CONTINUE);
 			} else if(pressSound && soundRect.contains((int)event.getX(), (int)event.getY())) {
 				isOpenSound = !isOpenSound;
 				preferences.putBoolean(EngineConstants.IS_OPEN_SOUND, isOpenSound);
@@ -124,8 +124,8 @@ public class MenuView extends AbstractView {
 				//平台
 				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
 			} else if(pressHelp && helpRect.contains((int)event.getX(), (int)event.getY())) {
-				//帮助
 				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);
+				GameStatusManger.getInstance().setStatusCurrent(Status.COURSE);
 			} else if(pressOther && otherRect.contains((int)event.getX(), (int)event.getY())) {
 				//更多
 				if(isOpenSound) SoundManager.getInstance().play(R.raw.clickmunu);

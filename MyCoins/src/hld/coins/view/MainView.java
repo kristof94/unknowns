@@ -34,8 +34,8 @@ public class MainView extends AbstractView {
 	private Images coincx;
 	private Images coindx;
 	private Images coinex;
-	private Images[] coins;
-	private Images[] coinxs;
+	protected Images[] coins;
+	protected Images[] coinxs;
 	private Images clear;
 	private Images help;
 	private Image best;
@@ -56,11 +56,11 @@ public class MainView extends AbstractView {
 	private Images bgcup;
 	private Images cgcup;
 	private Point bgPoint;
-	private Point coinaPoint;
-	private Point coinbPoint;
-	private Point coincPoint;
-	private Point coindPoint;
-	private Point coinePoint;
+	protected Point coinaPoint;
+	protected Point coinbPoint;
+	protected Point coincPoint;
+	protected Point coindPoint;
+	protected Point coinePoint;
 	private Point clearPoint;
 	private Point helpPoint;
 	private Point bestPoint;
@@ -77,27 +77,27 @@ public class MainView extends AbstractView {
 	private Rect coineRect;
 	private Rect clearRect;
 	private Rect helpRect;
-	private boolean isShowHelp;
+	protected boolean isShowHelp;
 	private boolean isOpenSound;
 	private boolean pressClear;
 	private boolean pressHelp;
-	private List<Images> coinList;
-	private List<Rect> coinRectList;
-	private List<Integer> coinShowList;
+	protected List<Images> coinList;
+	protected List<Rect> coinRectList;
+	protected List<Integer> coinShowList;
 	private List<Float> coinAmountList;
 	private float coinaAmount;
 	private float coinbAmount;
 	private float coincAmount;
 	private float coindAmount;
 	private float coineAmount;
-	private float[] coinsAmount;
+	protected float[] coinsAmount;
 	private Random random;
 	private float targetAmount;
 	private int targetCount;
 	private long countdown;
-	private float currentAmount;
-	private int currentStage;
-	private int currentLevel;
+	protected float currentAmount;
+	protected int currentStage;
+	protected int currentLevel;
 	private long currentTime;
 	private boolean goTime;
 	private int dragAddCoin, dragMoveCoin = -1;
@@ -430,7 +430,7 @@ public class MainView extends AbstractView {
 		rules();
 	}
 	
-	private void rules() {
+	protected void rules() {
 		targetCount = currentLevel;
 		if(currentStage > 8) {
 			targetCount += 2;
@@ -485,7 +485,7 @@ public class MainView extends AbstractView {
 		dragAddCoin = dragMoveCoin = -1;
 	}
 	
-	private void clearAll() {
+	protected void clearAll() {
 		currentAmount = 0;
 		coinList.clear();
 		coinRectList.clear();
