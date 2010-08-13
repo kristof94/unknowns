@@ -20,6 +20,11 @@ public class LogUnit {
 		if (isShow())
 			Log.e(INFO, text);
 	}
+	
+	public static void e(String text, Throwable tr) {
+		if (isShow())
+			Log.e(INFO, text, tr);
+	}
 
 	public static void w(String text) {
 		if (isShow())
