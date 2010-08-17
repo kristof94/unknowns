@@ -8,6 +8,7 @@ import hld.coins.wrapper.Images;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -19,6 +20,7 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+@SuppressWarnings("unused")
 public class CourseView extends MainView {
 	private Point[] points = new Point[]{coinaPoint, coinbPoint, coincPoint, coindPoint, coinePoint};
 	private Graphics graphics;
@@ -58,6 +60,7 @@ public class CourseView extends MainView {
 				}
 			}
 		}
+		isShowHelp = false;
 		currentLevel = 3;
 		rules();
 	}
@@ -72,12 +75,13 @@ public class CourseView extends MainView {
 				restframes--;
 			} else if(resttimeout>0) {
 				actionList.get(location).invoke(this);
-				resttimeout = System.currentTimeMillis()-time;
+				resttimeout = timeout-(System.currentTimeMillis()-time);
 			} else {
 				Action action = actionList.get(++location);
 				frames = restframes = action.frames;
 				timeout = resttimeout = action.timeout;
 				if(timeout>0) time = System.currentTimeMillis();
+				action.invoke(this);
 			}
 			this.graphics = null;
 		} else {
@@ -101,13 +105,26 @@ public class CourseView extends MainView {
 		x = offsetX(x);
 		y = offsetY(y);
 		if(frames>0) {
-			int offset = frames*(frames-restframes);
-			x = x-(x-point.x)/offset;
-			y = y-(y-point.y)/offset;
+			if(frames==restframes) {
+				x = point.x;
+				y = point.y;
+			} else {
+				float offset = (float)frames/(frames-restframes);
+				x = (int)(x-(x-point.x)/offset);
+				y = (int)(y-(y-point.y)/offset);
+			}
 		} else if(timeout>0) {
-			long offset = timeout*(timeout-resttimeout);
-			x = x-(x-point.x)/(int)offset;
-			y = y-(y-point.y)/(int)offset;
+			LogUnit.i(timeout+":"+resttimeout);
+			if(timeout==resttimeout) {
+				x = point.x;
+				y = point.y;
+			} else {
+				float offset = (float)timeout/(timeout-resttimeout);
+				x = (int)(x-(x-point.x)/offset);
+				y = (int)(y-(y-point.y)/offset);
+				LogUnit.i("x"+offset+":"+(offsetX(x)-point.x)+":"+(offsetX(x)-point.x)/offset+":"+(offsetX(x)-(offsetX(x)-point.x)/offset));
+				LogUnit.i("y"+offset+":"+(offsetY(y)-point.y)+":"+(offsetY(y)-point.y)/offset+":"+(offsetY(y)-(offsetY(y)-point.y)/offset));
+			}
 		}
 		graphics.drawImage(coin, x-coin.getWidth()/2, y-coin.getHeight()/2, isShowHelp?1:0);
 	}
@@ -173,11 +190,11 @@ public class CourseView extends MainView {
 								temp = arg.substring(0, arg.length()-1);
 								if(pattern.matcher(temp).matches()) {
 									args[i] = Long.valueOf(temp);
-									parameterTypes[i] = Long.class;
+									parameterTypes[i] = long.class;
 								}
 							} else if(pattern.matcher(arg).matches()) {
 								args[i] = Integer.valueOf(arg);
-								parameterTypes[i] = Integer.class;
+								parameterTypes[i] = int.class;
 							}
 							if(args[i]==null) {
 								args[i] = arg;
@@ -207,11 +224,11 @@ public class CourseView extends MainView {
 							temp = arg.substring(0, arg.length()-1);
 							if(pattern.matcher(temp).matches()) {
 								args[i] = Long.valueOf(temp);
-								parameterTypes[i] = Long.class;
+								parameterTypes[i] = long.class;
 							}
 						} else if(pattern.matcher(arg).matches()) {
 							args[i] = Integer.valueOf(arg);
-							parameterTypes[i] = Integer.class;
+							parameterTypes[i] = int.class;
 						}
 						if(args[i]==null) {
 							args[i] = arg;
@@ -234,6 +251,7 @@ public class CourseView extends MainView {
 					else method.invoke(receiver, args);
 				}
 			} catch(Exception e) {
+				if(e instanceof InvocationTargetException) e = (Exception)((InvocationTargetException)e).getTargetException();
 				LogUnit.e("Action invoke "+method.getName()+" "+Arrays.toString(args), e);
 				receiver.disable();
 				receiver.hide();
