@@ -96,6 +96,17 @@ public class Graphics {
 		paint.setStyle(style);
 	}
 	
+	public void drawRect(int x, int y, int width, int height, int color) {
+		rectF.set(x, y, x + width, y + height);
+		Style style = paint.getStyle();
+		int c = paint.getColor();
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setColor(color);
+		canvas.drawRect(rectF, paint);
+		paint.setStyle(style);
+		paint.setColor(c);
+	}
+	
 	public void drawRect(Rect r) {
 		Style style = paint.getStyle();
 		paint.setStyle(Paint.Style.STROKE);

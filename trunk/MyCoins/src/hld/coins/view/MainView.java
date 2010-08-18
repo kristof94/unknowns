@@ -92,7 +92,7 @@ public class MainView extends AbstractView {
 	private float coineAmount;
 	protected float[] coinsAmount;
 	private Random random;
-	private float targetAmount;
+	protected float targetAmount;
 	private int targetCount;
 	private long countdown;
 	protected float currentAmount;
