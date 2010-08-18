@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 
@@ -63,6 +64,7 @@ public class CourseView extends MainView {
 		isShowHelp = false;
 		currentLevel = 3;
 		rules();
+		clear();
 	}
 	
 	@Override
@@ -92,41 +94,34 @@ public class CourseView extends MainView {
 	}
 	
 	private void rect(int x, int y, int width, int height) {
-		graphics.drawRect(x, y, width, height);
-	}
-	
-	private void arc(int x, int y, int width, int height, int startAngle, int sweepAngle) {
-		graphics.drawArc(x, y, width, height, startAngle, sweepAngle);
+		graphics.drawRect(x, y, width, height, Color.RED);
 	}
 	
 	private void move(int id, int x, int y) {
 		Images coin = coins[id];
 		Point point = points[id];
-		x = offsetX(x);
-		y = offsetY(y);
+		x = offsetX(x)-coin.getWidth()/2;
+		y = offsetY(y)-coin.getHeight()/2;
 		if(frames>0) {
-			if(frames==restframes) {
+			if(restframes<=0) {
 				x = point.x;
 				y = point.y;
 			} else {
-				float offset = (float)frames/(frames-restframes);
-				x = (int)(x-(x-point.x)/offset);
-				y = (int)(y-(y-point.y)/offset);
+				float offset = restframes/(float)frames;
+				x = (int)(x+(point.x-x)*offset);
+				y = (int)(y+(point.y-y)*offset);
 			}
 		} else if(timeout>0) {
-			LogUnit.i(timeout+":"+resttimeout);
-			if(timeout==resttimeout) {
+			if(resttimeout<=0) {
 				x = point.x;
 				y = point.y;
 			} else {
-				float offset = (float)timeout/(timeout-resttimeout);
-				x = (int)(x-(x-point.x)/offset);
-				y = (int)(y-(y-point.y)/offset);
-				LogUnit.i("x"+offset+":"+(offsetX(x)-point.x)+":"+(offsetX(x)-point.x)/offset+":"+(offsetX(x)-(offsetX(x)-point.x)/offset));
-				LogUnit.i("y"+offset+":"+(offsetY(y)-point.y)+":"+(offsetY(y)-point.y)/offset+":"+(offsetY(y)-(offsetY(y)-point.y)/offset));
+				float offset = resttimeout/(float)timeout;
+				x = (int)(x+(point.x-x)*offset);
+				y = (int)(y+(point.y-y)*offset);
 			}
 		}
-		graphics.drawImage(coin, x-coin.getWidth()/2, y-coin.getHeight()/2, isShowHelp?1:0);
+		graphics.drawImage(coin, x, y, isShowHelp?1:0);
 	}
 	
 	private void down(int id, int x, int y) {
@@ -144,6 +139,15 @@ public class CourseView extends MainView {
 	
 	private void clear() {
 		clearAll();
+		targetAmount = 0.4f;
+	}
+	
+	private void help() {
+		isShowHelp = !isShowHelp;
+	}
+	
+	private void pass() {
+		currentStage++;
 	}
 	
 	private class Action {
