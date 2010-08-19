@@ -103,7 +103,7 @@ public class MainView extends AbstractView {
 	private int dragAddCoin, dragMoveCoin = -1;
 	private Point dragAddCoinPoint;
 	private long bestTime;
-	private String bestStr;
+	protected String bestStr;
 	private DecimalFormat decimalFormat;
 	private SimpleDateFormat dateFormat;
 	private SuccessView successView;
@@ -224,7 +224,7 @@ public class MainView extends AbstractView {
 		graphics.drawImage(help, helpPoint, pressHelp);
 		int x, y;
 		char[] c = null;
-		//best
+		//最好记录
 		graphics.drawImage(best.imgae, bestPoint);
 		x = bestPoint.x + 40;
 		if(bestStr != null) {
@@ -240,7 +240,7 @@ public class MainView extends AbstractView {
 				}
 			}
 		}
-		//time
+		//剩余时间
 		c = dateFormat.format(new Date(countdown)).toCharArray();
 		for(int i = 0; i < c.length; i++) {
 			switch(c[i]) {
@@ -252,7 +252,7 @@ public class MainView extends AbstractView {
 				break;
 			}
 		}
-		//c总值
+		//硬币总值
 		graphics.drawImage(amount.imgae, amountPoint);
 		x = amountPoint.x + 15;
 		c = decimalFormat.format(currentAmount).toCharArray();
@@ -271,14 +271,14 @@ public class MainView extends AbstractView {
 			}
 			graphics.drawImage(amountnum, i * (amountnum.getWidth() - 4) + x, amountPoint.y, index);
 		}
-		//c数
+		//硬币数
 		graphics.drawImage(coin.imgae, coinPoint);
 		x = coinPoint.x - 20;
 		c = String.valueOf(coinList.size()).toCharArray();
 		for(int i = 0; i < c.length; i++) {
 			graphics.drawImage(coinnum, i * coinnum.getWidth() + x, coinPoint.y, Character.getNumericValue(c[i]));
 		}
-		//l数
+		//级数
 		graphics.drawImage(level.imgae, levelPoint);
 		x = levelPoint.x + 50;
 		y = levelPoint.y + 5;
@@ -286,7 +286,7 @@ public class MainView extends AbstractView {
 		for(int i = 0; i < c.length; i++) {
 			graphics.drawImage(levelnum, i * levelnum.getWidth() + x, y, Character.getNumericValue(c[i]));
 		}
-		//目标
+		//过关条件
 		graphics.drawImage(topic.imgae, topicPoint.x, topicPoint.y, Graphics.VCENTER | Graphics.HCENTER);
 		x = stagePoint.x - 30;
 		y = stagePoint.y - 10;
@@ -319,6 +319,7 @@ public class MainView extends AbstractView {
 		for(int i = 0; i < c.length; i++) {
 			graphics.drawImage(coinnum, i * coinnum.getWidth() + x, y, Character.getNumericValue(c[i]));
 		}
+		//将要添加的硬币
 		if(dragAddCoin > -1) {
 			graphics.drawImage(coins[dragAddCoin], dragAddCoinPoint, isShowHelp);
 		}

@@ -61,6 +61,7 @@ public class CourseView extends MainView {
 				}
 			}
 		}
+		bestStr = null;
 		isShowHelp = false;
 		currentLevel = 3;
 		rules();
