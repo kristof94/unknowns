@@ -99,7 +99,7 @@ public class MainView extends AbstractView {
 	protected int currentStage;
 	protected int currentLevel;
 	private long currentTime;
-	private boolean goTime;
+	protected boolean goTime;
 	private int dragAddCoin, dragMoveCoin = -1;
 	private Point dragAddCoinPoint;
 	private long bestTime;
