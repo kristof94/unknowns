@@ -88,6 +88,7 @@ public class CourseView extends MainView {
 			}
 			this.graphics = null;
 		} else {
+			goTime = false;
 			disable();
 			hide();
 			GameStatusManger.getInstance().setStatusCurrent(Status.MENU);
