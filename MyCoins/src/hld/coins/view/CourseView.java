@@ -1,9 +1,12 @@
 package hld.coins.view;
 
+import hld.coins.R;
 import hld.coins.constants.GameStatusConstants.Status;
+import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GameStatusManger;
 import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
+import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,9 +23,19 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
 @SuppressWarnings("unused")
 public class CourseView extends MainView {
+	private Image bg;
+	private Images menu;
+	private Images again;
+	private Point menuPoint;
+	private Point againPoint;
+	private Rect menuRect;
+	private Rect againRect;
+	private boolean pressMenu;
+	private boolean pressAgain;
 	private Point[] points = new Point[]{coinaPoint, coinbPoint, coincPoint, coindPoint, coinePoint};
 	private Graphics graphics;
 	private List<Action> actionList;
@@ -61,6 +74,13 @@ public class CourseView extends MainView {
 				}
 			}
 		}
+		bg = BitmapManager.getInstance().getViewScaledImage(getClass(), R.drawable.howtoplaybg, scale, false);
+		menu = BitmapManager.getInstance().getViewScaledImages(getClass(), scale, false, R.drawable.menua0000, R.drawable.menua0001);
+		again = BitmapManager.getInstance().getViewScaledImages(getClass(), scale, false, R.drawable.againa0000, R.drawable.againa0001);
+		menuPoint = new Point(offsetX(195),offsetY(90));
+		againPoint = new Point(offsetX(193),offsetY(196));
+		menuRect = new Rect(menuPoint.x, menuPoint.y, menuPoint.x+menu.getWidth(), menuPoint.y+menu.getHeight());
+		againRect = new Rect(againPoint.x, againPoint.y, againPoint.x+again.getWidth(), againPoint.y+again.getHeight());
 		bestStr = null;
 		isShowHelp = false;
 		currentLevel = 3;
@@ -89,10 +109,42 @@ public class CourseView extends MainView {
 			this.graphics = null;
 		} else {
 			goTime = false;
-			disable();
-			hide();
-			GameStatusManger.getInstance().setStatusCurrent(Status.MENU);
+			graphics.drawImage(bg.imgae, bgPoint);
+			graphics.drawImage(menu, menuPoint, pressMenu);
+			graphics.drawImage(again, againPoint, pressAgain);
 		}
+	}
+	
+	@Override
+	public boolean onTouchListener(MotionEvent event) {
+		switch(event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			int x = (int)event.getX();
+			int y = (int)event.getY();
+			if(menuRect.contains(x, y)) {
+				pressMenu = true;
+			} else if(againRect.contains(x, y)) {
+				pressAgain = true;
+			}
+			break;
+		case MotionEvent.ACTION_UP:
+			if(pressMenu && menuRect.contains((int)event.getX(), (int)event.getY())) {
+				disable();
+				hide();
+				GameStatusManger.getInstance().setStatusCurrent(Status.MENU);
+			} else if(pressAgain && againRect.contains((int)event.getX(), (int)event.getY())) {
+				isShowHelp = false;
+				currentStage = 1;
+				location = frames = restframes = -1;
+				time = timeout = resttimeout = -1L;
+				rules();
+				clear();
+				goTime = true;
+			}
+			pressMenu = pressAgain = false;
+			break;
+		}
+		return false;
 	}
 	
 	private void rect(int x, int y, int width, int height) {

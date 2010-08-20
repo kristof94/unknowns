@@ -55,7 +55,7 @@ public class MainView extends AbstractView {
 	private Images agcup;
 	private Images bgcup;
 	private Images cgcup;
-	private Point bgPoint;
+	protected Point bgPoint;
 	protected Point coinaPoint;
 	protected Point coinbPoint;
 	protected Point coincPoint;
