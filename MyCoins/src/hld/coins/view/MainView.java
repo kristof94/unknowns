@@ -125,7 +125,7 @@ public class MainView extends AbstractView {
 		coinex = bitmapManager.getGolbalImages(R.drawable.coine0002, R.drawable.coine0003);
 		coins = new Images[]{coina, coinb, coinc, coind, coine};
 		coinxs = new Images[]{coinax, coinbx, coincx, coindx, coinex};
-		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear00, R.drawable.clear01);
+		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear01, R.drawable.clear02);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
 		best = bitmapManager.getViewScaledImage(getClass(), R.drawable.best, scale, false);
 		bestnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bestnum, 10, 1);
@@ -141,9 +141,9 @@ public class MainView extends AbstractView {
 		coin = bitmapManager.getViewScaledImage(getClass(), R.drawable.yingbishu, scale, false);
 		coinnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.yingbishuzhi, 10, 1);
 		topic = bitmapManager.getViewScaledImage(getClass(), R.drawable.timu, scale, false);
-		agcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.agcup0000, R.drawable.agcup0001);
-		bgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bgcup0000, R.drawable.bgcup0001);
-		cgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.cgcup0000, R.drawable.cgcup0001);
+		agcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.aucup0000, R.drawable.aucup0001, R.drawable.aucup0002);
+		bgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bgcup0000, R.drawable.bgcup0001, R.drawable.bgcup0002);
+		cgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.cucup0000, R.drawable.cucup0001, R.drawable.cucup0002);
 		bgPoint = new Point(offsetX(0), offsetY(0));
 		clearPoint = new Point(offsetX(10), offsetY(215));
 		helpPoint = new Point(offsetX(10), offsetY(290));
