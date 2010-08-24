@@ -38,11 +38,7 @@ public class MainView extends AbstractView {
 	protected Images[] coinxs;
 	private Images clear;
 	private Images help;
-	private Image best;
-	private Images bestnum;
 	private Image colon;
-	private Images timenum;
-	private Image timecolon;
 	private Images stagenum;
 	private Image stagedash;
 	private Image level;
@@ -55,6 +51,8 @@ public class MainView extends AbstractView {
 	private Images agcup;
 	private Images bgcup;
 	private Images cgcup;
+	private Images whitenum;
+	private Images yellownum;
 	protected Point bgPoint;
 	protected Point coinaPoint;
 	protected Point coinbPoint;
@@ -127,11 +125,8 @@ public class MainView extends AbstractView {
 		coinxs = new Images[]{coinax, coinbx, coincx, coindx, coinex};
 		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear01, R.drawable.clear02);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
-		best = bitmapManager.getViewScaledImage(getClass(), R.drawable.best, scale, false);
-		bestnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bestnum, 10, 1);
-		colon = bitmapManager.getViewScaledImage(getClass(), R.drawable.maohao2, scale, false);
-		timenum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.daojishi, 12, 1);
-		timecolon = bitmapManager.getViewScaledImage(getClass(), R.drawable.daojishimaohao, scale, false);
+		whitenum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.whitenum, 12, 1);
+		colon = bitmapManager.getViewScaledImage(getClass(), R.drawable.maohao, scale, false);
 		stagenum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.guangshutimushu, 9, 1);
 		stagedash = bitmapManager.getViewScaledImage(getClass(), R.drawable.ganghao, scale, false);
 		level = bitmapManager.getViewScaledImage(getClass(), R.drawable.level, scale, false);
@@ -145,18 +140,18 @@ public class MainView extends AbstractView {
 		bgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bgcup0000, R.drawable.bgcup0001, R.drawable.bgcup0002);
 		cgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.cucup0000, R.drawable.cucup0001, R.drawable.cucup0002);
 		bgPoint = new Point(offsetX(0), offsetY(0));
-		clearPoint = new Point(offsetX(10), offsetY(215));
-		helpPoint = new Point(offsetX(10), offsetY(290));
+		clearPoint = new Point(offsetX(10), offsetY(229));
+		helpPoint = new Point(offsetX(10), offsetY(276));
 		coinaPoint = new Point(offsetX(116), offsetY(255));
 		coinbPoint = new Point(offsetX(183), offsetY(252));
 		coincPoint = new Point(offsetX(254), offsetY(263));
 		coindPoint = new Point(offsetX(317), offsetY(245));
 		coinePoint = new Point(offsetX(389), offsetY(218));
-		bestPoint = new Point(offsetX(15), offsetY(12));
+		bestPoint = new Point(offsetX(64), offsetY(8));
 		timePoint = new Point(offsetX(18), offsetY(255));
-		levelPoint = new Point(offsetX(405), offsetY(15));
-		amountPoint = new Point(offsetX(206), offsetY(10));
-		coinPoint = new Point(offsetX(227), offsetY(38));
+		levelPoint = new Point(offsetX(420), offsetY(8));
+		amountPoint = new Point(offsetX(223), offsetY(8));
+		coinPoint = new Point(offsetX(210), offsetY(34));
 		stagePoint = new Point(offsetX(238), offsetY(168));
 		topicPoint = new Point(offsetX(227), offsetY(192));
 		coinaRect = new Rect(coinaPoint.x, coinaPoint.y, coinaPoint.x + coina.getWidth(), coinaPoint.y + coina.getHeight());
@@ -225,7 +220,6 @@ public class MainView extends AbstractView {
 		int x, y;
 		char[] c = null;
 		//×îºÃ¼ÇÂ¼
-		graphics.drawImage(best.imgae, bestPoint);
 		x = bestPoint.x + 40;
 		if(bestStr != null) {
 			c = bestStr.toCharArray();
