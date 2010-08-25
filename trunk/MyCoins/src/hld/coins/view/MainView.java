@@ -68,11 +68,11 @@ public class MainView extends AbstractView {
 	private Point helpPoint;
 	private Point bestPoint;
 	private Point timePoint;
-	private Point stagePoint;
 	private Point levelPoint;
 	private Point amountPoint;
 	private Point coinPoint;
-	private Point topicPoint;
+	private Point targetAmountPoint;
+	private Point targetCountPoint;
 	private Rect coinaRect;
 	private Rect coinbRect;
 	private Rect coincRect;
@@ -160,8 +160,8 @@ public class MainView extends AbstractView {
 		levelPoint = new Point(offsetX(420), offsetY(8));
 		amountPoint = new Point(offsetX(223), offsetY(8));
 		coinPoint = new Point(offsetX(210), offsetY(34));
-		stagePoint = new Point(offsetX(238), offsetY(168));
-		topicPoint = new Point(offsetX(227), offsetY(192));
+		targetCountPoint = new Point(offsetX(113), offsetY(174));
+		targetAmountPoint = new Point(offsetX(281), offsetY(174));
 		coinaRect = new Rect(coinaPoint.x, coinaPoint.y, coinaPoint.x + coina.getWidth(), coinaPoint.y + coina.getHeight());
 		coinbRect = new Rect(coinbPoint.x, coinbPoint.y, coinbPoint.x + coinb.getWidth(), coinbPoint.y + coinb.getHeight());
 		coincRect = new Rect(coincPoint.x, coincPoint.y, coincPoint.x + coinc.getWidth(), coincPoint.y + coinc.getHeight());
@@ -183,7 +183,7 @@ public class MainView extends AbstractView {
 		coinsAmount = new float[]{coinaAmount, coinbAmount, coincAmount, coindAmount, coineAmount};
 		random = new Random();
 		dragAddCoinPoint = new Point();
-		decimalFormat = new DecimalFormat("0.00");
+		decimalFormat = new DecimalFormat("000.00");
 		dateFormat = new SimpleDateFormat("m:ss");
 		currentStage = 1;
 		successView = new SuccessView(this);
@@ -231,7 +231,6 @@ public class MainView extends AbstractView {
 		graphics.drawImage(coine, coinePoint, isShowHelp);
 		graphics.drawImage(clear, clearPoint, pressClear);
 		graphics.drawImage(help, helpPoint, pressHelp);
-		int x, y;
 		char[] c = null;
 		//最好记录
 		if(bestStr != null) {
@@ -247,18 +246,6 @@ public class MainView extends AbstractView {
 				}
 			}
 		}
-		//剩余时间
-//		c = dateFormat.format(new Date(countdown)).toCharArray();
-//		for(int i = 0; i < c.length; i++) {
-//			switch(c[i]) {
-//			case ':':
-//				graphics.drawImage(timecolon.imgae, i * timenum.getWidth() + timePoint.x, timePoint.y);
-//				break;
-//			default:
-//				graphics.drawImage(timenum, i * timenum.getWidth() + timePoint.x, timePoint.y, Character.getNumericValue(c[i]) + 2);
-//				break;
-//			}
-//		}
 		//硬币总值
 		c = decimalFormat.format(currentAmount).toCharArray();
 		for(int i = 0; i < c.length; i++) {
@@ -275,29 +262,14 @@ public class MainView extends AbstractView {
 			graphics.drawImage(whitenum, i * whitenum.getWidth() + levelPoint.x, levelPoint.y, getIndex(c[i]));
 		}
 		//过关条件
-		x = topicPoint.x + 70;
-		y = topicPoint.y - 12;
 		c = decimalFormat.format(targetAmount).toCharArray();
 		for(int i = 0; i < c.length; i++) {
-			int index;
-			switch(c[i]) {
-			case '.':
-				index = 0;
-				break;
-			case '/':
-				index = 1;
-				break;
-			default:
-				index = Character.getNumericValue(c[i]) + 2;
-				break;
-			}
-			graphics.drawImage(amountnum, i * (amountnum.getWidth() - 4) + x, y, index);
+			graphics.drawImage(amountnum, i * amountnum.getWidth() + targetAmountPoint.x, targetAmountPoint.y, getIndex(c[i]));
 		}
-		x = topicPoint.x - 85;
-		y = topicPoint.y - 13;
 		c = String.valueOf(targetCount).toCharArray();
+		if(c.length==1) c = new char[]{'0', c[1]};
 		for(int i = 0; i < c.length; i++) {
-			graphics.drawImage(coinnum, i * coinnum.getWidth() + x, y, Character.getNumericValue(c[i]));
+			graphics.drawImage(coinnum, i * coinnum.getWidth() + targetCountPoint.x, targetCountPoint.y, Character.getNumericValue(c[i]));
 		}
 		//将要添加的硬币
 		if(dragAddCoin > -1) {
