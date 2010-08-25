@@ -24,6 +24,10 @@ import android.view.MotionEvent;
 
 public class MainView extends AbstractView {
 	private Image bg;
+	private Image bluebg;
+	private Image redbg;
+	private Image holebg;
+	private Image yying;
 	private Images coina;
 	private Images coinb;
 	private Images coinc;
@@ -39,21 +43,22 @@ public class MainView extends AbstractView {
 	private Images clear;
 	private Images help;
 	private Image colon;
-	private Images stagenum;
-	private Image stagedash;
-	private Image level;
-	private Images levelnum;
-	private Image amount;
+	private Images addnum;
+	private Images totalnum;
 	private Images amountnum;
-	private Image coin;
 	private Images coinnum;
-	private Image topic;
 	private Images agcup;
 	private Images bgcup;
 	private Images cgcup;
 	private Images whitenum;
 	private Images yellownum;
+	private Image cover1;
+	private Image cover2;
 	protected Point bgPoint;
+	private Point bluebgPoint;
+	private Point redbgPoint;
+	private Point holebgPoint;
+	private Point yyingPoint;
 	protected Point coinaPoint;
 	protected Point coinbPoint;
 	protected Point coincPoint;
@@ -111,6 +116,10 @@ public class MainView extends AbstractView {
 		super(true);
 		BitmapManager bitmapManager = BitmapManager.getInstance();
 		bg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg, scale, false);
+		bluebg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg01, scale, false);
+		redbg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg02, scale, false);
+		holebg = bitmapManager.getViewScaledImage(getClass(), R.drawable.gamebg05, scale, false);
+		yying = bitmapManager.getViewScaledImage(getClass(), R.drawable.yyin, scale, false);
 		coina = bitmapManager.getGolbalImages(R.drawable.coina0000, R.drawable.coina0001);
 		coinb = bitmapManager.getGolbalImages(R.drawable.coinb0000, R.drawable.coinb0001);
 		coinc = bitmapManager.getGolbalImages(R.drawable.coinc0000, R.drawable.coinc0001);
@@ -127,19 +136,18 @@ public class MainView extends AbstractView {
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
 		whitenum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.whitenum, 12, 1);
 		colon = bitmapManager.getViewScaledImage(getClass(), R.drawable.maohao, scale, false);
-		stagenum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.guangshutimushu, 9, 1);
-		stagedash = bitmapManager.getViewScaledImage(getClass(), R.drawable.ganghao, scale, false);
-		level = bitmapManager.getViewScaledImage(getClass(), R.drawable.level, scale, false);
-		levelnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.levelshuzi, 10, 1);
-		amount = bitmapManager.getViewScaledImage(getClass(), R.drawable.mianzhi, scale, false);
-		amountnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.mianzhishuzhi, 12, 1);
-		coin = bitmapManager.getViewScaledImage(getClass(), R.drawable.yingbishu, scale, false);
-		coinnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.yingbishuzhi, 10, 1);
-		topic = bitmapManager.getViewScaledImage(getClass(), R.drawable.timu, scale, false);
+		addnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su01, 12, 1);
+		totalnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su02, 12, 1);
+		amountnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su03, 12, 1);
+		coinnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su04, 10, 1);
 		agcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.aucup0000, R.drawable.aucup0001, R.drawable.aucup0002);
 		bgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bgcup0000, R.drawable.bgcup0001, R.drawable.bgcup0002);
 		cgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.cucup0000, R.drawable.cucup0001, R.drawable.cucup0002);
 		bgPoint = new Point(offsetX(0), offsetY(0));
+		bluebgPoint = new Point(offsetX(113), offsetY(174));
+		redbgPoint = new Point(offsetX(280), offsetY(174));
+		holebgPoint = new Point(offsetX(0), offsetY(36));
+		yyingPoint = new Point(offsetX(113), offsetY(174));
 		clearPoint = new Point(offsetX(10), offsetY(229));
 		helpPoint = new Point(offsetX(10), offsetY(276));
 		coinaPoint = new Point(offsetX(116), offsetY(255));
@@ -148,7 +156,7 @@ public class MainView extends AbstractView {
 		coindPoint = new Point(offsetX(317), offsetY(245));
 		coinePoint = new Point(offsetX(389), offsetY(218));
 		bestPoint = new Point(offsetX(64), offsetY(8));
-		timePoint = new Point(offsetX(18), offsetY(255));
+		timePoint = new Point(offsetX(0), offsetY(168));
 		levelPoint = new Point(offsetX(420), offsetY(8));
 		amountPoint = new Point(offsetX(223), offsetY(8));
 		coinPoint = new Point(offsetX(210), offsetY(34));
@@ -203,7 +211,13 @@ public class MainView extends AbstractView {
 			}
 			currentTime = l;
 		}
+		//背景
+		graphics.drawImage(bluebg.imgae, bluebgPoint);
+		graphics.drawImage(redbg.imgae, redbgPoint);
+		graphics.drawImage(holebg.imgae, holebgPoint);
 		graphics.drawImage(bg.imgae, bgPoint);
+		//阴影
+		graphics.drawImage(yying.imgae, yyingPoint);
 		for(int i = 0; i < coinShowList.size(); i++) {
 			int index = coinShowList.get(i);
 			Images images = coinList.get(index);
@@ -220,75 +234,47 @@ public class MainView extends AbstractView {
 		int x, y;
 		char[] c = null;
 		//最好记录
-		x = bestPoint.x + 40;
 		if(bestStr != null) {
 			c = bestStr.toCharArray();
 			for(int i = 0; i < c.length; i++) {
 				switch(c[i]) {
 				case ':':
-					graphics.drawImage(colon.imgae, i * (bestnum.getWidth() - 2) + x, bestPoint.y);
+					graphics.drawImage(colon.imgae, i * whitenum.getWidth() + bestPoint.x, bestPoint.y);
 					break;
 				default:
-					graphics.drawImage(bestnum, i * (bestnum.getWidth() - 3) + x, bestPoint.y, Character.getNumericValue(c[i]));
+					graphics.drawImage(whitenum, i * whitenum.getWidth() + bestPoint.x, bestPoint.y, Character.getNumericValue(c[i])+2);
 					break;
 				}
 			}
 		}
 		//剩余时间
-		c = dateFormat.format(new Date(countdown)).toCharArray();
-		for(int i = 0; i < c.length; i++) {
-			switch(c[i]) {
-			case ':':
-				graphics.drawImage(timecolon.imgae, i * timenum.getWidth() + timePoint.x, timePoint.y);
-				break;
-			default:
-				graphics.drawImage(timenum, i * timenum.getWidth() + timePoint.x, timePoint.y, Character.getNumericValue(c[i]) + 2);
-				break;
-			}
-		}
+//		c = dateFormat.format(new Date(countdown)).toCharArray();
+//		for(int i = 0; i < c.length; i++) {
+//			switch(c[i]) {
+//			case ':':
+//				graphics.drawImage(timecolon.imgae, i * timenum.getWidth() + timePoint.x, timePoint.y);
+//				break;
+//			default:
+//				graphics.drawImage(timenum, i * timenum.getWidth() + timePoint.x, timePoint.y, Character.getNumericValue(c[i]) + 2);
+//				break;
+//			}
+//		}
 		//硬币总值
-		graphics.drawImage(amount.imgae, amountPoint);
-		x = amountPoint.x + 15;
 		c = decimalFormat.format(currentAmount).toCharArray();
 		for(int i = 0; i < c.length; i++) {
-			int index;
-			switch(c[i]) {
-			case '.':
-				index = 0;
-				break;
-			case '/':
-				index = 1;
-				break;
-			default:
-				index = Character.getNumericValue(c[i]) + 2;
-				break;
-			}
-			graphics.drawImage(amountnum, i * (amountnum.getWidth() - 4) + x, amountPoint.y, index);
+			graphics.drawImage(yellownum, i * yellownum.getWidth() + amountPoint.x, amountPoint.y, getIndex(c[i]));
 		}
 		//硬币数
-		graphics.drawImage(coin.imgae, coinPoint);
-		x = coinPoint.x - 20;
 		c = String.valueOf(coinList.size()).toCharArray();
 		for(int i = 0; i < c.length; i++) {
-			graphics.drawImage(coinnum, i * coinnum.getWidth() + x, coinPoint.y, Character.getNumericValue(c[i]));
+			graphics.drawImage(whitenum, i * whitenum.getWidth() + coinPoint.x, coinPoint.y, getIndex(c[i]));
 		}
 		//级数
-		graphics.drawImage(level.imgae, levelPoint);
-		x = levelPoint.x + 50;
-		y = levelPoint.y + 5;
 		c = String.valueOf(currentLevel).toCharArray();
 		for(int i = 0; i < c.length; i++) {
-			graphics.drawImage(levelnum, i * levelnum.getWidth() + x, y, Character.getNumericValue(c[i]));
+			graphics.drawImage(whitenum, i * whitenum.getWidth() + levelPoint.x, levelPoint.y, getIndex(c[i]));
 		}
 		//过关条件
-		graphics.drawImage(topic.imgae, topicPoint.x, topicPoint.y, Graphics.VCENTER | Graphics.HCENTER);
-		x = stagePoint.x - 30;
-		y = stagePoint.y - 10;
-		for(int i = 0; i < c.length; i++) {
-			graphics.drawImage(stagenum, x, y, Character.getNumericValue(c[i])-1);
-		}
-		graphics.drawImage(stagedash.imgae, stagePoint.x, stagePoint.y, Graphics.HCENTER | Graphics.VCENTER);
-		graphics.drawImage(stagenum, stagePoint.x + 20, stagePoint.y - 10, currentStage-1);
 		x = topicPoint.x + 70;
 		y = topicPoint.y - 12;
 		c = decimalFormat.format(targetAmount).toCharArray();
@@ -465,6 +451,17 @@ public class MainView extends AbstractView {
 				currentStage++;
 				rules();
 			}
+		}
+	}
+	
+	private int getIndex(char c) {
+		switch(c) {
+		case '.':
+			return 0;
+		case '/':
+			return 1;
+		default:
+			return Character.getNumericValue(c) + 2;
 		}
 	}
 	
