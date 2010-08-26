@@ -158,8 +158,8 @@ public final class BitmapManager {
 	 * @param row Ö¡µÄÐÐÊý
 	 * @return
 	 */
-	public Images getViewScaledImages(Class<?> view,
-			double scale, boolean filter, int drawableId, int col, int row) {
+	public Images getViewScaledImages(Class<?> view, int col, int row,
+			double scale, boolean filter, int drawableId) {
 		Bitmap resource = BitmapFactory.decodeResource(activity.getResources(), drawableId);
 		if(scale!=1) {
 			Bitmap bitmap = Bitmap.createScaledBitmap(resource,

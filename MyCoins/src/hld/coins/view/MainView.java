@@ -134,12 +134,12 @@ public class MainView extends AbstractView {
 		coinxs = new Images[]{coinax, coinbx, coincx, coindx, coinex};
 		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear01, R.drawable.clear02);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
-		whitenum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.whitenum, 12, 1);
+		whitenum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.whitenum);
 		colon = bitmapManager.getViewScaledImage(getClass(), R.drawable.maohao, scale, false);
-		addnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su01, 12, 1);
-		totalnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su02, 12, 1);
-		amountnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su03, 12, 1);
-		coinnum = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.su04, 10, 1);
+		addnum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.su01);
+		totalnum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.su02);
+		amountnum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.su03);
+		coinnum = bitmapManager.getViewScaledImages(getClass(), 10, 1, scale, false, R.drawable.su04);
 		agcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.aucup0000, R.drawable.aucup0001, R.drawable.aucup0002);
 		bgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bgcup0000, R.drawable.bgcup0001, R.drawable.bgcup0002);
 		cgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.cucup0000, R.drawable.cucup0001, R.drawable.cucup0002);
