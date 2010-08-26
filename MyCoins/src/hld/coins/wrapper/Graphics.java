@@ -277,6 +277,10 @@ public class Graphics {
 		images.draw(this, point, flag);
 	}
 	
+	public void drawImage(Images images, Point point, int index) {
+		drawImage(images, point.x, point.y, index);
+	}
+	
 	public void drawImage(Images images, int x, int y, int index) {
 		images.draw(this, x, y, index);
 	}

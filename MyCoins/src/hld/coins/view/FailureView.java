@@ -7,6 +7,7 @@ import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.GameStatusManger;
 import hld.coins.manager.SoundManager;
+import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -104,5 +105,6 @@ public class FailureView extends AbstractView {
 		super.disable();
 		super.hide();
 		view.open();
+		LogUnit.i(super.isEnable()+":"+super.isShow());
 	}
 }
