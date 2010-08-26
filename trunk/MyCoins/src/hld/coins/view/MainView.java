@@ -5,6 +5,7 @@ import hld.coins.constants.EngineConstants;
 import hld.coins.interfaces.AbstractView;
 import hld.coins.manager.BitmapManager;
 import hld.coins.manager.SoundManager;
+import hld.coins.util.LogUnit;
 import hld.coins.wrapper.Graphics;
 import hld.coins.wrapper.Image;
 import hld.coins.wrapper.Images;
@@ -47,9 +48,6 @@ public class MainView extends AbstractView {
 	private Images totalnum;
 	private Images amountnum;
 	private Images coinnum;
-	private Images agcup;
-	private Images bgcup;
-	private Images cgcup;
 	private Images whitenum;
 	private Images yellownum;
 	private Image cover1;
@@ -135,14 +133,12 @@ public class MainView extends AbstractView {
 		clear = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.clear01, R.drawable.clear02);
 		help = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.help00, R.drawable.help01);
 		whitenum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.whitenum);
+		yellownum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.yellownum1);
 		colon = bitmapManager.getViewScaledImage(getClass(), R.drawable.maohao, scale, false);
 		addnum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.su01);
 		totalnum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.su02);
 		amountnum = bitmapManager.getViewScaledImages(getClass(), 12, 1, scale, false, R.drawable.su03);
 		coinnum = bitmapManager.getViewScaledImages(getClass(), 10, 1, scale, false, R.drawable.su04);
-		agcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.aucup0000, R.drawable.aucup0001, R.drawable.aucup0002);
-		bgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.bgcup0000, R.drawable.bgcup0001, R.drawable.bgcup0002);
-		cgcup = bitmapManager.getViewScaledImages(getClass(), scale, false, R.drawable.cucup0000, R.drawable.cucup0001, R.drawable.cucup0002);
 		bgPoint = new Point(offsetX(0), offsetY(0));
 		bluebgPoint = new Point(offsetX(113), offsetY(174));
 		redbgPoint = new Point(offsetX(280), offsetY(174));
@@ -218,12 +214,6 @@ public class MainView extends AbstractView {
 		graphics.drawImage(bg.imgae, bgPoint);
 		//阴影
 		graphics.drawImage(yying.imgae, yyingPoint);
-		for(int i = 0; i < coinShowList.size(); i++) {
-			int index = coinShowList.get(i);
-			Images images = coinList.get(index);
-			Rect rect = coinRectList.get(index);
-			graphics.drawImage(images, rect, isShowHelp);
-		}
 		graphics.drawImage(coina, coinaPoint, isShowHelp);
 		graphics.drawImage(coinb, coinbPoint, isShowHelp);
 		graphics.drawImage(coinc, coincPoint, isShowHelp);
@@ -267,9 +257,15 @@ public class MainView extends AbstractView {
 			graphics.drawImage(amountnum, i * amountnum.getWidth() + targetAmountPoint.x, targetAmountPoint.y, getIndex(c[i]));
 		}
 		c = String.valueOf(targetCount).toCharArray();
-		if(c.length==1) c = new char[]{'0', c[1]};
+		if(c.length==1) c = new char[]{'0', c[0]};
 		for(int i = 0; i < c.length; i++) {
 			graphics.drawImage(coinnum, i * coinnum.getWidth() + targetCountPoint.x, targetCountPoint.y, Character.getNumericValue(c[i]));
+		}
+		for(int i = 0; i < coinShowList.size(); i++) {
+			int index = coinShowList.get(i);
+			Images images = coinList.get(index);
+			Rect rect = coinRectList.get(index);
+			graphics.drawImage(images, rect, isShowHelp);
 		}
 		//将要添加的硬币
 		if(dragAddCoin > -1) {
@@ -381,6 +377,7 @@ public class MainView extends AbstractView {
 		currentTime = System.currentTimeMillis();
 		goTime = true;
 		rules();
+		LogUnit.i(super.isEnable()+":"+super.isShow());
 	}
 	
 	protected void rules() {
@@ -412,11 +409,11 @@ public class MainView extends AbstractView {
 				goTime = false;
 				float time = (getCountdown()-countdown)/1000f-currentLevel*10;
 				if(time<=10) {
-					successView.setCup(agcup, R.raw.gold);
+					successView.setRank(SuccessView.RANK_A);
 				} else if((currentLevel==1 && time<=20) || (currentLevel!=1 && time <= 30)) {
-					successView.setCup(bgcup, R.raw.silver);
+					successView.setRank(SuccessView.RANK_B);
 				} else {
-					successView.setCup(cgcup, R.raw.bronze);
+					successView.setRank(SuccessView.RANK_C);
 				}
 			} else {
 				if(isOpenSound) SoundManager.getInstance().play(R.raw.finishtopic);

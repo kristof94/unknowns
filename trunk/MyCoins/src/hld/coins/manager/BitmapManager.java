@@ -151,11 +151,11 @@ public final class BitmapManager {
 	/**
 	 * 获取多帧图片
 	 * @param view
+	 * @param col 帧的列数
+	 * @param row 帧的行数
 	 * @param scale 长度与宽度使用同一种缩放比例
 	 * @param filter
 	 * @param drawableId
-	 * @param col 帧的列数
-	 * @param row 帧的行数
 	 * @return
 	 */
 	public Images getViewScaledImages(Class<?> view, int col, int row,
