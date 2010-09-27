@@ -181,8 +181,7 @@
        <element name="external-libs" optional="yes" />
        <element name="extra-parameters" optional="yes" />
        <sequential>
-         <echo>Converting compiled files and external libraries into ${intermediate.dex.file}...
-         </echo>
+         <echo>Converting compiled files and external libraries into ${intermediate.dex.file}...</echo>
          <apply executable="${dx}" failonerror="true" parallel="true">
              <arg value="--dex" />
              <arg value="--output=${intermediate.dex.file}" />
@@ -522,15 +521,16 @@
 			-optimizationpasses	7
 		</proguard>
 		<delete file="${injars}"/>
-		<mkdir dir="${out.absolute.dir}/obfuscate"/>
-		<unzip src="${outjars}" dest="${out.absolute.dir}/obfuscate"/>
+		<delete dir="${out.classes.absolute.dir}" />
+		<mkdir dir="${out.classes.absolute.dir}"/>
+		<unzip src="${outjars}" dest="${out.classes.absolute.dir}"/>
+		<delete dir="${out.classes.absolute.dir}/META-INF"/>
 		<delete file="${outjars}"/>
-		<echo>Obfuscated classes are put to "${out.absolute.dir}/obfuscate".</echo>
+		<echo>Obfuscated classes are put to "${out.classes.absolute.dir}".</echo>
 	</target>
 	
 	<target name="finish" depends="debug">
 		<delete dir="${out.classes.absolute.dir}" />
 		<delete dir="${external.libs.absolute.dir}" />
-		<delete dir="${out.absolute.dir}/obfuscate" />
 	</target>
 </project>
