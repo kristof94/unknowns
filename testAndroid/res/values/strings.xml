@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, test!</string>
+	<string name="app_name">myAndroid</string>
+	<dimen name="layout_width">300px</dimen>
+	<color name="gray">#333333</color>
+	<string name="calculator_name">simple calculator</string>
+	<string name="txtPhoneNo">Please input phone NO:</string>
+    <string name="txtContent">Please input SMS\'s content:</string>
+    <string name="btnText">send!</string>
+</resources>
