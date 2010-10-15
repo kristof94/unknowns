@@ -303,9 +303,6 @@
                 <fileset dir="${external.libs.absolute.dir}" includes="*.jar" />
             </classpath>
         </javac>
-    	<copy todir="${out.absolute.dir}" encoding="${encoding}" outputencoding="${encoding}">
-    		<fileset dir="${out.classes.absolute.dir}" />
-    	</copy>
     </target>
 
     <!-- Converts this project's .class files into .dex files -->
@@ -519,7 +516,9 @@
 			-optimizationpasses	7
 		</proguard>
 		<delete file="${injars}"/>
-		<delete dir="${out.classes.absolute.dir}" />
+		<move todir="${out.absolute.dir}">
+			<fileset dir="${out.classes.absolute.dir}" />
+		</move>
 		<mkdir dir="${out.classes.absolute.dir}"/>
 		<unzip src="${outjars}" dest="${out.classes.absolute.dir}"/>
 		<delete dir="${out.classes.absolute.dir}/META-INF"/>
@@ -529,11 +528,10 @@
 
 	<target name="finish" depends="-set-project-name, -set-apk-name, debug">
 		<delete dir="${out.classes.absolute.dir}" />
-		<delete dir="${external.libs.absolute.dir}" />
-	    <taskdef name="testtask"
-	        classname="test.android.ant.TestAntTask"
-	    	classpath="testtask.jar" />
-    	<testtask/>
+		<delete file="${intermediate.dex.file}" />
+		<delete file="${out.absolute.dir}/${project.name}.ap_" />
+		<delete file="${out.debug.unaligned.package}" />
+		<move file="${out.debug.package}" tofile="${out.absolute.dir}/${project.name}.apk" />
 	</target>
 
 	<target name="-set-project-name" unless="project.name">
