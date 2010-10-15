@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="MyCoins" default="finish">
+<project name="build" default="finish">
 
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked in in Version
@@ -33,7 +33,7 @@
 
          -->
     <property file="build.properties" />
-
+	
     <!-- Custom Android task to deal with the project target, and import the proper rules.
          This requires ant 1.6.0 or above. -->
     <path id="android.antlibs">
@@ -43,7 +43,7 @@
         <pathelement path="${sdk.dir}/tools/lib/apkbuilder.jar" />
         <pathelement path="${sdk.dir}/tools/lib/jarutils.jar" />
     </path>
-
+	
     <taskdef name="setup"
         classname="com.android.ant.SetupTask"
         classpathref="android.antlibs" />
@@ -129,18 +129,6 @@
     <property name="dex.file.name" value="classes.dex" />
     <property name="intermediate.dex.file" location="${out.absolute.dir}/${dex.file.name}" />
 
-    <!-- The final package file to generate -->
-    <property name="out.debug.unaligned.package"
-                  location="${out.absolute.dir}/${ant.project.name}-debug-unaligned.apk" />
-    <property name="out.debug.package"
-                  location="${out.absolute.dir}/${ant.project.name}-debug.apk" />
-    <property name="out.unsigned.package"
-                  location="${out.absolute.dir}/${ant.project.name}-unsigned.apk" />
-    <property name="out.unaligned.package"
-                  location="${out.absolute.dir}/${ant.project.name}-unaligned.apk" />
-    <property name="out.release.package"
-                  location="${out.absolute.dir}/${ant.project.name}-release.apk" />
-
     <!-- Verbosity -->
     <property name="verbose" value="false" />
     <!-- This is needed by emma as it uses multilevel verbosity instead of simple 'true' or 'false'
@@ -209,7 +197,7 @@
         <sequential>
             <apkbuilder
                     outfolder="${out.absolute.dir}"
-                    basename="${ant.project.name}"
+                    basename="${project.name}"
                     signed="@{sign.package}"
                     verbose="${verbose}">
                 <file path="${intermediate.dex.file}" />
@@ -260,6 +248,7 @@
         <mkdir dir="${resource.absolute.dir}" />
         <mkdir dir="${external.libs.absolute.dir}" />
         <mkdir dir="${gen.absolute.dir}" />
+    	<delete dir="${out.absolute.dir}" />
         <mkdir dir="${out.absolute.dir}" />
         <mkdir dir="${out.classes.absolute.dir}" />
     </target>
@@ -304,7 +293,7 @@
                            value="${tested.project.absolute.dir}/bin/classes" else=".">
             <isset property="tested.project.absolute.dir" />
         </condition>
-        <javac encoding="${encoding}" target="1.6" debug="true" extdirs=""
+        <javac encoding="${encoding}" target="${jdk.target}" debug="true" extdirs=""
                 destdir="${out.classes.absolute.dir}"
                 bootclasspathref="android.target.classpath"
                 verbose="${verbose}" classpath="${extensible.classpath}">
@@ -314,6 +303,9 @@
                 <fileset dir="${external.libs.absolute.dir}" includes="*.jar" />
             </classpath>
         </javac>
+    	<copy todir="${out.absolute.dir}" encoding="${encoding}" outputencoding="${encoding}">
+    		<fileset dir="${out.classes.absolute.dir}" />
+    	</copy>
     </target>
 
     <!-- Converts this project's .class files into .dex files -->
@@ -335,7 +327,7 @@
                 assets="${asset.absolute.dir}"
                 androidjar="${android.jar}"
                 outfolder="${out.absolute.dir}"
-                basename="${ant.project.name}" />
+                basename="${project.name}" />
     </target>
 
     <!-- Packages the application and sign it with a debug key. -->
@@ -488,7 +480,7 @@
     </target>
 
     <!-- End of targets for code-coverage measurement purposes -->
-
+	
     <target name="help">
         <!-- displays starts at col 13
               |13                                                              80| -->
@@ -505,19 +497,25 @@
         <echo>              signatures must match.</echo>
         <echo>   uninstall: Uninstalls the application from a running emulator or</echo>
         <echo>              device.</echo>
+    	<!--
+	    <taskdef name="testtask"
+	        classname="test.android.ant.TestAntTask"
+	    	classpath="testtask.jar" />
+    	<testtask/>
+    	-->
     </target>
 
 	<target name="obfuscate" depends="compile">
 		<jar basedir="${out.classes.absolute.dir}" destfile="${injars}"/>
-		<taskdef resource="proguard/ant/task.properties" classpath="${proguard_jar}" />
+		<taskdef resource="proguard/ant/task.properties" classpath="${proguard.jar}" />
 		<proguard>
-			-injars	${injars}
-			-outjars	${outjars}
-			-libraryjars	${android_jar}
+			-injars ${injars}
+			-outjars ${outjars}
+			-libraryjars ${android.jar}
 			-dontpreverify
 			-dontskipnonpubliclibraryclasses
 			-dontusemixedcaseclassnames
-			-keep public class ${keep_public_class}
+			-keep ${proguard.keep}
 			-optimizationpasses	7
 		</proguard>
 		<delete file="${injars}"/>
@@ -528,9 +526,37 @@
 		<delete file="${outjars}"/>
 		<echo>Obfuscated classes are put to "${out.classes.absolute.dir}".</echo>
 	</target>
-	
-	<target name="finish" depends="debug">
+
+	<target name="finish" depends="-set-project-name, -set-apk-name, debug">
 		<delete dir="${out.classes.absolute.dir}" />
 		<delete dir="${external.libs.absolute.dir}" />
+	    <taskdef name="testtask"
+	        classname="test.android.ant.TestAntTask"
+	    	classpath="testtask.jar" />
+    	<testtask/>
+	</target>
+
+	<target name="-set-project-name" unless="project.name">
+		<tempfile property="temp.project.name" />
+    	<propertyfile file="${temp.project.name}">
+    		<entry key="project.name" value="${basedir}"/>
+    	</propertyfile>
+    	<replaceregexp file="${temp.project.name}" match="^project.name=.*[\\/](.*)$" replace="project.name=\1" byline="true"/>
+    	<property file="${temp.project.name}" />
+		<delete file="${temp.project.name}"/>
+	</target>
+	
+	<target name="-set-apk-name">
+	    <!-- The final package file to generate -->
+	    <property name="out.debug.unaligned.package"
+	                  location="${out.absolute.dir}/${project.name}-debug-unaligned.apk" />
+	    <property name="out.debug.package"
+	                  location="${out.absolute.dir}/${project.name}-debug.apk" />
+	    <property name="out.unsigned.package"
+	                  location="${out.absolute.dir}/${project.name}-unsigned.apk" />
+	    <property name="out.unaligned.package"
+	                  location="${out.absolute.dir}/${project.name}-unaligned.apk" />
+	    <property name="out.release.package"
+	                  location="${out.absolute.dir}/${project.name}-release.apk" />
 	</target>
 </project>
