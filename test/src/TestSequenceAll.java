@@ -1,8 +1,7 @@
 import java.util.Stack;
 
 /**
- * JAVA获得一个数组的指定长度的排列组合。<br>
- * @author JAVA世纪网(java2000.net, laozizhu.com)
+ * JAVA获得一个数组的指定长度的排列组合
  */
 public class TestSequenceAll {
 	public static void main(String[] args) {
