@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+
+
+
+
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent"><Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="/"></Button><Button android:id="@+id/Button02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=".."></Button><Button android:id="@+id/Button03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SD"></Button><EditText android:layout_height="wrap_content" android:id="@+id/PathEditText" android:layout_width="fill_parent" android:inputType="text"></EditText>
+</LinearLayout>
+
+
+
+<ListView android:layout_height="wrap_content" android:id="@+id/FileListView" android:layout_width="fill_parent"></ListView>
+
+</LinearLayout>
