@@ -20,21 +20,21 @@ public class ListenerManage {
 	public static final OnClickListener ROOT_PATH_CLICK_LISTENER = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			MiscUtil.refreshFileListView((Activity)v.getContext(), "/");
+			MiscUtil.refreshFileListView((Activity)v.getContext(), PreferencesManage.getRootPath());
 		}
 	};
 	
 	public static final OnClickListener PARENT_PATH_CLICK_LISTENER = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-//			MiscUtil.gotoParentPath((Activity)v.getContext(), currentPath);
+			MiscUtil.gotoParentPath((Activity)v.getContext(), PreferencesManage.getCurrentPath());
 		}
 	};
 	
 	public static final OnClickListener SDCARD_PATH_CLICK_LISTENER = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			MiscUtil.refreshFileListView((Activity)v.getContext(), "/sdcard");
+			MiscUtil.refreshFileListView((Activity)v.getContext(), PreferencesManage.getSdcardPath());
 		}
 	};
 	
@@ -59,32 +59,24 @@ public class ListenerManage {
 				} else {
 					String name = (String)map.get("name");
 					if(name.endsWith(".html")) {
-						MiscUtil.log((String)map.get("path"));
-						MiscUtil.log(Uri.encode((String)map.get("path"), "/"));
-						try {
-							MiscUtil.log(URLEncoder.encode((String)map.get("path"), "utf-8"));
-							MiscUtil.log(URLEncoder.encode((String)map.get("path"), "gbk"));
-						} catch(UnsupportedEncodingException e) {
-							e.printStackTrace();
-						}
-						Uri uri = Uri.parse("file://"+Uri.encode((String)map.get("path"), "/"));
-						MiscUtil.log(uri.getEncodedPath());
-						MiscUtil.log(uri.getPath());
-						((Activity)parent.getContext()).startActivity(new Intent(Intent.ACTION_VIEW, uri));
+//						Uri uri = Uri.parse("file://"+Uri.encode((String)map.get("path"), "/"));
+//						((Activity)parent.getContext()).startActivity(new Intent(Intent.ACTION_VIEW, uri));
+						MiscUtil.showHtml((Activity)parent.getContext(), (String)map.get("path"));
 					} else {
 						try {
 							String path = new MHT((String)map.get("path")).save();
 							MiscUtil.toast(parent.getContext(), "MHT文件转换后已保存到当前目录");
-							Uri uri = Uri.parse("file://"+Uri.encode(path, "/"));
-							((Activity)parent.getContext()).startActivity(new Intent(Intent.ACTION_VIEW, uri));
+//							Uri uri = Uri.parse("file://"+Uri.encode(path, "/"));
+//							((Activity)parent.getContext()).startActivity(new Intent(Intent.ACTION_VIEW, uri));
+							MiscUtil.showHtml((Activity)parent.getContext(), path);
 						} catch(IOException e) {
 							Log.e("MHT View", "save mht error", e);
-							MiscUtil.toast(parent.getContext(), "处理MHT文件时出错");
+							MiscUtil.toast(parent.getContext(), "这个真的是MHT文件么……");
 						}
 					}
 				}
 			} else {
-				MiscUtil.toast(parent.getContext(), "无法显示选择的文件");
+				MiscUtil.toast(parent.getContext(), "选择的文件不让随便看啊……");
 			}
 		}};
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -28,7 +29,7 @@ public class MiscUtil {
     		toast(activity.getBaseContext(), "输入的路径无效");
     		return;
     	}
-    	refreshFileListView(activity, currentPath.equals("/")?"/":new File(currentPath).getParent());
+    	refreshFileListView(activity, currentPath.equals(PreferencesManage.getRootPath())?PreferencesManage.getRootPath():new File(currentPath).getParent());
     }
     
     public static void refreshFileListView(Activity activity, String filePath) {
@@ -69,7 +70,15 @@ public class MiscUtil {
 		}
         ((ListView)activity.findViewById(R.id.FileListView)).setAdapter(new SimpleAdapter(context, fileList, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1}));
 //        ((ListView)findViewById(R.id.FileListView)).setAdapter(new ArrayAdapter<File>(this, android.R.layout.simple_list_item_1, files));
-//        currentPath = dir.getAbsolutePath();
-//        ((EditText)activity.findViewById(R.id.PathEditText)).setText(currentPath);
+        String currentPath = dir.getAbsolutePath();
+        ((EditText)activity.findViewById(R.id.PathEditText)).setText(currentPath);
+        PreferencesManage.setCurrentPath(currentPath);
+    }
+    
+    public static void showHtml(Activity activity, String filePath) {
+    	Intent intent = new Intent();
+    	intent.setClass(activity, WebViewActivity.class);
+    	intent.putExtra("path", filePath);
+    	activity.startActivity(intent);
     }
 }
