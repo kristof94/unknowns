@@ -7,6 +7,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -79,4 +80,14 @@ public class ListenerManage {
 				MiscUtil.toast(parent.getContext(), "选择的文件不让随便看啊……");
 			}
 		}};
+	
+	private class SaveMHT extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
 }

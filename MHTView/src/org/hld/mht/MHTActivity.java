@@ -18,7 +18,7 @@ public class MHTActivity extends Activity {
         super.onCreate(savedInstanceState);
         PreferencesManage.initPreferences(PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.main);
-        setTitle("选择文件");
+        setTitle(R.string.app_title);
         File file = new File(PreferencesManage.getCurrentPath());
         if(file.exists()) MiscUtil.refreshFileListView(this, PreferencesManage.getCurrentPath());
         else MiscUtil.refreshFileListView(this, PreferencesManage.getRootPath());
