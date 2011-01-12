@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class MiscUtil {
     
     public static void log(String msg) {
-    	Log.i("MHT View", msg);
+    	Log.i("MHT View", msg==null?"null":msg);
     }
     
     public static void toast(Context context, String msg) {
@@ -81,4 +81,5 @@ public class MiscUtil {
     	intent.putExtra("path", filePath);
     	activity.startActivity(intent);
     }
+    
 }

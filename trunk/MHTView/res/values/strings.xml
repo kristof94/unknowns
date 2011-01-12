@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, MHTActivity!</string>
+    
     <string name="app_name">MHT View</string>
+    <string name="app_title">选择文件</string>
 </resources>
