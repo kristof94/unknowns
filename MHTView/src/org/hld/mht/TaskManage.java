@@ -7,7 +7,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class TaskManage {
 	
@@ -37,7 +36,7 @@ public class TaskManage {
 				MiscUtil.log("MHT save to "+path);
 				return path;
 			} catch(IOException e) {
-				Log.e("MHT View", "save mht error", e);
+				MiscUtil.err("save mht error", e);
 				MiscUtil.toast(activity, "这个真的是MHT文件么……");
 			}
 			return null;

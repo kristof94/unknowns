@@ -3,6 +3,7 @@ package org.hld.mht;
 import java.io.File;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.widget.Button;
@@ -26,12 +27,19 @@ public class MHTActivity extends Activity {
         ((Button)findViewById(R.id.Button03)).setOnClickListener(ListenerManage.SDCARD_PATH_CLICK_LISTENER);
         ((EditText)findViewById(R.id.PathEditText)).setOnEditorActionListener(ListenerManage.SUBMIT_EDITOR_LISTENER);
         ((ListView)findViewById(R.id.FileListView)).setOnItemClickListener(ListenerManage.ITEM_CLICK_LISTENER);
+        String state = Environment.getExternalStorageState();
+        if(!Environment.MEDIA_MOUNTED.equals(state)) {
+        	if(Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+        		MiscUtil.toast(this, "无法保存文件到SD卡");
+        	} else {
+        		MiscUtil.toast(this, "无法读取SD卡");
+        	}
+        }
     }
     
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-    	if(keyCode == KeyEvent.KEYCODE_BACK && !PreferencesManage.getRootPath().equals(PreferencesManage.getCurrentPath())) {
-    		MiscUtil.gotoParentPath(this, PreferencesManage.getCurrentPath());
+    	if(keyCode == KeyEvent.KEYCODE_BACK && MiscUtil.gotoParentPath(this, PreferencesManage.getCurrentPath())) {
     		return true;
     	}
     	return super.onKeyDown(keyCode, event);

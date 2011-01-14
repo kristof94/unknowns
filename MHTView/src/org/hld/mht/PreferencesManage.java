@@ -2,13 +2,14 @@ package org.hld.mht;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Environment;
 
 public class PreferencesManage {
 	private static Editor editor;
 	private static String currentPath;
 	private static final String CURRENT_PATH_KEY = "CURRENT_PATH_KEY";
-	private static final String SDCARD_PATH_DEFAULT = "/sdcard";
-	private static final String ROOT_PATH_DEFAULT = "/";
+	private static final String SDCARD_PATH_DEFAULT = Environment.getExternalStorageDirectory().getPath();
+	private static final String ROOT_PATH_DEFAULT = Environment.getRootDirectory().getPath();
 	
 	public static void initPreferences(SharedPreferences preferences) {
 		PreferencesManage.editor = preferences.edit();

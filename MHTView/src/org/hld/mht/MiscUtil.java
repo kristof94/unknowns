@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -20,16 +21,21 @@ public class MiscUtil {
     	Log.i("MHT View", msg==null?"null":msg);
     }
     
+    public static void err(String msg, Throwable t) {
+    	Log.e("MHT View", msg==null?"null":msg, t);
+    }
+    
     public static void toast(Context context, String msg) {
     	Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
     
-    public static void gotoParentPath(Activity activity, String currentPath) {
-    	if(currentPath==null) {
-    		toast(activity.getBaseContext(), "输入的路径无效");
-    		return;
+    public static boolean gotoParentPath(Activity activity, String currentPath) {
+    	File parent = new File(currentPath).getParentFile();
+    	if(parent==null || !parent.isDirectory()) {
+    		return false;
     	}
-    	refreshFileListView(activity, currentPath.equals(PreferencesManage.getRootPath())?PreferencesManage.getRootPath():new File(currentPath).getParent());
+    	refreshFileListView(activity, parent.getPath());
+    	return true;
     }
     
     public static void refreshFileListView(Activity activity, String filePath) {
@@ -71,7 +77,11 @@ public class MiscUtil {
         ((ListView)activity.findViewById(R.id.FileListView)).setAdapter(new SimpleAdapter(context, fileList, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1}));
 //        ((ListView)findViewById(R.id.FileListView)).setAdapter(new ArrayAdapter<File>(this, android.R.layout.simple_list_item_1, files));
         String currentPath = dir.getAbsolutePath();
-        ((EditText)activity.findViewById(R.id.PathEditText)).setText(currentPath);
+        EditText editText = (EditText)activity.findViewById(R.id.PathEditText);
+        editText.setText(currentPath);
+        editText.clearFocus();
+		InputMethodManager inputManager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputManager.hideSoftInputFromWindow(editText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); 
         PreferencesManage.setCurrentPath(currentPath);
     }
     
