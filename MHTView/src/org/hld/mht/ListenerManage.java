@@ -60,34 +60,13 @@ public class ListenerManage {
 				} else {
 					String name = (String)map.get("name");
 					if(name.endsWith(".html")) {
-//						Uri uri = Uri.parse("file://"+Uri.encode((String)map.get("path"), "/"));
-//						((Activity)parent.getContext()).startActivity(new Intent(Intent.ACTION_VIEW, uri));
 						MiscUtil.showHtml((Activity)parent.getContext(), (String)map.get("path"));
 					} else {
-						try {
-							String path = new MHT((String)map.get("path")).save();
-							MiscUtil.toast(parent.getContext(), "MHT文件转换后已保存到当前目录");
-//							Uri uri = Uri.parse("file://"+Uri.encode(path, "/"));
-//							((Activity)parent.getContext()).startActivity(new Intent(Intent.ACTION_VIEW, uri));
-							MiscUtil.showHtml((Activity)parent.getContext(), path);
-						} catch(IOException e) {
-							Log.e("MHT View", "save mht error", e);
-							MiscUtil.toast(parent.getContext(), "这个真的是MHT文件么……");
-						}
+						TaskManage.showMHT((Activity)parent.getContext(), (String)map.get("path"));
 					}
 				}
 			} else {
 				MiscUtil.toast(parent.getContext(), "选择的文件不让随便看啊……");
 			}
 		}};
-	
-	private class SaveMHT extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-	}
 }

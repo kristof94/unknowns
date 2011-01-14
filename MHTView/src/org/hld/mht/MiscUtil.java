@@ -75,11 +75,16 @@ public class MiscUtil {
         PreferencesManage.setCurrentPath(currentPath);
     }
     
-    public static void showHtml(Activity activity, String filePath) {
+    public static Intent createShowHtmlIntent(Activity activity, String filePath) {
     	Intent intent = new Intent();
     	intent.setClass(activity, WebViewActivity.class);
     	intent.putExtra("path", filePath);
-    	activity.startActivity(intent);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	return intent;
+    }
+    
+    public static void showHtml(Activity activity, String filePath) {
+    	activity.startActivity(createShowHtmlIntent(activity, filePath));
     }
     
 }

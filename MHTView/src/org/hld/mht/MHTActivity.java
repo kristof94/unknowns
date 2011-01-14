@@ -10,11 +10,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 public class MHTActivity extends Activity {
+	private boolean isShow;
 	
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	MiscUtil.log("MHTActivity onCreate("+savedInstanceState+")");
         super.onCreate(savedInstanceState);
         PreferencesManage.initPreferences(PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.main);
@@ -36,6 +35,22 @@ public class MHTActivity extends Activity {
     		return true;
     	}
     	return super.onKeyDown(keyCode, event);
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	isShow = true;
+    }
+    
+    @Override
+    protected void onStop() {
+    	super.onStop();
+    	isShow = false;
+    }
+    
+    public boolean isShow() {
+    	return isShow;
     }
 
 }
