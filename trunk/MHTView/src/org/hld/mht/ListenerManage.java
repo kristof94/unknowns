@@ -1,14 +1,7 @@
 package org.hld.mht;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Map;
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +21,8 @@ public class ListenerManage {
 	public static final OnClickListener PARENT_PATH_CLICK_LISTENER = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			MiscUtil.gotoParentPath((Activity)v.getContext(), PreferencesManage.getCurrentPath());
+			if(!MiscUtil.gotoParentPath((Activity)v.getContext(), PreferencesManage.getCurrentPath()))
+				MiscUtil.toast(v.getContext(), "输入的路径无效");
 		}
 	};
 	
