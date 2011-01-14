@@ -16,7 +16,6 @@ public class WebViewActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		MiscUtil.log("WebViewActivity onCreate("+savedInstanceState+")");
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.web);
 		webView = (WebView)findViewById(R.id.WebView);
