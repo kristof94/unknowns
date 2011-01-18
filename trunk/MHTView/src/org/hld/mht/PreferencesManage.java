@@ -1,5 +1,7 @@
 package org.hld.mht;
 
+import java.io.File;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Environment;
@@ -31,6 +33,14 @@ public class PreferencesManage {
 
 	public static String getRootPath() {
 		return ROOT_PATH_DEFAULT;
+	}
+	
+	public static String getSdcardCachePath() {
+		return getSdcardPath()+File.separator+".mhtCache";
+	}
+	
+	public static String getLocalCachePath(Context context) {
+		return context.getCacheDir().getAbsolutePath()+File.separator+".mhtCache";
 	}
 	
 }

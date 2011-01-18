@@ -50,32 +50,33 @@ public class MiscUtil {
 			toast(context, "无法打开指定目录");
     		return;
     	}
-//    	List<File> fileList = new LinkedList<File>();
-//    	for(File file:fileArray) {
-//			if(file.isDirectory()) {
-//				fileList.add(file);
-//			} else if(file.isFile() && file.getName().toLowerCase().endsWith(".mht")) {
-//				fileList.add(file);
-//			}
-//		}
-//    	((ListView)activity.findViewById(R.id.FileListView)).setAdapter(new ArrayAdapter<File>(context, android.R.layout.simple_list_item_1, fileList));
     	List<Map<String, Object>> fileList = new LinkedList<Map<String, Object>>();
     	for(File file:fileArray) {
     		String isDir = null;
+    		boolean isHtml = false;
     		if(file.isDirectory()) {
     			isDir = "";
     		} else {
     			String fileName = file.getName().toLowerCase();
-    			if(!fileName.endsWith(".mht") && !fileName.endsWith(".html")) continue;
+    			if(fileName.endsWith(".html")) {
+    				isHtml = true;
+    			} else if(!fileName.endsWith(".mht")) {
+    				continue;
+    			}
     		}
     		Map<String, Object> fileMap = new HashMap<String, Object>();
     		fileMap.put("name", file.getName());
     		fileMap.put("path", file.getAbsolutePath());
-    		if(isDir!=null) fileMap.put("isDir", isDir);
+    		if(isDir!=null) {
+    			fileMap.put("isDir", isDir);
+    			fileMap.put("icon", R.drawable.icon_dir);
+    		} else {
+    			fileMap.put("icon", isHtml?R.drawable.icon_html:R.drawable.icon_mht);
+    		}
     		fileList.add(fileMap);
 		}
-        ((ListView)activity.findViewById(R.id.FileListView)).setAdapter(new SimpleAdapter(context, fileList, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1}));
-//        ((ListView)findViewById(R.id.FileListView)).setAdapter(new ArrayAdapter<File>(this, android.R.layout.simple_list_item_1, files));
+//        ((ListView)activity.findViewById(R.id.FileListView)).setAdapter(new SimpleAdapter(context, fileList, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1}));
+        ((ListView)activity.findViewById(R.id.FileListView)).setAdapter(new SimpleAdapter(context, fileList, R.layout.filelist, new String[]{"icon", "name"}, new int[]{R.id.FileIconImageView, R.id.FileNameTextView}));
         String currentPath = dir.getAbsolutePath();
         EditText editText = (EditText)activity.findViewById(R.id.PathEditText);
         editText.setText(currentPath);
@@ -97,4 +98,15 @@ public class MiscUtil {
     	activity.startActivity(createShowHtmlIntent(activity, filePath));
     }
     
+    public static void deleteFile(String filePath) {
+    	File file = new File(filePath);
+    	if(file.isDirectory()) {
+    		for(String path:file.list()) {
+    			deleteFile(filePath+File.separator+path);
+    		}
+    		file.delete();
+    	} else if(file.isFile()) {
+    		file.delete();
+    	}
+    }
 }

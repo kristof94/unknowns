@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/PathItem" android:title="@string/path_item"></item>
+<item android:title="@string/clean_item" android:id="@+id/CleanItem"></item>
+<item android:title="@string/exit_item" android:id="@+id/ExitItem"></item>
+</menu>
