@@ -44,9 +44,10 @@ public class MHT {
 			in = new BufferedReader(new FileReader(file));
 			setBoundary(in);
 			splitEntity(in, boundary);
-			if(url!=null && content!=null && entityMap.containsKey(url) && !content.contains(url))
+			if(url!=null && content!=null)
 				entityMap.remove(url);
 			isDecode = true;
+			return true;
 		} catch(Exception e) {
 			MiscUtil.err("decode mht error", e);
 		} finally {
@@ -56,7 +57,7 @@ public class MHT {
 				MiscUtil.err("close input stream error", e);
 			}
 		}
-		return isDecode;
+		return false;
 	}
 	
 	public void setBoundary(BufferedReader in) throws Exception {
@@ -196,7 +197,7 @@ public class MHT {
 		}
 	}
 	
-	public String save() throws IOException {
+	public String save(String dirPath) throws IOException {
 		if(md5==null) {
 			int length = (int)file.length();
 			if(length==0) {
@@ -211,6 +212,7 @@ public class MHT {
 					md5 = sb.toString();
 				} catch(NoSuchAlgorithmException e) {
 					MiscUtil.err("generation MD5 digest error", e);
+					md5 = "_e";
 				}
 			}
 		}
@@ -218,18 +220,19 @@ public class MHT {
 		int i = fileName.lastIndexOf('.');
 		if(i>0) fileName = fileName.substring(0, i);
 		fileName += md5;
-		File file = new File(fileName+".html");
+		if(!dirPath.equals(File.separatorChar)) dirPath+=File.separatorChar;
+		File file = new File(dirPath+fileName+".html");
 		if(file.isFile()) return file.getAbsolutePath();
 		else if(file.exists()) {
 			fileName = fileName + "_" + System.currentTimeMillis();
-			file = new File(fileName+".html");
+			file = new File(dirPath+fileName+".html");
 		}
 		if(!isDecode) decode();
 		if(content==null) content = "";
 		if(entityMap.size()>1) {
-			File dir = new File(fileName);
+			dirPath = dirPath+fileName+File.separatorChar;
+			File dir = new File(dirPath);
 			dir.mkdirs();
-			fileName = dir.getName()+"/";
 			Iterator<Entry<String, Entity>> iterator = entityMap.entrySet().iterator();
 			List<String> entityNameList = new ArrayList<String>();
 			while(iterator.hasNext()) {
@@ -250,14 +253,19 @@ public class MHT {
 				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(dir, entityName)));
 				out.write(entity.data);
 				out.close();
-				content = content.replace(entity.location, fileName+entityName);
+				content = content.replace(entity.location, dirPath+entityName);
 			}
 		}
 		content = content.replaceAll("<base\\s+href\\s*=\\s*\".*\".*((/>)|(</base>))", "");
+		if(url!=null) content = content.replace(url, file.getName());
 		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 		out.write(content.getBytes());
 		out.close();
 		return file.getAbsolutePath();
+	}
+	
+	public String save() throws IOException {
+		return save(file.getParent());
 	}
 	
 	private class Entity {
