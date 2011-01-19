@@ -33,6 +33,13 @@ public class ListenerManage {
 		}
 	};
 	
+	public static final OnClickListener HOME_PATH_CLICK_LISTENER = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			MiscUtil.refreshFileListView((Activity)v.getContext(), PreferencesManage.getHomePath());
+		}
+	};
+	
 	public static final OnEditorActionListener SUBMIT_EDITOR_LISTENER = new OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
