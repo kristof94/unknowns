@@ -1,6 +1,5 @@
 package org.hld.mht;
 
-import java.io.File;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,9 +24,7 @@ public class MHTActivity extends Activity {
         PreferencesManage.initPreferences(PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.main);
         setTitle(R.string.app_title);
-        File file = new File(PreferencesManage.getCurrentPath());
-        if(file.exists()) MiscUtil.refreshFileListView(this, PreferencesManage.getCurrentPath());
-        else MiscUtil.refreshFileListView(this, PreferencesManage.getRootPath());
+        MiscUtil.refreshFileListView(this, PreferencesManage.getRootPath());
         ((Button)findViewById(R.id.Button01)).setOnClickListener(ListenerManage.ROOT_PATH_CLICK_LISTENER);
         ((Button)findViewById(R.id.Button02)).setOnClickListener(ListenerManage.PARENT_PATH_CLICK_LISTENER);
         ((Button)findViewById(R.id.Button03)).setOnClickListener(ListenerManage.SDCARD_PATH_CLICK_LISTENER);
@@ -54,7 +51,7 @@ public class MHTActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
 		case R.id.PathItem:
-			MiscUtil.toast(this, "这里是要设置默认的浏览目录");
+			PreferencesManage.setRootPath(PreferencesManage.getCurrentPath());
 			break;
 		case R.id.CleanItem:
 			new AlertDialog.Builder(this).setTitle(R.string.clean_dialog_title).setPositiveButton(R.string.clean_dialog_ok, new OnClickListener() {
@@ -74,7 +71,7 @@ public class MHTActivity extends Activity {
 			MHTActivity.this.finish();
 			break;
 		}
-    	return false;
+    	return true;
     }
     
     @Override
