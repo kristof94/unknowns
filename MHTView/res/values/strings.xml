@@ -3,7 +3,7 @@
     
     <string name="app_name">MHT浏览</string>
     <string name="app_title">选择文件</string>
-<string name="path_item">设置默认目录</string><string name="clean_item">清除临时文件</string>
+<string name="path_item">设置当前目录为主目录</string><string name="clean_item">清除临时文件</string>
 <string name="exit_item">退出程序</string>
 
 <string name="clean_dialog_title">确定要清除所有缓存么？</string>
