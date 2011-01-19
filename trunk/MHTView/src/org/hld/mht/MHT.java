@@ -220,7 +220,8 @@ public class MHT {
 		int i = fileName.lastIndexOf('.');
 		if(i>0) fileName = fileName.substring(0, i);
 		fileName += md5;
-		if(!dirPath.equals(File.separatorChar)) dirPath+=File.separatorChar;
+		if(dirPath==null) dirPath = "";
+		if(dirPath.length()>0 && !dirPath.equals(File.separatorChar)) dirPath+=File.separatorChar;
 		File file = new File(dirPath+fileName+".html");
 		if(file.isFile()) return file.getAbsolutePath();
 		else if(file.exists()) {
