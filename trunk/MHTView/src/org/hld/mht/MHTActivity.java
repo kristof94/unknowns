@@ -24,10 +24,10 @@ public class MHTActivity extends Activity {
         PreferencesManage.initPreferences(PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.main);
         setTitle(R.string.app_title);
-        MiscUtil.refreshFileListView(this, PreferencesManage.getRootPath());
         ((Button)findViewById(R.id.Button01)).setOnClickListener(ListenerManage.ROOT_PATH_CLICK_LISTENER);
         ((Button)findViewById(R.id.Button02)).setOnClickListener(ListenerManage.PARENT_PATH_CLICK_LISTENER);
         ((Button)findViewById(R.id.Button03)).setOnClickListener(ListenerManage.SDCARD_PATH_CLICK_LISTENER);
+        ((Button)findViewById(R.id.Button04)).setOnClickListener(ListenerManage.HOME_PATH_CLICK_LISTENER);
         ((EditText)findViewById(R.id.PathEditText)).setOnEditorActionListener(ListenerManage.SUBMIT_EDITOR_LISTENER);
         ((ListView)findViewById(R.id.FileListView)).setOnItemClickListener(ListenerManage.ITEM_CLICK_LISTENER);
         String state = Environment.getExternalStorageState();
@@ -37,6 +37,9 @@ public class MHTActivity extends Activity {
         	} else {
         		MiscUtil.toast(this, "无法读取SD卡，生成的文件将保存到缓存目录");
         	}
+            MiscUtil.refreshFileListView(this, PreferencesManage.getRootPath());
+        } else {
+            MiscUtil.refreshFileListView(this, PreferencesManage.getHomePath());
         }
     }
     
@@ -51,7 +54,8 @@ public class MHTActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
 		case R.id.PathItem:
-			PreferencesManage.setRootPath(PreferencesManage.getCurrentPath());
+			PreferencesManage.setHomePath(PreferencesManage.getCurrentPath());
+			MiscUtil.toast(this, "主目录设置为："+PreferencesManage.getHomePath());
 			break;
 		case R.id.CleanItem:
 			new AlertDialog.Builder(this).setTitle(R.string.clean_dialog_title).setPositiveButton(R.string.clean_dialog_ok, new OnClickListener() {
@@ -61,6 +65,7 @@ public class MHTActivity extends Activity {
 						MiscUtil.deleteFile(PreferencesManage.getSdcardCachePath());
 					}
 					MiscUtil.deleteFile(PreferencesManage.getLocalCachePath(MHTActivity.this));
+					MiscUtil.toast(MHTActivity.this, "缓存都解决掉了");
 				}
 			}).setNegativeButton(R.string.clean_dialog_cancel, new OnClickListener() {
 				@Override
