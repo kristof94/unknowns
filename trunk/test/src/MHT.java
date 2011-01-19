@@ -5,8 +5,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,64 +28,52 @@ public class MHT {
 //		System.out.println(System.nanoTime()-time);
 //		System.out.println(new MHT("ie.mht"));
 //		System.out.println(new MHT("unmht.mht"));
-		new MHT("ie.mht").save();
-		new MHT("unmht.mht").save();
+//		new MHT("ie.mht").decode();
+//		new MHT("unmht.mht").decode();
+		new MHT("Cookies,SSL，httpclient的多线程处理，HTTP方法 - 程序人生 提供数据深度挖掘服务 - CSDNBlog.mht").save();
+//		new MHT("1.mht").save();
+//		new MHT("2.mht").save();
+//		new MHT("3.mht").save();
+//		new MHT("4.mht").save();
+//		new MHT("5.mht").save();
+//		new MHT("6.mht").save();
+//		new MHT("7.mht").save();
+//		new MHT("8.mht").save();
+//		new MHT("9.mht").save();
 //		System.out.println("dsf<base href=\"http://tancochan.ycool.com/\" />grw".replaceAll("<base\\s+href\\s*=\\s*\".*\".*((/>)|(</base>))", ""));
 	}
 	
 	private static enum Transfer_Encoding {Null, Base64, QuotedPrintable};
-	private static final byte[] NEWLINES = "\r\n".getBytes();
+	private static final byte[] NEWLINES = System.getProperty("line.separator", "\r\n").getBytes();
+	private boolean isDecode;
 	private String boundary;
 	private String content;
+	private String url;
 	private Map<String, Entity> entityMap = new HashMap<String, Entity>();
 	private File file;
 	private String lastReadTempString;
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder(file.getName());
-		sb.append("\r\n");
-		sb.append(content);
-		Iterator<Entry<String, Entity>> iterator = entityMap.entrySet().iterator();
-		while(iterator.hasNext()) {
-			Entity entity = iterator.next().getValue();
-			sb.append("\r\n");
-			sb.append("location: ");
-			sb.append(entity.location);
-			sb.append("\r\n");
-			sb.append("type: ");
-			sb.append(entity.type);
-			sb.append("\r\n");
-			sb.append("charset: ");
-			sb.append(entity.charset);
-			sb.append("\r\n");
-			sb.append("transferEncoding: ");
-			sb.append(entity.transferEncoding);
-			sb.append("\r\n");
-			sb.append("data: ");
-			sb.append(entity.data);
-			sb.append("\r\n");
-//			if(entity.data!=null && entity.type!=null && entity.type.contains("text")) {
-//				sb.append("content: ");
-//				try {
-//					sb.append(entity.charset==null?new String(entity.data):new String(entity.data, entity.charset));
-//				} catch(UnsupportedEncodingException e) {
-//					e.printStackTrace();
-//				}
-//				sb.append("\r\n");
-//			}
-			sb.append("--------------");
-		}
-		return sb.toString();
-	}
+	private String md5;
 	
 	public MHT(String fileName) {
+		this(fileName, false);
+	}
+	
+	public MHT(String fileName, boolean decode) {
 		file = new File(fileName);
+		if(decode) decode();
+	}
+	
+	public boolean decode() {
+		if(isDecode) return false;
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(file));
 			setBoundary(in);
 			splitEntity(in, boundary);
+			if(url!=null && content!=null)
+				entityMap.remove(url);
+			isDecode = true;
+			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -91,6 +83,7 @@ public class MHT {
 				e.printStackTrace();
 			}
 		}
+		return false;
 	}
 	
 	public void setBoundary(BufferedReader in) throws Exception {
@@ -222,24 +215,55 @@ public class MHT {
 			}
 		} finally {
 			if(content==null && entity.type!=null && entity.type.contains("text")) {
+				url = entity.location;
 				if(entity.charset!=null) content = new String(entity.data, entity.charset);
 				else content = new String(entity.data);
 			}
-			if(entity.location!=null) entityMap.put(entity.location, entity);
+			if(entity.location!=null && entity.data!=null && !entityMap.containsKey(entity.location)) entityMap.put(entity.location, entity);
 		}
 	}
 	
-	public void save() throws IOException {
+	public String save(String dirPath) throws IOException {
+		if(md5==null) {
+			int length = (int)file.length();
+			if(length==0) {
+				md5 = "_0";
+			} else {
+				try {
+					MessageDigest digest = MessageDigest.getInstance("MD5");
+					StringBuilder sb = new StringBuilder("_");
+					for(byte b:digest.digest((file.getPath()+":"+file.length()+":"+file.lastModified()).getBytes())) {
+						sb.append(Integer.toHexString(0xFF & b));
+					}
+					md5 = sb.toString();
+				} catch(NoSuchAlgorithmException e) {
+					e.printStackTrace();
+					md5 = "_e";
+				}
+			}
+		}
 		String fileName = file.getName();
-		File parent = file.getParentFile();
-		File dir = new File(parent, fileName+"_"+System.currentTimeMillis());
-		dir.mkdirs();
-		fileName = dir.getName()+"/";
-		Map<String, String> map = new HashMap<String, String>();
-		Iterator<Entry<String, Entity>> iterator = entityMap.entrySet().iterator();
-		while(iterator.hasNext()) {
-			Entity entity = iterator.next().getValue();
-			if(entity.data != null && !map.containsKey(entity.location)) {
+		int i = fileName.lastIndexOf('.');
+		if(i>0) fileName = fileName.substring(0, i);
+		fileName += md5;
+		if(dirPath==null) dirPath = "";
+		if(dirPath.length()>0 && !dirPath.equals(File.separatorChar)) dirPath+=File.separatorChar;
+		File file = new File(dirPath+fileName+".html");
+		if(file.isFile()) return file.getAbsolutePath();
+		else if(file.exists()) {
+			fileName = fileName + "_" + System.currentTimeMillis();
+			file = new File(dirPath+fileName+".html");
+		}
+		if(!isDecode) decode();
+		if(content==null) content = "";
+		if(entityMap.size()>1) {
+			dirPath = dirPath+fileName+File.separatorChar;
+			File dir = new File(dirPath);
+			dir.mkdirs();
+			Iterator<Entry<String, Entity>> iterator = entityMap.entrySet().iterator();
+			List<String> entityNameList = new ArrayList<String>();
+			while(iterator.hasNext()) {
+				Entity entity = iterator.next().getValue();
 				int i1 = entity.location.indexOf("?");
 				int i2;
 				if(i1>-1) i2 = entity.location.lastIndexOf("/", i1);
@@ -248,26 +272,27 @@ public class MHT {
 					i2 = entity.location.lastIndexOf("/");
 				}
 				String entityName = (i2>-1?entity.location.substring(i2+1, i1):"");
-				if(entityName.length()==0) entityName = System.currentTimeMillis()+"";
+				if(entityName.length()==0) entityName = String.valueOf(System.currentTimeMillis());
 				entityName = entityName.toLowerCase();
-				while(map.containsValue(entityName)) {
-					entityName = System.nanoTime()+"_"+entityName;
+				while(entityNameList.contains(entityName)) {
+					entityName = entityName+"_"+System.nanoTime();
 				}
-				map.put(entity.location, entityName);
 				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(dir, entityName)));
 				out.write(entity.data);
 				out.close();
+				content = content.replace(entity.location, dirPath+entityName);
 			}
 		}
-		Iterator<Entry<String, String>> iter = map.entrySet().iterator();
-		while(iter.hasNext()) {
-			Entry<String, String> entry = iter.next();
-			content = content.replace(entry.getKey(), fileName+entry.getValue());
-		}
 		content = content.replaceAll("<base\\s+href\\s*=\\s*\".*\".*((/>)|(</base>))", "");
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(parent, dir.getName()+".html")));
+		if(url!=null) content = content.replace(url, file.getName());
+		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 		out.write(content.getBytes());
 		out.close();
+		return file.getAbsolutePath();
+	}
+	
+	public String save() throws IOException {
+		return save(file.getParent());
 	}
 	
 	private class Entity {
@@ -341,7 +366,6 @@ public class MHT {
 		}
 		byte[] result = new byte[length];
 		System.arraycopy(bytes, 0, result, 0, length);
-//		System.out.println(new String(bytes, 0, length));
 		return result;
 	}
 	
