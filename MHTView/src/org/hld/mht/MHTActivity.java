@@ -21,26 +21,26 @@ public class MHTActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferencesManage.initPreferences(PreferenceManager.getDefaultSharedPreferences(this));
-        setContentView(R.layout.main);
-        setTitle(R.string.app_title);
-        ((Button)findViewById(R.id.Button01)).setOnClickListener(ListenerManage.ROOT_PATH_CLICK_LISTENER);
-        ((Button)findViewById(R.id.Button02)).setOnClickListener(ListenerManage.PARENT_PATH_CLICK_LISTENER);
-        ((Button)findViewById(R.id.Button03)).setOnClickListener(ListenerManage.SDCARD_PATH_CLICK_LISTENER);
-        ((Button)findViewById(R.id.Button04)).setOnClickListener(ListenerManage.HOME_PATH_CLICK_LISTENER);
-        ((EditText)findViewById(R.id.PathEditText)).setOnEditorActionListener(ListenerManage.SUBMIT_EDITOR_LISTENER);
-        ((ListView)findViewById(R.id.FileListView)).setOnItemClickListener(ListenerManage.ITEM_CLICK_LISTENER);
-        String state = Environment.getExternalStorageState();
-        if(!Environment.MEDIA_MOUNTED.equals(state)) {
-        	if(Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-        		MiscUtil.toast(this, "无法保存文件到SD卡，生成的文件将保存到缓存目录");
-        	} else {
-        		MiscUtil.toast(this, "无法读取SD卡，生成的文件将保存到缓存目录");
-        	}
-            MiscUtil.refreshFileListView(this, PreferencesManage.getRootPath());
-        } else {
-            MiscUtil.refreshFileListView(this, PreferencesManage.getHomePath());
-        }
+    	PreferencesManage.initPreferences(PreferenceManager.getDefaultSharedPreferences(this));
+    	setContentView(R.layout.main);
+    	setTitle(R.string.app_title);
+    	((Button)findViewById(R.id.Button01)).setOnClickListener(ListenerManage.ROOT_PATH_CLICK_LISTENER);
+    	((Button)findViewById(R.id.Button02)).setOnClickListener(ListenerManage.PARENT_PATH_CLICK_LISTENER);
+    	((Button)findViewById(R.id.Button03)).setOnClickListener(ListenerManage.SDCARD_PATH_CLICK_LISTENER);
+    	((Button)findViewById(R.id.Button04)).setOnClickListener(ListenerManage.HOME_PATH_CLICK_LISTENER);
+    	((EditText)findViewById(R.id.PathEditText)).setOnEditorActionListener(ListenerManage.SUBMIT_EDITOR_LISTENER);
+    	((ListView)findViewById(R.id.FileListView)).setOnItemClickListener(ListenerManage.ITEM_CLICK_LISTENER);
+    	String state = Environment.getExternalStorageState();
+    	if(!Environment.MEDIA_MOUNTED.equals(state)) {
+    		if(Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+    			MiscUtil.toast(this, "无法保存文件到SD卡，生成的文件将保存到缓存目录");
+    		} else {
+    			MiscUtil.toast(this, "无法读取SD卡，生成的文件将保存到缓存目录");
+    		}
+    		MiscUtil.refreshFileListView(this, PreferencesManage.getRootPath());
+    	} else {
+    		MiscUtil.refreshFileListView(this, PreferencesManage.getCurrentPath());
+    	}
     }
     
     @Override
