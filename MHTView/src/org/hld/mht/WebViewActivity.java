@@ -48,11 +48,6 @@ public class WebViewActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK) {
-//    		if(webView.canGoBack()) {
-//    			webView.goBack();
-//    		} else {
-//    			finish();
-//    		}
 			android.os.Process.killProcess(android.os.Process.myPid());
     		return true;
     	}
