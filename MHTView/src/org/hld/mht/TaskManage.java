@@ -1,7 +1,5 @@
 package org.hld.mht;
 
-import java.io.File;
-import java.io.IOException;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -34,16 +32,15 @@ public class TaskManage {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				MHT mht = new MHT(mhtPath);
 				String path = null;
 				if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-					path = mht.save(PreferencesManage.getSdcardCachePath());
+					path = MHTUtil.exportHtml(mhtPath, PreferencesManage.getSdcardCachePath());
 				} else {
-					path = mht.save(PreferencesManage.getLocalCachePath(activity));
+					path = MHTUtil.exportHtml(mhtPath, PreferencesManage.getLocalCachePath(activity));
 				}
 				MiscUtil.log("MHT save to "+path);
 				return path;
-			} catch(IOException e) {
+			} catch(Exception e) {
 				MiscUtil.err("save mht error", e);
 				MiscUtil.toast(activity, "这个真的是MHT文件么……");
 			}

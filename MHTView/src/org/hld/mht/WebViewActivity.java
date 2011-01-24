@@ -40,7 +40,7 @@ public class WebViewActivity extends Activity {
 						WebViewActivity.this.setTitle(title);
 					}
 				});
-				webView.loadUrl("file://"+path);
+				webView.loadUrl("file://"+Uri.encode(path, "/\\"));
 			}
 		}
 	}
