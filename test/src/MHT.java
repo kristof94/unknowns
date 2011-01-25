@@ -30,7 +30,8 @@ public class MHT {
 //		System.out.println(new MHT("unmht.mht"));
 //		new MHT("ie.mht").decode();
 //		new MHT("unmht.mht").decode();
-		new MHT("Cookies,SSL，httpclient的多线程处理，HTTP方法 - 程序人生 提供数据深度挖掘服务 - CSDNBlog.mht").save();
+		new MHT("ie.mht").save();
+		new MHT("unmht.mht").save();
 //		new MHT("1.mht").save();
 //		new MHT("2.mht").save();
 //		new MHT("3.mht").save();
@@ -198,10 +199,10 @@ public class MHT {
 					if(lastReadTempString.startsWith(boundary, 2)) break;
 					switch(transferEncoding) {
 					case Base64:
-						out.write(decodeB(lastReadTempString.getBytes()));
+						out.write(MHTUtil.decodeB(lastReadTempString.getBytes()));
 						break;
 					case QuotedPrintable:
-						out.write(decodeQ(lastReadTempString.getBytes()));
+						out.write(MHTUtil.decodeQ(lastReadTempString.getBytes()));
 						if(!lastReadTempString.endsWith("=")) out.write(NEWLINES);
 						break;
 					default:
@@ -260,6 +261,7 @@ public class MHT {
 			dirPath = dirPath+fileName+File.separatorChar;
 			File dir = new File(dirPath);
 			dir.mkdirs();
+			dirPath = dir.getName()+"/";
 			Iterator<Entry<String, Entity>> iterator = entityMap.entrySet().iterator();
 			List<String> entityNameList = new ArrayList<String>();
 			while(iterator.hasNext()) {
@@ -301,99 +303,5 @@ public class MHT {
 		private String transferEncoding;
 		private String location;
 		private byte[] data;
-	}
-	
-	private static String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-	public static byte[] decodeB(byte[] bytes) throws IOException {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		int i = 0;
-		int len = bytes.length;
-		while(i<len) {
-			char[] four = new char[4];
-			int j = 0;
-			while(j<4) {
-				byte b = bytes[i++];
-				if(b!='\r' || b!='\n') four[j++] = (char)b;
-			}
-			int k;
-			if (four[3] == '=') {
-				if (four[2] == '=') {
-					k = 1;
-				} else {
-					k = 2;
-				}
-			} else {
-				k = 3;
-			}
-			int aux = 0;
-			for (j = 0; j < 4; j++) {
-				if (four[j] != '=') {
-					aux = aux | (chars.indexOf(four[j]) << (6 * (3 - j)));
-				}
-			}
-			for (j = 0; j < k; j++) {
-				out.write((aux >>> (8 * (2 - j))) & 0xFF);
-			}
-		}
-		out.close();
-		return out.toByteArray();
-	}
-	
-	public static byte[] decodeQ(byte[] bytes) throws IOException {
-		int len = bytes.length;
-		int length = 0;
-		for(int i = 0; i<len; i++) {
-			byte b = bytes[i];
-			if(b == '=') {
-				i++;
-				if(i==len) break;
-				b = bytes[i];
-				if(b == '\r' || b == '\n') {
-					b = bytes[++i];
-					if(b != '\n') {
-						i--;
-					}
-					continue;
-				}
-				int result = -Character.digit(b, 16);
-				result *= 16;
-				result -= Character.digit(bytes[++i], 16);
-				bytes[length++] = (byte)-result;
-			} else {
-				bytes[length++] = b;
-			}
-		}
-		byte[] result = new byte[length];
-		System.arraycopy(bytes, 0, result, 0, length);
-		return result;
-	}
-	
-	public static String decodeQ(String str, String charsetName) throws IOException {
-		byte[] bs = str.getBytes();
-		int len = bs.length;
-		int length = 0;
-		for(int i = 0; i<len; i++) {
-			byte b = bs[i];
-			if(b == '=') {
-				i++;
-				if(i==len) break;
-				b = bs[i];
-				if(b == '\r' || b == '\n') {
-					b = bs[++i];
-					if(b != '\n') {
-						i--;
-					}
-					continue;
-				}
-				int result = -Character.digit(b, 16);
-				result *= 16;
-				result -= Character.digit(bs[++i], 16);
-				bs[length++] = (byte)-result;
-			} else {
-				bs[length++] = b;
-			}
-		}
-		return new String(bs, 0, length, charsetName);
 	}
 }
