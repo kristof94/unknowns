@@ -295,7 +295,8 @@ public class MHTUtil {
 				TransferEncoding transferEncoding = checkTransferEncoding(entity.transferEncoding);
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				readEntity(in, out, transferEncoding, boundary);
-				content = out.toString();
+				if(entity.charset==null) content = out.toString();
+				else content = out.toString(entity.charset);
 				url = entity.location;
 			} else if(entity.location!=null && !replaceMap.containsKey(entity.location)) {
 				TransferEncoding transferEncoding = checkTransferEncoding(entity.transferEncoding);
