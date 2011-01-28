@@ -11,7 +11,7 @@ import android.os.Environment;
 public class TaskManage {
 	
 	public static void showMHT(Activity activity, String mhtPath) {
-		new ShowMHTAsyncTask(activity, mhtPath).execute(null);
+		new ShowMHTAsyncTask(activity, mhtPath).execute();
 	}
 
 	private static class ShowMHTAsyncTask extends AsyncTask<Void, Void, String> {
