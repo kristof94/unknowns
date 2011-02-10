@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="build" default="finish">
 
-    <!-- The local.properties file is created and updated by the 'android' tool.
-         It contains the path to the SDK. It should *NOT* be checked in in Version
-         Control Systems. -->
-    <property file="local.properties" />
-
     <!-- The default.properties file is created and updated by the 'android' tool, as well
          as ADT.
          This file is an integral part of the build system for your application and
@@ -298,7 +293,7 @@
         <javac encoding="${encoding}" target="${jdk.target}" debug="true" extdirs=""
                 destdir="${out.classes.absolute.dir}"
                 bootclasspathref="android.target.classpath"
-                verbose="${verbose}" classpath="${extensible.classpath}">
+                verbose="${verbose}" classpath="${extensible.classpath}" includeantruntime="false">
             <src path="${source.absolute.dir}" />
             <src path="${gen.absolute.dir}" />
             <classpath>
@@ -375,9 +370,12 @@
         <input
                 message="Please enter keystore password (store:${key.store}):"
                 addproperty="key.store.password" />
+    	<property name="key.alias.password" location="location" value="${key.store.password}"/>
+    	<!--
         <input
                 message="Please enter password for alias '${key.alias}':"
                 addproperty="key.alias.password" />
+        -->
 
         <!-- Signs the APK -->
         <echo>Signing final apk...</echo>
@@ -514,8 +512,13 @@
 			-dontpreverify
 			-dontskipnonpubliclibraryclasses
 			-dontusemixedcaseclassnames
-			-keep ${proguard.keep}
+			-keep public class * extends android.app.Activity
+			-keep public class * extends android.app.Application
+			-keep public class * extends android.app.Service
+			-keep public class * extends android.content.BroadcastReceiver
+			-keep public class * extends android.content.ContentProvider
 			-optimizationpasses	7
+			-printseeds
 		</proguard>
 		<delete file="${injars}"/>
 		<move todir="${out.absolute.dir}">
@@ -526,14 +529,6 @@
 		<delete dir="${out.classes.absolute.dir}/META-INF"/>
 		<delete file="${outjars}"/>
 		<echo>Obfuscated classes are put to "${out.classes.absolute.dir}".</echo>
-	</target>
-
-	<target name="finish" depends="-set-project-name, -set-apk-name, debug">
-		<delete dir="${out.classes.absolute.dir}" />
-		<delete file="${intermediate.dex.file}" />
-		<delete file="${out.absolute.dir}/${project.name}.ap_" />
-		<delete file="${out.debug.unaligned.package}" />
-		<move file="${out.debug.package}" tofile="${out.absolute.dir}/${project.name}.apk" />
 	</target>
 
 	<target name="-set-project-name" unless="project.name">
@@ -558,5 +553,21 @@
 	                  location="${out.absolute.dir}/${project.name}-unaligned.apk" />
 	    <property name="out.release.package"
 	                  location="${out.absolute.dir}/${project.name}-release.apk" />
+	</target>
+
+	<target name="debug-finish" depends="debug">
+		<delete file="${out.debug.unaligned.package}" />
+		<move file="${out.debug.package}" tofile="${out.absolute.dir}/${project.name}.apk" />
+	</target>
+	
+	<target name="release-finish" depends="release">
+		<delete file="${out.unsigned.package}" />
+		<delete file="${out.unaligned.package}" />
+		<move file="${out.release.package}" tofile="${out.absolute.dir}/${project.name}.apk" />
+	</target>
+	
+	<target name="finish" depends="-set-project-name, -set-apk-name, release-finish">
+		<delete dir="${out.classes.absolute.dir}" />
+		<move file="${out.absolute.dir}/${project.name}.ap_" tofile="${out.absolute.dir}/resources.ap_" />
 	</target>
 </project>
