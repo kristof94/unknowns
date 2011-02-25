@@ -18,7 +18,10 @@ public class TestFactorialSort {
 	
 	public static void main(String[] args) {
 		System.out.println(Arrays.toString(array));
-		for(int i = 0; i<length; i++) sortArray(i);
+//		long time = System.nanoTime();
+//		Arrays.sort(array);
+		sortArray();
+//		System.out.println(System.nanoTime()-time);
 		System.out.println(Arrays.toString(array));
 //		factorial(9);
 //		System.out.println(Arrays.toString(factorialArray));
@@ -42,16 +45,15 @@ public class TestFactorialSort {
 	 * 排序数组
 	 * @param index
 	 */
-	private static void sortArray(int index) {
-		for(int i = 0; i<length; i++) {
-			if(index!=i) {
-				int temp1 = array[index];
-				int temp2 = array[i];
-				if(temp2<temp1) {
-					array[index] = temp2;
-					array[i] = temp1;
-				}
+	private static void sortArray() {
+		for(int i = 0; i<length-1; i++) {
+			int min = i+1;
+			for(int j = min; j<length; j++) {
+				if(array[j]>array[i]) min = j;
 			}
+			int temp = array[i];
+			array[i] = array[min];
+			array[min] = temp;
 		}
 	}
 	
@@ -74,18 +76,4 @@ public class TestFactorialSort {
 		return factorialArray[num] = factorial(num-1)*num;
 	}
 	
-	/**
-	 * 判断某数是在哪个阶乘里面
-	 * @param num
-	 * @return
-	 */
-	private static int contain(int num) {
-		if(num<1) {
-			throw new IllegalArgumentException("数字过小无法判断~");
-		}
-		for(int i = 1; i<factorialArray.length; i++) {
-			if(factorial(i)>=num) return i;
-		}
-		throw new IllegalArgumentException("数字过大无法判断~");
-	}
 }
