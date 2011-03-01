@@ -47,9 +47,9 @@ public class TestFactorialSort {
 	 */
 	private static void sortArray() {
 		for(int i = 0; i<length-1; i++) {
-			int min = i+1;
-			for(int j = min; j<length; j++) {
-				if(array[j]>array[i]) min = j;
+			int min = i;
+			for(int j = i+1; j<length; j++) {
+				if(array[j]>array[min]) min = j;
 			}
 			int temp = array[i];
 			array[i] = array[min];
