@@ -300,7 +300,7 @@ public class MHTUtil {
 				url = entity.location;
 			} else if(entity.location!=null && !replaceMap.containsKey(entity.location)) {
 				TransferEncoding transferEncoding = checkTransferEncoding(entity.transferEncoding);
-				dir.mkdirs();
+				if(dir.mkdirs()) new File(dir, ".nomedia").createNewFile();
 				int i1 = entity.location.indexOf("?");
 				int i2;
 				if(i1>-1) i2 = entity.location.lastIndexOf("/", i1);
