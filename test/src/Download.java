@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class Download {
 	public static void main(String[] args) {
-		System.out.println(download("http://www.sgtjj.gov.cn/", new File("sgtjj.html")));
+		System.out.println(download("http://opinion.nfdaily.cn/content/2010-12/17/content_18525429.htm", new File("content_18525429")));
 	}
 	
 	public static boolean download(String url, File file) {
@@ -27,6 +27,7 @@ public class Download {
 				while((i = in.read(b))>-1) {
 					if(i>0) out.write(b, 0, i);
 				}
+				return true;
 			} else {
 				System.out.println(conn.getResponseCode()+":"+url);
 			}
