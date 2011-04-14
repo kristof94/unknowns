@@ -7,31 +7,31 @@
 }
 
 .float {
-	display: block;;
-	overflow: hidden;;
-	color: #444;;
+	display: block;
+	overflow: hidden;
+	color: #444;
 	text-align: left;
 }
 
 .floatbox {
-	float: left;;
-	height: 300px;;
-	width: 700px;;
+	float: left;
+	height: 300px;
+	width: 800px;
 	text-align: left;
 }
 
 .floatbox1 {
-	height: 610px;
+	height: 760px;
 }
 
 .floatboxnarrow {
-	overflow-x: hidden;;
+	overflow-x: hidden;
 	width: 250px;
 }
 
 .floatwrap {
-	overflow: auto;;
-	overflow-x: hidden;;
+	overflow: auto;
+	overflow-x: hidden;
 	height: 310px;
 }
 
@@ -40,20 +40,20 @@
 }
 
 .floatbox a,.floatboxnarrow a {
-	color: #09C;;
+	color: #09C;
 	text-decoration: underline;
 }
 
 .floatbox table.list {
-	margin: 0 auto;;
-	width: 570px;;
-	border-top: 3px solid #E6E7E1;;
+	margin: 0 auto;
+	width: 570px;
+	border-top: 3px solid #E6E7E1;
 	border-bottom: 3px solid #E6E7E1;
 }
 
 .floatbox table.list th,.floatbox table.list td {
-	padding: 3px;;
-	height: auto;;
+	padding: 3px;
+	height: auto;
 	border-bottom: 1px dashed #E6E7E1;
 }
 
@@ -62,12 +62,12 @@
 }
 
 .floatbox table.list th {
-	width: 150px;;
+	width: 150px;
 	background: none;
 }
 
 .float_message {
-	text-align: center;;
+	text-align: center;
 	padding: 10px;
 }
 
@@ -76,25 +76,25 @@
 }
 
 .gateform h3 {
-	margin-bottom: 20px;;
-	color: #09C;;
-	font-size: 14px;;
+	margin-bottom: 20px;
+	color: #09C;
+	font-size: 14px;
 	font-weight: 700;
 }
 
 .loginform {
-	float: left;;
-	overflow: auto;;
+	float: left;
+	overflow: auto;
 	margin-bottom: 10px; *
-	margin-bottom: -10px;;
-	padding-top: 20px;;
-	width: 285px;;
-	height: 210px;;
+	margin-bottom: -10px;
+	padding-top: 20px;
+	width: 285px;
+	height: 210px;
 	border-right: 1px solid #D3E8F2;
 }
 
 .regform {
-	padding-top: 0;;
+	padding-top: 0;
 	height: 230px;
 }
 
@@ -112,11 +112,11 @@
 
 .gateform h3.onerror,.multinfo h3.onerror,.float_ctrl em.onerror,.gateform h3.onright,.multinfo h3.onright,.float_ctrl em.onright
 	{
-	white-space: nowrap;;
-	height: auto;;
-	line-height: 140%;;
-	color: #444;;
-	font-size: 12px;;
+	white-space: nowrap;
+	height: auto;
+	line-height: 140%;
+	color: #444;
+	font-size: 12px;
 	font-weight: 400;
 }
 
@@ -125,10 +125,10 @@
 }
 
 .loginform label {
-	clear: both;;
-	overflow: hidden;;
-	display: block;;
-	margin: 0 0 10px;;
+	clear: both;
+	overflow: hidden;
+	display: block;
+	margin: 0 0 10px;
 	line-height: 22px;
 }
 
@@ -141,7 +141,7 @@
 }
 
 .fsubmit {
-	clear: both;;
+	clear: both;
 	margin-top: 8px;
 }
 
@@ -150,7 +150,7 @@
 }
 
 .loginform label em,.fsubmit em {
-	float: left;;
+	float: left;
 	width: 60px;
 }
 
@@ -163,26 +163,26 @@
 }
 
 .clause {
-	overflow: auto;;
-	margin-bottom: 10px;;
-	width: 510px;;
+	overflow: auto;
+	margin-bottom: 10px;
+	width: 510px;
 	height: 230px;
 }
 
 .loginpsw label {
-	float: left;;
-	display: inline;;
-	margin: 0 0 0 4px;;
-	width: 61px;;
-	height: auto;;
+	float: left;
+	display: inline;
+	margin: 0 0 0 4px;
+	width: 61px;
+	height: auto;
 	line-height: 150%;
 }
 
 .logininfo {
-	float: left;;
-	overflow: hidden;;
-	margin-left: 60px;;
-	width: 195px;;
+	float: left;
+	overflow: hidden;
+	margin-left: 60px;
+	width: 195px;
 	height: 210px;
 }
 
@@ -191,13 +191,13 @@
 }
 
 .logininfo h4 {
-	margin-bottom: 20px;;
-	font-weight: 400;;
+	margin-bottom: 20px;
+	font-weight: 400;
 	font-size: 14px;
 }
 
 .singleinfo {
-	margin-top: 100px;;
+	margin-top: 100px;
 	height: 100px;
 }
 
@@ -206,13 +206,13 @@
 }
 
 .postbox {
-	margin: 0 16px 10px;;
+	margin: 0 16px 10px;
 	clear: both;
 }
 
 .moreconf {
-	position: absolute;;
-	bottom: 10px;;
+	position: absolute;
+	bottom: 10px;
 	left: 15px;
 }
 
@@ -221,30 +221,30 @@
 }
 
 .sitenote {
-	position: absolute;;
-	bottom: 33px;;
-	right: 0;;
-	width: 240px;;
+	position: absolute;
+	bottom: 33px;
+	right: 0;
+	width: 240px;
 	text-align: left;
 }
 
 * html .sitenote {
-	bottom: 18px;;
+	bottom: 18px;
 	right: 3px;
 }
 
 *+html .sitenote {
-	bottom: 26px;;
+	bottom: 26px;
 	right: 4px;
 }
 
 .sitemsg .sitenote {
-	bottom: 25px;;
+	bottom: 25px;
 	right: -4px;
 }
 
 * html .sitemsg .sitenote {
-	bottom: 18px;;
+	bottom: 18px;
 	right: 0;
 }
 
@@ -257,48 +257,48 @@
 }
 
 .switchnav {
-	float: left;;
-	white-space: nowrap;;
-	overflow: hidden;;
+	float: left;
+	white-space: nowrap;
+	overflow: hidden;
 	width: 450px;
 }
 
 .postboardlist {
-	overflow: hidden;;
-	margin: 9px 0;;
-	width: 567px;;
-	border-width: 1px 0 1px 1px;;
-	border-style: solid;;
-	border-color: #7FCAE2;;
+	overflow: hidden;
+	margin: 9px 0;
+	width: 567px;
+	border-width: 1px 0 1px 1px;
+	border-style: solid;
+	border-color: #7FCAE2;
 	background: #FFF;
 }
 
 .postboardlist li {
-	float: left;;
-	overflow-x: hidden;;
-	overflow-y: auto;;
-	padding: 5px;;
-	width: 178px;;
-	height: 300px;;
+	float: left;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 5px;
+	width: 178px;
+	height: 300px;
 	border-right: 1px solid #7FCAE2;
 }
 
 .postboardlist p {
-	height: 25px;;
+	height: 25px;
 	line-height: 25px;
 }
 
 .postboardlist a {
-	display: block;;
-	white-space: nowrap;;
-	overflow: hidden;;
-	padding: 0 4px;;
-	text-decoration: none;;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 0 4px;
+	text-decoration: none;
 	color: #444;
 }
 
 .postboardlist a:hover {
-	text-decoration: none;;
+	text-decoration: none;
 	background-color: #F5F5F5;
 }
 

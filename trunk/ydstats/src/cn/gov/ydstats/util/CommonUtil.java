@@ -124,13 +124,13 @@ public class CommonUtil {
 	}
 	
 	/**
-	 * 根据格式化字符串获取日期,字符串必须是yyyy-MM-dd HH:mm格式
+	 * 根据格式化字符串获取日期,字符串必须是yyyy-MM-dd格式
 	 * @param date
 	 * @return
 	 */
 	public static Date parseDates(String date) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			return sdf.parse(date);
 		} catch(Exception e) {
 			return null;
@@ -140,10 +140,10 @@ public class CommonUtil {
 	/**
 	 * 格式化指定日期
 	 * @param date
-	 * @return String yyyy-MM-dd HH:mm 格式的字符串
+	 * @return String yyyy-MM-dd 格式的字符串
 	 */
 	public static String formatDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(date);
 	}
 	

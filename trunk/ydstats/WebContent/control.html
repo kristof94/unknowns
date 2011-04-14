@@ -1,0 +1,31 @@
+<html>
+<head>
+<script language="javascript">
+function hide()
+{
+	document.getElementById("B1").style.display = "none";
+	document.getElementById("B2").style.display = "";
+	parent.document.getElementById("frm").cols = "0,10,*";
+}
+function show()
+{
+	document.getElementById("B1").style.display = "";
+	document.getElementById("B2").style.display = "none";
+	parent.document.getElementById("frm").cols = "140,10,*";
+}
+</script>
+</head>
+<body topMargin="0" leftmargin="0" marginheight="0" bgColor="#4da1e4" style="overflow:hidden">
+
+<table height="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr> 
+    <td width="8" align="center">
+      <input type="image" src="images/btnright.gif" id="B1" onmouseover="this.src='images/btnrighthover.gif'" onmouseout="this.src='images/btnright.gif'" alt="隐藏菜单" border="0" width="8" height="50" onclick="javascript:hide();" style="cursor:hand"> 
+      <input type="image" src="images/btnleft.gif" id="B2" onmouseover="this.src='images/btnlefthover.gif'" onmouseout="this.src='images/btnleft.gif'" alt="显示菜单" border="0" style="cursor:hand; DISPLAY: none" width="8" height="50" onclick="javascript:show();">  
+    </td>
+    <td bgcolor="#b9b9cf" width="2"></td>
+  </tr>
+</table>
+
+</body>
+</html>
