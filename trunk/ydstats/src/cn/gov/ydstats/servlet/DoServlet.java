@@ -91,7 +91,6 @@ public class DoServlet extends HttpServlet {
     	rootDir = new File(config.getServletContext().getRealPath("/"));
     	dataUtil = new DataUtil(new File(rootDir, "data"));
     	staticPath = rootDir.getAbsolutePath()+File.separator+"static"+File.separator;
-    	new File(staticPath).mkdirs();
     }
     
     @Override
