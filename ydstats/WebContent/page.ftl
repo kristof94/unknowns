@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>${prefix}${title}${suffix}</title>
-<link rel="stylesheet" href="3.css">
+<link rel="stylesheet" href="${path}/3.css">
 <style type="text/css">
 <!--
 BODY {SCROLLBAR-FACE-COLOR: #6a7f9a;
@@ -90,8 +90,76 @@ SCROLLBAR-DARKSHADOW-COLOR: #000000}
 </#macro>
 <#--页面尾部-->
 <#macro body>
-<body background="images/niux-bg.gif">
+<body background="${path}/images/niux-bg.gif">
+<table width="800" border="0" cellspacing="1" cellpadding="1" align="center" bgcolor="#000000">
+  <tr bgcolor="#FFFFFF">
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><div align="left"><img src="${path}/images/wangbiao.jpg" width="300" height="47"></div></td>
+        </tr>
+        <tr>
+          <td width="32%"><img src="${path}/images/biaotou.jpg" width="800" height="120"></td>
+      </tr>
+      </table>    </td>
+  </tr>
+  <tr bgcolor="#6a7f9a">
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td width="495" height="32" class="jnfont6">
+            <table width="98%" border="0" cellspacing="0" cellpadding="0" align="center">
+              <tr>
+                <td><img src="${path}/images/more01.gif" alt="s" width="15" height="14"> <span class="STYLE3"><a href="${path}/">首页</a></span></td>
+                <td><img src="${path}/images/more01.gif" width="15" height="14"> <a href="${path}/tjdt/" class="STYLE3">统计动态</a></td>
+                <td><img src="${path}/images/more01.gif" width="15" height="14"> <a href="${path}/tjfx/" class="STYLE3">统计分析</a></td>
+                <td><img src="${path}/images/more01.gif" width="15" height="14"> <a href="${path}/wjtz/" class="STYLE3">文件通知</a></td>
+                <td><img src="${path}/images/more01.gif" width="15" height="14"> <a href="${path}/tjyb/" class="STYLE3">统计月报</a></td>
+                <td><img src="${path}/images/more01.gif" width="15" height="14"> <a href="${path}/tjpf/" class="STYLE3">统计普法</a></td>
+              </tr>
+            </table>
+          </td>
+          <td width="51" height="32" class="jnfont6"></td>
+          <td width="194" height="32">
+            <table width="65%" border="0" cellspacing="0" cellpadding="0" align="center">
+              <tr>
+                <td width="38%"><img src="${path}/images/niux-home.gif" width="40" height="33"></td>
+                <td width="35%"><img src="${path}/images/niux-f.gif" width="40" height="33"></td>
+                <td width="27%"><img src="${path}/images/niux-mail.gif" width="40" height="33"></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table width="758" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td width="800" height="10"></td>
+  </tr>
+</table>
 <#nested/>
+<table width="800" border="0" cellspacing="1" cellpadding="1" align="center" bgcolor="#000000">
+  <tr bgcolor="#5f7189">
+    <td height="3" align="center" valign="middle" bgcolor="#5f7189">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#5f7189">
+    <td height="18" bgcolor="#5f7189"><table width="796" border="0">
+      <tr>
+        <td><div align="center">本网站由英德统计局开发完成</div></td>
+      </tr>
+      <tr>
+        <td><div align="center">版权所有：广东省英德市统计局<br>
+        </div></td>
+      </tr>
+      <tr>
+        <td><div align="center">通讯地址：英德市市政府大院 邮政编码：513000 联系电话：0763-2238188</div></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<blockquote>&nbsp;</blockquote>
 </body>
 </html>
 </#macro>

@@ -1,9 +1,7 @@
 package cn.gov.ydstats.bean;
 
-import java.util.Date;
-
 public class ArticleInfoBean {
-	private Integer id;
+	private String id;
 	
 	/**
 	 * 主分类ID
@@ -16,16 +14,6 @@ public class ArticleInfoBean {
 	private String slaveTypeId;
 	
 	/**
-	 * 主分类名称
-	 */
-	private String masterTypeName;
-	
-	/**
-	 * 子分类名称
-	 */
-	private String slaveTypeName;
-	
-	/**
 	 * 标题
 	 */
 	private String title;
@@ -33,18 +21,18 @@ public class ArticleInfoBean {
 	/**
 	 * 时间
 	 */
-	private Date createDate;
+	private String date;
 	
 	/**
 	 * 内容
 	 */
 	private String content;
 	
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -63,22 +51,6 @@ public class ArticleInfoBean {
 	public void setSlaveTypeId(String slaveTypeId) {
 		this.slaveTypeId = slaveTypeId;
 	}
-
-	public String getMasterTypeName() {
-		return masterTypeName;
-	}
-	
-	public void setMasterTypeName(String masterTypeName) {
-		this.masterTypeName = masterTypeName;
-	}
-	
-	public String getSlaveTypeName() {
-		return slaveTypeName;
-	}
-	
-	public void setSlaveTypeName(String slaveTypeName) {
-		this.slaveTypeName = slaveTypeName;
-	}
 	
 	public String getTitle() {
 		return title;
@@ -88,12 +60,12 @@ public class ArticleInfoBean {
 		this.title = title;
 	}
 	
-	public Date getCreateDate() {
-		return createDate;
+	public String getDate() {
+		return date;
 	}
 	
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 	public String getContent() {

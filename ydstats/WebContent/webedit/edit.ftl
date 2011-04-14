@@ -129,7 +129,7 @@ maxchars：提交时内容要求的最大字节数，默认是2000字节
 <#--编辑栏-->
 <div class="newediter">
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="table-layout:fixed">
-<tr><td><textarea class="autosave max" name="${messagename}" id="e_textarea" tabindex="1" class="txt" style="height:500px">${messagevalue}</textarea></td></tr>
+<tr><td><textarea class="autosave max" name="${messagename}" id="e_textarea" tabindex="1" class="txt" style="height:700px">${messagevalue}</textarea></td></tr>
 </table>
 </div><#--编辑栏结束-->
 </div>
