@@ -1,8 +1,10 @@
 package cn.gov.ydstats.servlet;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Date;
@@ -287,7 +289,7 @@ public class DoServlet extends HttpServlet {
 				Writer out = null;
 				try {
 					String htmlName = article.getId().replace(".txt", ".htm");
-					out = new FileWriter(new File(dir, htmlName));
+					out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, htmlName)), "UTF-8"));
 					out("template/info.ftl", map, out);
 					req.setAttribute("sysmsg", "成功生成静态页面：<a href=\"static/"+type+htmlName+"\" target=\"_blank\"/>"+article.getTitle()+"</a>");
 				} catch(Exception e) {
@@ -313,7 +315,7 @@ public class DoServlet extends HttpServlet {
 					Writer out = null;
 					try {
 						String htmlName = article.getId().replace(".txt", ".htm");
-						out = new FileWriter(new File(dir, htmlName));
+						out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, htmlName)), "UTF-8"));
 						out("template/info.ftl", map, out);
 						sb.append("<br/><a href=\"static/");
 						sb.append(type);
@@ -347,7 +349,7 @@ public class DoServlet extends HttpServlet {
 		Writer out = null;
 		Map map = new HashMap();
 		try {
-			out = new FileWriter(staticPath+"index.htm");
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(staticPath+"index.htm"), "UTF-8"));
 			map.put("getList", getList);
 			out("template/index.ftl", map, out);
 			req.setAttribute("sysmsg", "成功生成主页的静态页面：<a href=\"static/\" target=\"_blank\"/>主页</a>");
@@ -381,7 +383,7 @@ public class DoServlet extends HttpServlet {
 			try {
 				File dir = new File(staticPath+masterTypeId);
 				dir.mkdir();
-				out = new FileWriter(new File(dir, "index.htm"));
+				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, "index.htm")), "UTF-8"));
 				Map map = new HashMap();
 				map.put("map", result);
 				map.put("masterTypeId", masterTypeId);
