@@ -51,9 +51,13 @@ $j("#masterTypeId").val("${masterTypeId}");
 <option value="">无子分类</option>
 </select>
 <input type="submit" value="查&nbsp;询"/>
+<#--
 <input type="button" value="生成列表" onclick="generate('glist.do');"/>
 <input type="button" value="批量生成" onclick="generate('ginfo.do');"/>
+-->
 </td></tr>
+<#--
+-->
 <tr><td>
 操作：
 <a href="#" onclick="generate('gindex.do'); return false;">生成主页</a>
@@ -74,7 +78,9 @@ ${sysmsg}
 <tbody><tr onmouseover="this.style.backgroundColor='#E6EFF6'" onmouseout="this.style.backgroundColor='transparent'">
 <td><div class="div_txt"><a href="show.do?id=${key}&masterTypeId=${masterTypeId}&slaveTypeId=${slaveTypeId}">${map[key]}</a></div></td>
 <td width="1%" nowrap="nowrap"><a href="preview.do?id=${key}&masterTypeId=${masterTypeId}&slaveTypeId=${slaveTypeId}" target="_blank">预览</a></td>
+<#--
 <td width="1%" nowrap="nowrap"><a href="ginfo.do?id=${key}&masterTypeId=${masterTypeId}&slaveTypeId=${slaveTypeId}">生成</a></td>
+-->
 <td width="1%" nowrap="nowrap"><a href="#" onclick="del('${key}', '${masterTypeId}', '${slaveTypeId}'); return false;">删除</a></td>
 </tr></tbody>
 </#list>

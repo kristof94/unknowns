@@ -1,0 +1,74 @@
+/* CSS Document */
+
+body {margin:0; padding:0; background:#ffffff; font-size:12px; background-image:url(images/bg.jpg); background-repeat:repeat-x; color:#555; font-family:"宋体";}
+
+a:link {color:#555; text-decoration:none;}
+a:visited {color:#555; text-decoration:none;}
+a:hover { color:#005FB8; text-decoration:underline;}
+a:active {color:#555; text-decoration:none;}
+
+.menu_cj:link {color:#ffFFFF; text-decoration:none; font-size:14PX; font-weight:bold; }
+.menu_cj:visited {color:#ffFFFF; text-decoration:none; font-size:14PX; font-weight:bold;}
+.menu_cj:hover { color:#FFE56A; text-decoration:underline; font-size:14PX; font-weight:bold;}
+.menu_cj:active {color:#ffFFFF; text-decoration:none; font-size:14PX; font-weight:bold;}
+
+.menu_cj02:link {color:#005FB8; text-decoration:none; }
+.menu_cj02:visited {color:#005FB8; text-decoration:none;}
+.menu_cj02:hover { color:#0156A5; text-decoration:underline;}
+.menu_cj02:active {color:#005FB8; text-decoration:none;}
+
+.yellow {font-family:"宋体"; color:#FF9900;}
+
+.zi01 {font-size:12px; font-weight:none;}
+
+
+
+.bg_body {background-image:url(images/bg02.jpg); background-repeat:no-repeat; background-position: top center; margin:auto; min-width:1004px; overflow:hidden; height:160px;}
+
+.box {margin:auto; width:1000px;}
+.menu {background-image:url(images/menu_bg.jpg); height:39px; background-repeat:no-repeat; margin:0 auto; overflow:hidden; }
+.menu ul {margin:0; padding:0; list-style:none; padding-left:35px;}
+.menu li {float:left; line-height:39px; padding-right:47px;  }
+
+
+.r_01 {background-image:url(images/r01.jpg); width:180px; height:35px; background-repeat:no-repeat; line-height:35px; font-size:12px; text-indent:30px; color:#FFFFFF; font-size:14px; font-weight:bold;}
+.r_02 {background-image:url(images/r02.jpg);	width:180px;	background-repeat:repeat-y;	border-bottom: 1px solid #ABCDF0;}
+.r_03 {background-image:url(images/r03.jpg);	width:160px;  height:28px; line-height:28px;text-indent:22px; margin:auto;  margin-top:8px;}
+
+.r_04 {background-image:url(images/r03.jpg);	width:160px;  height:28px; line-height:28px;text-indent:22px; margin:auto;  margin-bottom:8px; margin-top:8px;}
+
+.r_05 {	width:160px; margin:auto;  margin-bottom:8px; margin-top:8px;}
+
+.m01 {background-image:url(images/m02.jpg); width:405px; height:28px;  line-height:28px; background-repeat:no-repeat;  color:#005EB7; font-size:12px; font-weight:bold;}
+.m04 {background-image:url(images/m04.jpg); width:812px; height:28px;  line-height:28px; background-repeat:no-repeat;  color:#005EB7; font-size:12px; }
+.m05 {background-image:url(images/m05.jpg);	width:812px;	background-repeat:repeat-y;	border-bottom: 1px solid #ABCDF0;}
+.m06 {background-image:url(images/m06.jpg); width:266px; height:28px;  line-height:28px; background-repeat:no-repeat;  color:#005EB7; font-size:12px; font-weight:bold;}
+.m066 {background-image:url(images/m10.jpg); width:266px; height:28px;  line-height:28px; background-repeat:no-repeat;  color:#005EB7; font-size:12px; font-weight:bold;}
+
+.m67 { margin-left:4px;}
+.m67 ul{margin:0; padding:0; list-style:none;}
+.m67 li {width:87px; height:28px; float:left; overflow:hidden; text-align:center; margin-right:2px; line-height:32px;}
+.m67 li a{}
+
+.m67 li a:hover{width:87px;  height:28px;  padding-right:2px; background-image:url(images/m09.jpg);  display:block;}
+.m67 li .first{width:87px;  height:28px;  padding-right:2px; background-image:url(images/m09.jpg);  display:block;}
+
+.m07 {background-image:url(images/m07.jpg);	width:266px;	background-repeat:repeat-y;	border-bottom: 1px solid #ABCDF0;}
+
+.m01_zi {text-indent:27px;}
+
+.m02 {background-image:url(images/m03.jpg);	width:405px;	background-repeat:repeat-y;	border-bottom: 1px solid #ABCDF0;}
+
+.news_h {
+	height:28px;
+	line-height:28px;
+	border-bottom: 1px dashed #CCCCCC;
+}
+
+.f01 {background-image:url(images/f01.jpg); background-repeat:repeat-x; height:9px}
+.f02 { height:83px; line-height:22px; color:#555555; padding-top:5px;}
+
+
+.title { font-size:16px; height:46px; text-align:center;
+	line-height:46px;
+	border-bottom: 1px dashed #CCCCCC; color:#FF9900; }
