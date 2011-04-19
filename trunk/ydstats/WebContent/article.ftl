@@ -50,24 +50,26 @@ function previewinfo() {
 </#if>
 <table align="center" class="biankuang">
 <tr><td colspan="2" class="gray_15"><div class="black"><a href="#" onclick="back(); return false;">[返回]</a>文章管理</div><div class="div_txt yellow" style="display:inline;"> --> <#if info??>修改<#else>新增</#if>文章</div></td></tr>
-<tr><td width="10%" align="right" nowrap="nowrap">标题</td><td><input type="text" name="title" c_min_max="1,100" size="100"<#if info??> value="${info.title}"</#if>/></td></tr>
-<#if info??><tr><td width="10%" align="right" nowrap="nowrap">时间</td><td><input type="text" id="date" name="date" size="20" value="${info.date!""}" readonly="readonly"/>
+<#if info??>
+<tr><td width="10%" align="right" nowrap="nowrap">标题</td><td>${info.title}</td></tr>
+<tr><td width="10%" align="right" nowrap="nowrap">主分类</td><td>${typeName[info.masterTypeId]!"无主分类"}</td></tr>
+<tr><td width="10%" align="right" nowrap="nowrap">子分类</td><td>${typeName[info.slaveTypeId]!"无子分类"}</td></tr>
+<tr><td width="10%" align="right" nowrap="nowrap">在首页显示</td><td><#if info.isIndexShow=="Y">是<#else>否</#if></td></tr>
+<tr><td width="10%" align="right" nowrap="nowrap">时间</td><td><input type="text" id="date" name="date" size="20" value="${info.date!""}" readonly="readonly"/>
 <img id="f_trigger" src="calendar/calendarIcon.gif" height="16" style="cursor: pointer;" align="absmiddle" alt="点击选择时间" />
 <script type="text/javascript">
 Calendar.setup({
 inputField	:	"date",
-ifFormat	:	"%Y-%m-%d %H:%M",
+ifFormat	:	"%Y-%m-%d",
 button		:	"f_trigger",
 showsTime	:	"true",
 timeFormat	:	"24",
 align		:	"Br"
 });
 </script>
-</td></tr></#if>
-<#if info??>
-<tr><td width="10%" align="right" nowrap="nowrap">主分类</td><td>${typeName[info.masterTypeId]!"无主分类"}</td></tr>
-<tr><td width="10%" align="right" nowrap="nowrap">子分类</td><td>${typeName[info.slaveTypeId]!"无子分类"}</td></tr>
+</td></tr>
 <#else>
+<tr><td width="10%" align="right" nowrap="nowrap">标题</td><td><input type="text" name="title" c_min_max="1,100" size="100"<#if info??> value="${info.title}"</#if>/></td></tr>
 <tr><td width="10%" align="right" nowrap="nowrap">主分类</td><td><select id="masterTypeId" name="masterTypeId" onchange="updateSlaveType(this.value);">
 <option value="">无主分类</option>
 <#list typeMap?keys as k>
@@ -77,6 +79,7 @@ align		:	"Br"
 <tr><td width="10%" align="right" nowrap="nowrap">子分类</td><td><select id="slaveTypeId" name="slaveTypeId">
 <option value="">无子分类</option>
 </select></td></tr>
+<tr><td width="10%" align="right" nowrap="nowrap">在首页显示</td><td><input type="radio" name="isIndexShow" value="Y" checked/>是&nbsp;&nbsp;<input type="radio" name="isIndexShow" value="N"/>否</td></tr>
 </#if>
 <tr><td width="10%" align="right" nowrap="nowrap">内容</td><td>
 <#import "/webedit/edit.ftl" as editContent/>

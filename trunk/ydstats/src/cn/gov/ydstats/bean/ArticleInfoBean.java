@@ -24,6 +24,11 @@ public class ArticleInfoBean {
 	private String date;
 	
 	/**
+	 * 是否在首页显示
+	 */
+	private String isIndexShow;
+	
+	/**
 	 * 内容
 	 */
 	private String content;
@@ -67,7 +72,15 @@ public class ArticleInfoBean {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
+	public String getIsIndexShow() {
+		return isIndexShow;
+	}
+
+	public void setIsIndexShow(String isIndexShow) {
+		this.isIndexShow = isIndexShow;
+	}
+
 	public String getContent() {
 		return content;
 	}

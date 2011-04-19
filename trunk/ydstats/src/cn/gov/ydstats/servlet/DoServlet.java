@@ -44,18 +44,26 @@ public class DoServlet extends HttpServlet {
 		public Object exec(List args) throws TemplateModelException {
 			String masterTypeId = args.size()>0?(String)args.get(0):null;
 			String slaveTypeId = args.size()>1?(String)args.get(1):null;
-			Map<String, String> map = dataUtil.getList(masterTypeId, slaveTypeId);
-			int count = args.size()>2?Integer.valueOf((String)args.get(2)):map.size();
-			int page = args.size()>3?Integer.valueOf((String)args.get(3)):1;
-			if(count<=map.size() && page<2) return map;
-			Map<String, String> result = new LinkedHashMap<String, String>();
+			String isIndexShow = args.size()>2?(String)args.get(2):null;
+			Map<String, ?> map = null;
+			if(CommonUtil.isNotEmpty(isIndexShow)) {
+				if(CommonUtil.isNotEmpty(slaveTypeId)) map = dataUtil.getList(masterTypeId, slaveTypeId, "Y".equals(isIndexShow));
+				else map = dataUtil.getList(masterTypeId, "Y".equals(isIndexShow));
+			} else {
+				if(CommonUtil.isNotEmpty(slaveTypeId)) map = dataUtil.getList(masterTypeId, slaveTypeId);
+				else map = dataUtil.getList(masterTypeId);
+			}
+			int count = args.size()>3?Integer.valueOf((String)args.get(3)):map.size();
+			int page = args.size()>4?Integer.valueOf((String)args.get(4)):1;
+			if(count>=map.size() && page<2) return map;
+			Map result = new LinkedHashMap();
 			int first = count*(page-1);
-			Iterator<Entry<String, String>> iterator = map.entrySet().iterator();
+			Iterator iterator = map.entrySet().iterator();
 			int index = 0;
 			while(index++<first && iterator.hasNext()) iterator.next();
 			index = 0;
 			while(index++<count && iterator.hasNext()) {
-				Entry<String, String> entry = iterator.next();
+				Entry entry = (Entry)iterator.next();
 				result.put(entry.getKey(), entry.getValue());
 			}
 			return result;
@@ -125,6 +133,8 @@ public class DoServlet extends HttpServlet {
 			generateIndex(request, response);
 		} else if(servletPath.endsWith("list.do")) {
 			list(request, response);
+		} else if(servletPath.endsWith("auto.do")) {
+			autoGenerate(request, response);
 		}
 	}
 	
@@ -184,13 +194,14 @@ public class DoServlet extends HttpServlet {
 			article.setMasterTypeId(masterTypeId);
 			article.setSlaveTypeId(slaveTypeId);
 			article.setDate(CommonUtil.formatDate(new Date()));
+			article.setIsIndexShow(CommonUtil.getParameter(req, "isIndexShow"));
+			article.setTitle(CommonUtil.getParameter(req, "title"));
 		}
-		article.setTitle(CommonUtil.getParameter(req, "title"));
 		String date = CommonUtil.getParameter(req, "date");
 		if(CommonUtil.isNotEmpty(date)) article.setDate(date);
 		article.setContent(CommonUtil.getParameter(req, "content"));
 		dataUtil.saveArticle(article);
-		res.sendRedirect("list.do?masterTypeId="+(masterTypeId==null?"":masterTypeId)+"&slaveTypeId="+(slaveTypeId==null?"":slaveTypeId));
+		res.sendRedirect("auto.do?id="+article.getId()+"&masterTypeId="+(masterTypeId==null?"":masterTypeId)+"&slaveTypeId="+(slaveTypeId==null?"":slaveTypeId));
 	}
 	
 	/**
@@ -232,8 +243,17 @@ public class DoServlet extends HttpServlet {
 	 * @param res
 	 */
 	private void delete(HttpServletRequest req, HttpServletResponse res) {
-		dataUtil.deleteArticle(CommonUtil.getParameter(req, "id"), CommonUtil.getParameter(req, "masterTypeId"), CommonUtil.getParameter(req, "slaveTypeId"));
-		list(req, res);
+		String id = CommonUtil.getParameter(req, "id");
+		String masterTypeId = CommonUtil.getParameter(req, "masterTypeId");
+		String slaveTypeId = CommonUtil.getParameter(req, "slaveTypeId");
+		String type = null;
+		if(CommonUtil.isNotEmpty(slaveTypeId)) type = slaveTypeId+"/";
+		else if(CommonUtil.isNotEmpty(masterTypeId)) type = masterTypeId+"/";
+		else type = "";
+		dataUtil.deleteArticle(id, masterTypeId, slaveTypeId);
+		File file = new File(staticPath+type+id.replace(".txt", ".htm"));
+		if(file.isFile()) file.delete();
+		autoGenerate(req, res);
 	}
 	
 	/**
@@ -257,6 +277,8 @@ public class DoServlet extends HttpServlet {
 		if(CommonUtil.isNotEmpty(title)) article.setTitle(title);
 		String date = CommonUtil.getParameter(req, "date");
 		if(CommonUtil.isNotEmpty(date)) article.setDate(date);
+		String isIndexShow = CommonUtil.getParameter(req, "isIndexShow");
+		if(CommonUtil.isNotEmpty(isIndexShow)) article.setIsIndexShow(isIndexShow);
 		String content = CommonUtil.getParameter(req, "content");
 		if(CommonUtil.isNotEmpty(content)) article.setContent(content);
 		req.setAttribute("info", article);
@@ -268,13 +290,15 @@ public class DoServlet extends HttpServlet {
 	 * 生成文章信息的静态页面
 	 * @param req
 	 * @param res
+	 * @deprecated
 	 */
 	private void generateInfo(HttpServletRequest req, HttpServletResponse res) {
 		String id = CommonUtil.getParameter(req, "id");
 		String masterTypeId = CommonUtil.getParameter(req, "masterTypeId");
 		String slaveTypeId = CommonUtil.getParameter(req, "slaveTypeId");
 		String type = null;
-		if(CommonUtil.isNotEmpty(masterTypeId)) type = masterTypeId+"/";
+		if(CommonUtil.isNotEmpty(slaveTypeId)) type = slaveTypeId+"/";
+		else if(CommonUtil.isNotEmpty(masterTypeId)) type = masterTypeId+"/";
 		else type = "";
 		Map map = new HashMap();
 		if(!CommonUtil.isNotEmpty(type)) map.put("path", ".");
@@ -344,6 +368,7 @@ public class DoServlet extends HttpServlet {
 	 * 生成首页的静态页面
 	 * @param req
 	 * @param res
+	 * @deprecated
 	 */
 	private void generateIndex(HttpServletRequest req, HttpServletResponse res) {
 		Writer out = null;
@@ -370,6 +395,7 @@ public class DoServlet extends HttpServlet {
 	 * 生成文章列表的静态页面
 	 * @param req
 	 * @param res
+	 * @deprecated
 	 */
 	private void generateList(HttpServletRequest req, HttpServletResponse res) {
 		String masterTypeId = CommonUtil.getParameter(req, "masterTypeId");
@@ -402,6 +428,93 @@ public class DoServlet extends HttpServlet {
 		} else {
 			req.setAttribute("sysmsg", "主分类无效");
 		}
+		list(req, res);
+	}
+
+	/**
+	 * 自动生成文章相关的静态页面
+	 * @param req
+	 * @param res
+	 */
+	private void autoGenerate(HttpServletRequest req, HttpServletResponse res) {
+		String id = CommonUtil.getParameter(req, "id");
+		String masterTypeId = CommonUtil.getParameter(req, "masterTypeId");
+		String slaveTypeId = CommonUtil.getParameter(req, "slaveTypeId");
+		Writer out = null;
+		StringBuilder sysmsg = new StringBuilder();
+		Map map = new HashMap();
+		map.put("getList", getList);
+		try {
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(staticPath+"index.htm"), "UTF-8"));
+			out("template/index.ftl", map, out);
+			sysmsg.append("成功生成主页的静态页面：<a href=\"static/index.htm\" target=\"_blank\"/>主页</a>");
+		} catch(Exception e) {
+			e.printStackTrace();
+			sysmsg.append("生成主页的静态页面时出错："+e);
+		} finally {
+			if(out!=null) try {
+				out.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if(CommonUtil.isNotEmpty(masterTypeId)) {
+			sysmsg.append("<br/>");
+			File dir = null;
+			map.put("masterTypeId", masterTypeId);
+			try {
+				if(CommonUtil.isNotEmpty(slaveTypeId)) {
+					dir = new File(staticPath+masterTypeId);
+					dir.mkdir();
+					out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, "index.htm")), "UTF-8"));
+					out("template/list.ftl", map, out);
+					sysmsg.append("成功生成文章列表的静态页面：<a href=\"static/"+dir.getName()+"/index.htm\" target=\"_blank\"/>"+TypeUtil.getName(dir.getName())+"</a>");
+					sysmsg.append("<br/>");
+					map.put("slaveTypeId", slaveTypeId);
+					dir = new File(staticPath+slaveTypeId);
+				} else {
+					dir = new File(staticPath+masterTypeId);
+				}
+				dir.mkdir();
+				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, "index.htm")), "UTF-8"));
+				out("template/list.ftl", map, out);
+				sysmsg.append("成功生成文章列表的静态页面：<a href=\"static/"+dir.getName()+"/index.htm\" target=\"_blank\"/>"+TypeUtil.getName(dir.getName())+"</a>");
+			} catch(Exception e) {
+				e.printStackTrace();
+				sysmsg.append("生成文章列表的静态页面时出错："+e);
+			} finally {
+				if(out!=null) try {
+					out.close();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(CommonUtil.isNotEmpty(id)) {
+				sysmsg.append("<br/>");
+				ArticleInfoBean article = dataUtil.getArticle(id, masterTypeId, slaveTypeId);
+				if(article==null) {
+					sysmsg.append("要生成静态页面的文章不存在");
+				} else {
+					map.put("info", article);
+					try {
+						String htmlName = article.getId().replace(".txt", ".htm");
+						out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, htmlName)), "UTF-8"));
+						out("template/info.ftl", map, out);
+						sysmsg.append("成功生成静态页面：<a href=\"static/"+dir.getName()+"/"+htmlName+"\" target=\"_blank\"/>"+article.getTitle()+"</a>");
+					} catch(Exception e) {
+						e.printStackTrace();
+						sysmsg.append("生成静态页面时出错："+e);
+					} finally {
+						if(out!=null) try {
+							out.close();
+						} catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		req.setAttribute("sysmsg", sysmsg.toString());
 		list(req, res);
 	}
 }

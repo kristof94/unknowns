@@ -13,7 +13,7 @@
 				var d = new dTree("d");
 				d.add(0, -1, '后台管理','','','','');
 				d.add(1,0,'文章管理','','','','images/folder.gif','images/folderopen.gif',true);
-				d.add(11,1,'文章信息','article.ftl','','','images/page.gif','images/page.gif',true);
+				d.add(11,1,'新增文章','article.ftl','','','images/page.gif','images/page.gif',true);
 				d.add(12,1,'文章列表','list.do','','','images/page.gif','images/page.gif',true);
 				document.write(d);
 			</script>

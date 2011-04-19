@@ -1,444 +1,332 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>英德统计信息网</title>
-<link rel="stylesheet" href="3.css">
-<style type="text/css">
-<!--
-BODY {SCROLLBAR-FACE-COLOR: #6a7f9a;
-SCROLLBAR-HIGHLIGHT-COLOR: #000000;
-SCROLLBAR-SHADOW-COLOR: #339966;
-SCROLLBAR-3DLIGHT-COLOR: #cccccc;
-SCROLLBAR-ARROW-COLOR: #000000;
-SCROLLBAR-TRACK-COLOR: #6a7f9a;
-SCROLLBAR-DARKSHADOW-COLOR: #000000}
-#Layer1 {
-	position:absolute;
-	width:766px;
-	height:391px;
-	z-index:1;
-	left: 127px;
-	top: 243px;
-	background-color: #FFFFFF;
-	overflow: auto;
-}
-#Layer2 {
-	position:absolute;
-	width:229px;
-	height:380px;
-	z-index:1;
-	left: 138px;
-	top: 253px;
-}
-#Layer3 {
-	position:absolute;
-	width:216px;
-	height:388px;
-	z-index:1;
-	left: 122px;
-	top: 245px;
-}
-#Layer4 {
-	position:absolute;
-	width:330px;
-	height:388px;
-	z-index:2;
-	left: 352px;
-	top: 245px;
-}
-#Layer5 {
-	position:absolute;
-	width:198px;
-	height:385px;
-	z-index:3;
-	left: 695px;
-	top: 246px;
-}
-#Layer6 {
-	position:absolute;
-	width:772px;
-	height:385px;
-	z-index:1;
-	left: 120px;
-	top: 250px;
-	background-color: #FFFFFF;
-	overflow: auto;
-}
-.STYLE3 {font-size: 10pt; }
-.STYLE4 {font-size: 12pt}
-.STYLE5 {font-size: 11pt}
-.STYLE7 {font-size: 12pt; font-weight: bold; }
-.STYLE9 {font-size: 9pt}
-#slayer {
-	position:absolute;
-	width:795px;
-	height:143px;
-	z-index:1;
-	left: 115px;
-	top: 557px;
-}
-.STYLE10 {font-size: 18px}
--->
-</style>
-</head>
-
-<body background="images/niux-bg.gif">
-
-<table width="800" border="0" cellspacing="1" cellpadding="1" align="center" bgcolor="#000000">
-  <tr bgcolor="#FFFFFF">
-    <td>
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+<#if !path??><#global path = "."/></#if><@page.head>
+<meta name="Keywords" content="英德,统计,信息" />
+<meta name="Description" content="广东省英德市统计局对外发布的统计信息网。" />
+</@page.head>
+<@page.body>
+<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" style="margin:auto; margin-top:10px;">
+  <tr>
+    <td width="814" align="left" valign="top"><table width="812" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td width="74%"><div align="left"><img src="images/wangbiao.jpg" width="300" height="47"></div></td>
-          <td width="26%"><div align="center"><div id="jnkc"> 
-</div> 
-<script>setInterval("jnkc.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000); 
-</script></div>
-            <SCRIPT language=javascript> 
-<!-- 
-function Year_Month(){ 
-var now = new Date(); 
-var yy = now.getYear(); 
-var mm = now.getMonth(); 
-var mmm=new Array(); 
-); 
-document.all.calendarClock2.innerHTML = Date_of_Today(); 
-document.all.calendarClock3.innerHTML =thisYear(); 
-document.all.calendarClock4.innerHTML = CurentTime(); } 
-document.write('<font id="calendarClock1" > </font> '); 
-document.write('<font id="calendarClock2" > </font>,'); 
-document.write('<font id="calendarClock3" > </font> '); 
-document.write('<font id="calendarClock4" > </font>'); 
-setInterval('refreshCalendarClock()',1000); 
-//--> 
-            </SCRIPT> 
-            <script language="javascript" src="./script/date.js"></script>
-            <div align="right"></div></td>
+          <td width="807"><table width="812" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="400"><script type=text/javascript>
+var pic_width=400; //图片宽度
+var pic_height=300; //图片高度
+var button_pos=4; //按扭位置 1左 2右 3上 4下
+var stop_time=3000; //图片停留时间(1000为1秒钟)
+var show_text=0; //是否显示文字标签 1显示 0不显示
+var txtcolor="000000"; //文字色
+var bgcolor="FFFFFF"; //背景色
+var imag=new Array();
+var link=new Array();
+var text=new Array();
+ imag[1]="http://www.3guu.com/3guuadmin/uploadImage/2009/09/28/1254120073440.jpg";
+ link[1]="http://www.3guu.com/3guuadmin/uploadfile/2009/09/28/1254126525717.html";
+ text[1]="国庆六十周年 《YY三国》升温献礼";
+ imag[2]="http://www.3guu.com/3guuadmin/uploadImage/2009/07/07/1246959746792.jpg";
+ link[2]="http://www.3guu.com/3guuadmin/uploadfile/2009/07/07/1246959882646.html";
+ text[2]="《YY三国》新版本“一骑当千”即将登场";
+//可编辑内容结束
+var swf_height=show_text==1?pic_height+20:pic_height;
+var pics="", links="", texts="";
+for(var i=1; i<imag.length; i++){
+	pics=pics+("|"+imag[i]);
+	links=links+("|"+link[i]);
+	texts=texts+("|"+text[i]);
+}
+pics=pics.substring(1);
+links=links.substring(1);
+texts=texts.substring(1);
+document.write('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cabversion=6,0,0,0" width="'+ pic_width +'" height="'+ swf_height +'">');
+document.write('<param name="movie" value="focus.swf">');
+document.write('<param name="quality" value="high"><param name="wmode" value="opaque">');
+document.write('<param name="FlashVars" value="pics='+pics+'&links='+links+'&texts='+texts+'&pic_width='+pic_width+'&pic_height='+pic_height+'&show_text='+show_text+'&txtcolor='+txtcolor+'&bgcolor='+bgcolor+'&button_pos='+button_pos+'&stop_time='+stop_time+'">');
+document.write('<embed src="focus.swf" FlashVars="pics='+pics+'&links='+links+'&texts='+texts+'&pic_width='+pic_width+'&pic_height='+pic_height+'&show_text='+show_text+'&txtcolor='+txtcolor+'&bgcolor='+bgcolor+'&button_pos='+button_pos+'&stop_time='+stop_time+'" quality="high" width="'+ pic_width +'" height="'+ swf_height +'" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />');
+document.write('</object>');
+</script></td>
+                <td width="8">&nbsp;</td>
+                <td width="405" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left" valign="top"><table width="404" height="300" border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="405" height="28"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m01">
+                          <tr>
+                            <td width="362" class="m01_zi">统计动态</td>
+                            <td width="42"><a href="tjdt/index.htm" class="menu_cj02">更多</a></td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                      <tr>
+                        <td height="271" align="left" valign="top" class="m02"><table width="96%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("tjdt", "", "Y", 9) /><#list map?keys as k>
+                          <tr class="news_h">
+                            <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 29>${title?substring(0, 29)}...<#else>${title}</#if></a></td>
+                          </tr>
+</#list>
+                        </table></td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table></td>
         </tr>
         <tr>
-          <td colspan="2"><img src="images/biaotou.jpg" width="800" height="120"></td>
-      </tr>
-      </table>    </td>
-  </tr>
-  <tr bgcolor="#6a7f9a">
-    <td>
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-        <tr>
-          <td width="614" height="32" class="jnfont6">
-            <table width="99%" border="0" cellspacing="0" cellpadding="0" align="center">
-              <tr>
-                <td width="16%"><img src="images/more01.gif" width="15" height="14"> <a href="tjdt/" class="STYLE3">统计动态</a></td>
-                <td width="16%"><img src="images/more01.gif" width="15" height="14"> <a href="tjfx/" class="STYLE3">统计分析</a></td>
-                <td width="16%"><img src="images/more01.gif" width="15" height="14"> <a href="wjtz/" class="STYLE3">文件通知</a></td>
-                <td width="16%"><img src="images/more01.gif" width="15" height="14"> <a href="tjyb/" class="STYLE3">统计月报</a></td>
-                <td width="16%"><img src="images/more01.gif" width="15" height="14"> <a href="tjpf/" class="STYLE3">统计普法</a></td>
-                <td width="20%"><div align="left"><img src="images/more01.gif" width="15" height="14"> 人口普查专题</div></td>
-              </tr>
-            </table>
-          </td>
-          <td width="12" height="32" class="jnfont6">　</td>
-          <td width="174" height="32">
-            <table width="65%" border="0" cellspacing="0" cellpadding="0" align="center">
-              <tr>
-                <td width="38%"><a href="http://www.ydstats.gov.cn/"><img src="images/niux-home.gif" width="40" height="33" border="0"></a></td>
-                <td width="35%""><span style="CURSOR: hand" onClick="window.external.addFavorite('http://www.ydstats.gov.cn','英德市统计信息网')" title="英德市统计信息网"><img src="images/niux-f.gif" width="40" height="33"></span></td>
-                <td width="27%"><a href="mailto:39team@niux.com"></a><img src="images/niux-mail.gif" width="40" height="33"></td>
-              </tr>
-            </table>
-          </td>
+          <td height="8"></td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table width="758" border="0" cellspacing="0" cellpadding="0" align="center">
-  <tr>
-    <td width="800" height="10"></td>
-  </tr>
-</table>
-<table width="800" height="277" border="0" align="center" cellpadding="1" cellspacing="1" bgcolor="#000000">
-  <tr bgcolor="#6a7f9a">
-    <td width="800" height="100" align="center" valign="middle" bgcolor="#6a7f9a"><table width="791" height="267" border="0">
-      <tr>
-        <td width="302" align="center" valign="top"><table width="300" height="283" border="0">
-          <tr>
-            <td align="center" valign="top" bgcolor="#F0F0F0"><table width="294" border="0" bgcolor="#FFFFFF">
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td height="24" colspan="2" align="left" valign="top" bgcolor="#F0F0F0"><img src="images/more3.gif" alt="1" width="20" height="20" /><span class="STYLE7"> 统计动态</span></td>
+                <td><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m04">
+                  <tr>
+                    <td width="166" class="m01_zi"><strong>统计动态</strong></td>
+                    <td width="644">统计职业道德：忠诚统计　乐于奉献　实事求是　不出假数　依法统计　严守秘密　公正透明　服务社会</td>
+                  </tr>
+                </table></td>
               </tr>
-              <#assign map = getList("tjxx", "tjdt", 7) />
-              <#list map?keys as key>
               <tr>
-                <td align="center" valign="middle" bgcolor="#FFFFFF">。</td>
-                <td height="19" align="left" valign="middle" bgcolor="#FFFFFF" class="STYLE3"><p align="left" class="STYLE3"><a href="tjdt/${key?replace(".txt", ".htm")}">${map[key]}</a></p></td>
+                <td class="m05"><table width="83%" height="151" border="0" align="center" cellpadding="0" cellspacing="8">
+                  <tr>
+                    <td height="123"><img src="images/image0.jpg" width="150" height="115" /></td>
+                    <td><img src="images/image1.jpg" width="150" height="115" /></td>
+                    <td><img src="images/image2.jpg" width="150" height="115" /></td>
+                    <td><img src="images/image3.jpg" width="150" height="115" /></td>
+                    <td><img src="images/image4.jpg" width="150" height="115" /></td>
+                    </tr>
+                  <tr>
+                    <td height="20" align="center"><a href="#">英德市召开2010年全</a></td>
+                    <td align="center"><a href="#">英德市召开2010年全</a></td>
+                    <td align="center"><a href="#">英德市召开2010年全</a></td>
+                    <td align="center"><a href="#">英德市召开2010年全</a></td>
+                    <td align="center"><a href="#">英德市召开2010年全</a></td>
+                  </tr>
+                </table></td>
               </tr>
-              </#list>
-              <tr>
-                <td width="12" height="10" align="left" valign="top" bgcolor="#FFFFFF">　</td>
-                <td height="10" align="left" valign="top" bgcolor="#FFFFFF"><div align="right"><a href="tjdt/">更多...</a></div></td>
-              </tr>
+            
             </table></td>
-          </tr>
-        </table></td>
-        <td width="309" align="center" valign="top"><table width="305" height="283" border="0">
-          <tr>
-            <td align="center" valign="top" bgcolor="#F0F0F0"><table width="299" border="0" bgcolor="#FFFFFF">
-              <tr>
-                <td height="28" colspan="2" bgcolor="#F0F0F0"><img src="images/more01.gif" width="15" height="14"> <span class="STYLE7">统计分析</span></td>
-              </tr>
-              <#assign map = getList("tjxx", "tjfx", 10) />
-              <#list map?keys as key>
-              <tr>
-                <td width="12" align="center" valign="middle">。</td>
-                <td width="277" height="19" align="left" valign="middle"><a href="tjfx/${key?replace(".txt", ".htm")}" class="STYLE3">${map[key]}</a></td>
-              </tr>
-              </#list>
-              <tr>
-                <td align="center" valign="middle">　</td>
-                <td height="24" align="left" valign="middle"><div align="right"><a href="tjfx/">更多...</a><img src="images/more01.gif" width="15" height="14"/></div></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-        <td width="166" align="center" valign="top"><table width="164" height="283" border="0">
-          <tr>
-            <td height="279" align="center" valign="top" bgcolor="#F0F0F0"><table width="160" height="255" border="0">
-              <tr>
-                <td height="24" colspan="2" bgcolor="#F0F0F0"><img src="images/more3.gif" alt="1" width="20" height="20"> <span class="STYLE7"> <a href="zwgk/">政务公开</a></span></td>
-              </tr>
-              <tr>
-                <td width="17" align="center" valign="middle" bgcolor="#FFFFFF"><img src="images/ra.gif" alt="1" width="7" height="7"></td>
-                <td width="133" height="24" align="center" valign="middle" bgcolor="#FFFFFF"><span class="STYLE5"><a href="tjzn/">统 计 职 能</a></span></td>
-              </tr>
-              <tr>
-                <td align="center" valign="middle" bgcolor="#FFFFFF"><img src="images/ra.gif" alt="1" width="7" height="7"></td>
-                <td height="24" align="center" valign="middle" bgcolor="#FFFFFF"><span class="STYLE5"><a href="rysz/">人 员 设 置</a></span></td>
-              </tr>
-              <tr>
-                <td height="25" colspan="2" bgcolor="#F0F0F0"><img src="images/more3.gif" alt="1" width="20" height="20"> <span class="STYLE7"><a href="jgjs/">机关建设</a></span></td>
-              </tr>
-              <tr>
-                <td align="center" valign="middle" bgcolor="#FFFFFF"><img src="images/ra.gif" alt="1" width="7" height="7"></td>
-                <td height="24" align="center" valign="middle" bgcolor="#FFFFFF"><span class="STYLE5"><a href="jgxn/">机 关 效 能</a></span></td>
-              </tr>
-              <tr>
-                <td align="center" valign="middle" bgcolor="#FFFFFF"><img src="images/ra.gif" alt="1" width="7" height="7"></td>
-                <td height="24" align="center" valign="middle" bgcolor="#FFFFFF"><span class="STYLE5"><a href="jljy/">纪 律 教 育</a></span></td>
-              </tr>
-              <tr>
-                <td height="25" colspan="2" bgcolor="#F0F0F0"><img src="images/more3.gif" alt="1" width="20" height="20"> <span class="STYLE7"><a href="tjpf/">统计普法</a></span></td>
-              </tr>
-              <tr>
-                <td align="center" valign="middle" bgcolor="#FFFFFF"><img src="images/ra.gif" alt="1" width="7" height="7"></td>
-                <td height="24" align="center" valign="middle" bgcolor="#FFFFFF"><span class="STYLE5"><a href="tjfjjx/">统计法及解析</a></span></td>
-              </tr>
-              <tr>
-                <td align="center" valign="middle" bgcolor="#FFFFFF"><img src="images/ra.gif" alt="1" width="7" height="7"></td>
-                <td height="24" align="center" valign="middle" bgcolor="#FFFFFF"><span class="STYLE5"><a href="yasf/">以 案 释 法</a></span></td>
-              </tr>
-              <tr>
-                <td align="center" valign="middle" bgcolor="#FFFFFF"><img src="images/ra.gif" alt="1" width="7" height="7"></td>
-                <td height="24" align="center" valign="middle" bgcolor="#FFFFFF"><span class="STYLE5"><a href="pffa/">普 法 方 案</a></span></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
-<table width="800" height="180" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#5f7189">
-  <tr>
-    <td height="19" align="left" valign="middle" bgcolor="#F0F0F0"><table width="797" border="0" bgcolor="#F0F0F0">
-      <tr>
-        <td width="89"><img src="images/more3.gif" width="20" height="20"> <span class="STYLE7">宣传栏</span></td>
-        <td width="698">
-		<marquee scrolldelay="110" style="font-family: serif; font-size: 1em">
-		<span class="STYLE3">统计职业道德：忠诚统计　乐于奉献　实事求是　不出假数　依法统计　严守秘密　公正透明　服务社会</span>
-		</marquee></td>
-      </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td height="145" align="center" valign="middle"><table width="791" height="142" border="0">
-      <tr>
-        <td><div align="center"><a href="tjdt/"><img src="images/11111.JPG" width="195" height="146" border="0"></a></div></td>
-        <td><div align="center"><a href="tjdt/"><img src="images/2222.JPG" width="195" height="146" border="0"></a></div></td>
-        <td><div align="center"><a href="tjdt/"><img src="images/4444.JPG" width="195" height="146" border="0"></a></div></td>
-        <td><div align="center"><a href="tjdt/"><img src="images/333.JPG" width="195" height="146" border="0"></a></div></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
-<table width="800" border="0" cellspacing="1" cellpadding="1" align="center" bgcolor="#000000">
-  <tr bgcolor="#5f7189">
-    <td height="295" align="center" valign="top" bgcolor="#5f7189"><table width="791" height="295" border="0">
-      <tr>
-        <td width="264" height="291" align="center" valign="top"><table width="264" height="285" border="0">
-          <tr>
-            <td height="281" align="center" valign="top" bgcolor="#F0F0F0"><table width="250" border="0" bgcolor="#FFFFFF">
+        </tr>
+        <tr>
+          <td height="8"></td>
+        </tr>
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="263" align="left" valign="top"><table width="266" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td height="24" colspan="2" bgcolor="#F0F0F0"><img src="images/more3.gif" alt="1" width="20" height="20" /><span class="STYLE7"> 文件通知</span></td>
-                </tr>
-                <#assign map = getList("tjxx", "tjtz", 9) />
-                <#list map?keys as key>
-                <tr>
-                  <td>。</td>
-                  <td height="19"><a href="tjtz/${key?replace(".txt", ".htm")}" class="STYLE3">${map[key]}</a></td>
-                </tr>
-                </#list>
-                <tr>
-                  <td width="13">。</td>
-                  <td width="227" height="5"><div align="right"><a href="tjtz/">更多...</a></div></td>
-                </tr>
-            </table></td>
-          </tr>
-        </table></td>
-        <td width="345" align="center" valign="top"><table width="340" height="286" border="0">
-          <tr>
-            <td width="416" height="282" align="center" valign="top" bgcolor="#F0F0F0"><table width="323" border="0" bgcolor="#FFFFFF">
-                <tr>
-                  <td height="28" colspan="2" bgcolor="#F0F0F0"><img src="images/more01.gif" alt="2" width="15" height="14"><span class="STYLE7"> 统计月报</span></td>
-                </tr>
-                <#assign map = getList("tjxx", "tjyb", 12) />
-                <tr>
-                <#list map?keys as key>
-                  <td width="155" height="19" bgcolor="#FFFFFF"><div align="center"><a href="tjyb/${key?replace(".txt", ".htm")}">${map[key]}</a></div></td>
-                <#if !key_has_next && key_index%2==0></tr><tr><#elseif key_has_next && key_index%2!=0><td></td></#if>
-                </#list>
-                </tr>
-                <tr>
-                  <td height="28" colspan="2" bgcolor="#F0F0F0"> <span class="STYLE7"> <img src="images/more01.gif" width="15" height="14"> <a href="tjgb/">统计公报</a></span></td>
-                </tr>
-                <tr>
-                  <td height="87" colspan="2" align="center" valign="top" bgcolor="#FFFFFF"><table width="319" border="0">
-                    <#assign map = getList("tjxx", "tjgb", 8) />
+                  <td width="266"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m06">
                     <tr>
-                    <#list map?keys as key>
-                      <td width="155" height="19" align="center"><div align="center"><a href="tjgb/${key?replace(".txt", ".htm")}">${map[key]}</a></div></td>
-                    <#if !key_has_next && key_index%2==0></tr><tr><#elseif key_has_next && key_index%2!=0><td></td></#if>
-                    </#list>
+                      <td width="" class="m01_zi">统计分析</td>
+                      <td width="42"><a href="tjfx/index.htm" class="menu_cj02">更多</a></td>
                     </tr>
                   </table></td>
                 </tr>
-                
-                
-            </table></td>
-          </tr>
-        </table></td>
-        <td width="168" align="center" valign="top"><table width="164" height="284" border="0">
+                <tr>
+                  <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("tjfx", "", "Y", 6) /><#list map?keys as k>
+                    <tr class="news_h">
+                      <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                    </tr>
+</#list>
+                  </table></td>
+                </tr>
+              </table></td>
+              <td width="7">&nbsp;</td>
+              <td width="221"><table width="263" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="263"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m066">
+                      <tr>
+                        <td >
+						<div class="m67">
+						<ul>
+						<li><a href="#" class="menu_cj02 first" onclick="showtj(true); return false;" id="tjnba">统计年报</a></li>
+						<li><a href="#" class="menu_cj02" onclick="showtj(false); return false;" id="tjyba">统计月报</a></li>
+						</ul>
+						</li>
+						</div>
+<script type="text/javascript">
+function showtj(flag) {
+	if(flag) {
+		document.getElementById("tjnba").className="menu_cj02 first";
+		document.getElementById("tjnbd").style.display="";
+		document.getElementById("tj").href="tjnb/index.htm";
+		document.getElementById("tjyba").className="menu_cj02";
+		document.getElementById("tjybd").style.display="none";
+	} else {
+		document.getElementById("tjnba").className="menu_cj02";
+		document.getElementById("tjnbd").style.display="none";
+		document.getElementById("tj").href="tjyb/index.htm";
+		document.getElementById("tjyba").className="menu_cj02 first";
+		document.getElementById("tjybd").style.display="";
+	}
+}
+</script>
+						</td>
+                        <td width="42"><a href="tjnb/index.htm" class="menu_cj02" id="tj">更多</a></td>
+                      </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="190" class="m07"><div id="tjnbd"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("tjsj", "tjnb", "Y", 6) /><#list map?keys as k>
+                      <tr class="news_h">
+                        <td class="news_h"><span class="yellow">·</span><a href="tjnb/${k?replace(".txt", ".htm")}"><#assign title=map[k]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                      </tr>
+</#list>
+                  </table></div>
+                  <div id="tjybd" style="display:none;"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("tjsj", "tjyb", "Y", 6) /><#list map?keys as k>
+                      <tr class="news_h">
+                        <td class="news_h"><span class="yellow">·</span><a href="tjnb/${k?replace(".txt", ".htm")}"><#assign title=map[k]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                      </tr>
+</#list>
+                  </table></div></td>
+                </tr>
+              </table></td>
+              <td width="7">&nbsp;</td>
+              <td width="264" align="left" valign="top"><table width="263" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="263"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m06">
+                      <tr>
+                        <td width="" class="m01_zi">统计公告</td>
+                        <td width="42"><a href="tjgg/index.htm" class="menu_cj02">更多</a></td>
+                      </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("tjgg", "", "Y", 6) /><#list map?keys as k>
+                      <tr class="news_h">
+                        <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                      </tr>
+</#list>
+                  </table></td>
+                </tr>
+              </table></td>
+            </tr>
+          </table></td>
+        </tr>
+        <tr>
+          <td height="8"></td>
+        </tr>
+        <tr>
+          <td><img src="images/banner.jpg" width="811" height="75" /></td>
+        </tr>
+        <tr>
+          <td height="8"></td>
+        </tr>
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="263" align="left" valign="top"><table width="266" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="266"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m06">
+                        <tr>
+                          <td width="" class="m01_zi">统计园地</td>
+                          <td width="42"><a href="tjyd/index.htm" class="menu_cj02">更多</a></td>
+                        </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("tjyd", "", "Y", 6) /><#list map?keys as k>
+                      <tr class="news_h">
+                        <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                      </tr>
+</#list>
+                    </table></td>
+                  </tr>
+              </table></td>
+              <td width="7">&nbsp;</td>
+              <td width="221"><table width="263" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="263"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m06">
+                        <tr>
+                          <td width="" class="m01_zi">政务公开</td>
+                          <td width="42"><a href="zwgk/index.htm" class="menu_cj02">更多</a></td>
+                        </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("zwgk", "", "Y", 6) /><#list map?keys as k>
+                      <tr class="news_h">
+                        <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                      </tr>
+</#list>
+                    </table></td>
+                  </tr>
+              </table></td>
+              <td width="7">&nbsp;</td>
+              <td width="264" align="left" valign="top"><table width="263" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="263"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m06">
+                        <tr>
+                          <td width="" class="m01_zi">普查之窗</td>
+                          <td width="42"><a href="pczc/index.htm" class="menu_cj02">更多</a></td>
+                        </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("pczc", "", "Y", 6) /><#list map?keys as k>
+                      <tr class="news_h">
+                        <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                      </tr>
+</#list>
+                    </table></td>
+                  </tr>
+              </table></td>
+            </tr>
+          </table></td>
+        </tr>
+      </table></td>
+    <td width="10">&nbsp;</td>
+    <td width="183" align="right" valign="top"><table width="180" border="0" cellspacing="0" cellpadding="0">
+<@page.list/>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td height="280" align="center" valign="top" bgcolor="#F0F0F0"><table width="164" height="252" border="0" bgcolor="#F0F0F0">
-                <tr>
-                  <td bgcolor="#F0F0F0">&nbsp;</td>
-                  <td height="26" bgcolor="#F0F0F0"><div align="center" class="STYLE4">
-                      <div align="center"><strong>专题网站</strong></div>
-                  </div></td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td height="28"><div align="center"><a href="http://www.yingde.gd.cn/"><img src="images/untitled-2.jpg" width="141" height="31" border="0"></a></div></td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td height="28"><div align="center"><img src="images/untitled-7.jpg" width="141" height="31"></div></td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td height="28"><div align="center"><img src="images/untitled-4.jpg" width="141" height="31"></div></td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td height="28"><div align="center"><img src="images/untitled-3.jpg" width="141" height="31"></div></td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td height="28"><div align="center"><img src="images/untitled-1.jpg" width="141" height="31"></div></td>
-                </tr>
-                <tr>
-                  <td align="center" valign="middle">&nbsp;</td>
-                  <td height="34" align="center" valign="middle"><a href="http://www.gdsqx.com/Resource/County_index.aspx?county=yingd"><img src="images/untitled-6.jpg" width="141" height="31" border="0"></a></td>
-                </tr>
-                <tr>
-                  <td align="center" valign="middle">&nbsp;</td>
-                  <td height="34" align="center" valign="middle"><SCRIPT language=JavaScript>
-<!-- 
-var caution = false
-function setCookie(name, value, expires, path, domain, secure) {
-        var curCookie = name + "=" + escape(value) +
-                ((expires) ? "; expires=" + expires.toGMTString() : "") +
-                ((path) ? "; path=" + path : "") +
-                ((domain) ? "; domain=" + domain : "") +
-                ((secure) ? "; secure" : "")
-        if (!caution || (name + "=" + escape(value)).length <= 4000)
-                document.cookie = curCookie
-        else
-                if (confirm("Cookie exceeds 4KB and will be cut!"))
-                        document.cookie = curCookie
-}
-function getCookie(name) {
-        var prefix = name + "="
-        var cookieStartIndex = document.cookie.indexOf(prefix)
-        if (cookieStartIndex == -1)
-                return null
-        var cookieEndIndex = document.cookie.indexOf(";", cookieStartIndex + prefix.length)
-        if (cookieEndIndex == -1)
-                cookieEndIndex = document.cookie.length
-        return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex))
-}
-function deleteCookie(name, path, domain) {
-        if (getCookie(name)) {
-                document.cookie = name + "=" + 
-                ((path) ? "; path=" + path : "") +
-                ((domain) ? "; domain=" + domain : "") +
-                "; expires=Thu, 01-Jan-70 00:00:01 GMT"
-        }
-}
-function fixDate(date) {
-        var base = new Date(0)
-        var skew = base.getTime()
-        if (skew > 0)
-                date.setTime(date.getTime() - skew)
-}
-var now = new Date()
-fixDate(now)
-now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000)
-var visits = getCookie("counter")
-if (!visits)
-        visits = 1
-else
-        visits = parseInt(visits) + 1
-setCookie("counter", visits, now)
-document.write("欢迎光临，您是第" + visits + "位访问者！")
-
-// -->
-              </SCRIPT>
-                    &nbsp;</td>
-                </tr>
-            </table></td>
+            <td align="left" class="r_01">友情链接</td>
+          </tr>
+          <tr>
+            <td class="r_02"><table width="147" border="0" align="center" cellspacing="5" style="margin:auto; margin-top:8px; margin-bottom:8px;">
+                  <tr>
+                    <td><a href="#"><img src="images/1.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/2.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/3.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/4.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/6.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  
+                  <tr>
+                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+              </table></td>
           </tr>
         </table></td>
       </tr>
       
-      
-      
-    </table></td>
-  </tr>
-  <tr bgcolor="#5f7189">
-    <td height="70" bgcolor="#5f7189"><table width="796" height="57" border="0">
-      <tr>
-        <td><div align="center">本网站由英德统计局开发完成</div></td>
-      </tr>
-      <tr>
-        <td><div align="center">版权所有：广东省英德市统计局 本站地址：www.ydstats.gov.cn<br>
-        </div></td>
-      </tr>
-      <tr>
-        <td><div align="center">通讯地址：英德市市政府大院 邮政编码：513000 联系电话：0763-2238188</div></td>
-      </tr>
     </table></td>
   </tr>
 </table>
-</body>
-</html>
+</@page.body>
