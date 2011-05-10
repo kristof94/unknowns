@@ -15,15 +15,15 @@
 <div class="box">
 <div class="menu">
 <ul>
-<li><a href="${path}/index.htm" class="menu_cj" title="网站首页">网站首页</a></li>
-<li><a href="${path}/tjdt/index.htm" class="menu_cj" title="统计动态">统计动态</a></li>
-<li><a href="${path}/tjfx/index.htm" class="menu_cj" title="统计分析">统计分析</a></li>
-<li><a href="${path}/tjgg/index.htm" class="menu_cj" title="统计公告">统计公告</a></li>
-<li><a href="${path}/tjnb/index.htm" class="menu_cj" title="统计年报">统计年报</a></li>
-<li><a href="${path}/tjyb/index.htm" class="menu_cj" title="统计月报">统计月报</a></li>
-<li><a href="${path}/tjyd/index.htm" class="menu_cj" title="统计园地">统计园地</a></li>
-<li><a href="${path}/zwgk/index.htm" class="menu_cj" title="政务公开">政务公开</a></li>
-<li><a href="${path}/pczc/index.htm" class="menu_cj" title="普查之窗">普查之窗</a></li>
+<li><a href="${path}/index.htm" class="menu_cj">网站首页</a></li>
+<li><a href="${path}/tjdt/index.htm" class="menu_cj">统计动态</a></li>
+<li><a href="${path}/tjfx/index.htm" class="menu_cj">统计分析</a></li>
+<li><a href="${path}/wjtz/index.htm" class="menu_cj">文件通知</a></li>
+<li><a href="${path}/tjsj/index.htm" class="menu_cj">统计数据</a></li>
+<li><a href="${path}/tjfg/index.htm" class="menu_cj">统计法规</a></li>
+<li><a href="${path}/tjyd/index.htm" class="menu_cj">统计园地</a></li>
+<li><a href="${path}/zwgk/index.htm" class="menu_cj">政务公开</a></li>
+<li><a href="${path}/pczc/index.htm" class="menu_cj">普查之窗</a></li>
 </ul>
 </div>
 </div>
@@ -50,13 +50,13 @@
       <tr>
         <td class="r_02"><table width="160" border="0" cellpadding="0" cellspacing="0" class="r_03">
           <tr>
-            <td align="left"><a href="${path}/tjnb/index.htm" class="menu_cj02">统计年报</a></td>
+            <td align="left"><a href="${path}/tjyb/index.htm" class="menu_cj02">统计月报</a></td>
           </tr>
           
         </table>
           <table width="160" border="0" cellpadding="0" cellspacing="0" class="r_04">
             <tr>
-              <td align="left"><a href="${path}/tjyb/index.htm" class="menu_cj02">统计月报</a></td>
+              <td align="left"><a href="${path}/tjgb/index.htm" class="menu_cj02">统计公报</a></td>
             </tr>
           </table></td>
       </tr>
@@ -73,7 +73,7 @@
       <tr>
         <td class="r_02"><table width="160" border="0" cellpadding="0" cellspacing="0" class="r_03">
             <tr>
-              <td align="left"><a href="${path}/tjwd/index.htm" class="menu_cj02">统计问答</a></td>
+              <td align="left"><a href="${path}/tjzs/index.htm" class="menu_cj02">统计知识</a></td>
             </tr>
           </table>
             <table width="160" border="0" cellpadding="0" cellspacing="0" class="r_03">
@@ -81,16 +81,11 @@
                 <td align="left"><a href="${path}/tjbz/index.htm" class="menu_cj02">统计标准</a></td>
               </tr>
             </table>
-            <table width="160" border="0" cellpadding="0" cellspacing="0" class="r_03">
+            <table width="160" border="0" cellpadding="0" cellspacing="0" class="r_04">
               <tr>
                 <td align="left"><a href="${path}/tjzd/index.htm" class="menu_cj02">统计制度</a></td>
               </tr>
-            </table>
-            <table width="160" border="0" cellpadding="0" cellspacing="0" class="r_04">
-              <tr>
-                <td align="left"><a href="${path}/tjfg/index.htm" class="menu_cj02">统计法规</a></td>
-              </tr>
-          </table></td>
+            </table></td>
       </tr>
     </table></td>
   </tr>
@@ -100,7 +95,7 @@
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td align="left" class="r_01"><a href="${path}//index.htm" class="menu_cj">政务公开</a></td>
+        <td align="left" class="r_01"><a href="${path}/zwgk/index.htm" class="menu_cj">政务公开</a></td>
       </tr>
       <tr>
         <td class="r_02"><table width="160" border="0" cellpadding="0" cellspacing="0" class="r_03">
@@ -127,7 +122,7 @@
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td align="left" class="r_01"><a href="${path}//index.htm" class="menu_cj">普查之窗</a></td>
+        <td align="left" class="r_01"><a href="${path}/pczc/index.htm" class="menu_cj">普查之窗</a></td>
       </tr>
       <tr>
         <td class="r_02"><table width="160" border="0" cellpadding="0" cellspacing="0" class="r_03">

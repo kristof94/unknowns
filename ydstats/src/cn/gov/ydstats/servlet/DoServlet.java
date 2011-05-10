@@ -135,6 +135,8 @@ public class DoServlet extends HttpServlet {
 			list(request, response);
 		} else if(servletPath.endsWith("auto.do")) {
 			autoGenerate(request, response);
+		} else if(servletPath.endsWith("all.do")) {
+			allGenerate(request, response);
 		}
 	}
 	
@@ -194,9 +196,9 @@ public class DoServlet extends HttpServlet {
 			article.setMasterTypeId(masterTypeId);
 			article.setSlaveTypeId(slaveTypeId);
 			article.setDate(CommonUtil.formatDate(new Date()));
-			article.setIsIndexShow(CommonUtil.getParameter(req, "isIndexShow"));
-			article.setTitle(CommonUtil.getParameter(req, "title"));
 		}
+		article.setTitle(CommonUtil.getParameter(req, "title"));
+		article.setIsIndexShow(CommonUtil.getParameter(req, "isIndexShow"));
 		String date = CommonUtil.getParameter(req, "date");
 		if(CommonUtil.isNotEmpty(date)) article.setDate(date);
 		article.setContent(CommonUtil.getParameter(req, "content"));
@@ -512,6 +514,132 @@ public class DoServlet extends HttpServlet {
 						}
 					}
 				}
+			}
+		}
+		req.setAttribute("sysmsg", sysmsg.toString());
+		list(req, res);
+	}
+	
+	/**
+	 * 生成所有静态页面
+	 * @param req
+	 * @param res
+	 */
+	private void allGenerate(HttpServletRequest req, HttpServletResponse res) {
+		Writer out = null;
+		StringBuilder sysmsg = new StringBuilder();
+		Map map = new HashMap();
+		map.put("getList", getList);
+		try {
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(staticPath+"index.htm"), "UTF-8"));
+			out("template/index.ftl", map, out);
+			sysmsg.append("成功生成主页的静态页面：<a href=\"static/index.htm\" target=\"_blank\"/>主页</a>");
+		} catch(Exception e) {
+			e.printStackTrace();
+			sysmsg.append("生成主页的静态页面时出错："+e);
+		} finally {
+			if(out!=null) try {
+				out.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Map<String, String[]> typeMap = TypeUtil.getTypeMap();
+		Iterator<String> iterator = typeMap.keySet().iterator();
+		while(iterator.hasNext()) {
+			String masterTypeId = iterator.next();
+			map.put("masterTypeId", masterTypeId);
+			sysmsg.append("<br/>");
+			File dir = new File(staticPath+masterTypeId);
+			dir.mkdir();
+			try {
+				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, "index.htm")), "UTF-8"));
+				out("template/list.ftl", map, out);
+				sysmsg.append("成功生成文章列表的静态页面：<a href=\"static/"+dir.getName()+"/index.htm\" target=\"_blank\"/>"+TypeUtil.getName(dir.getName())+"</a>");
+			} catch(Exception e) {
+				e.printStackTrace();
+				sysmsg.append("生成文章列表的静态页面时出错："+e);
+			} finally {
+				if(out!=null) try {
+					out.close();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+			Iterator<String> i = dataUtil.getList(masterTypeId, null).keySet().iterator();
+			while(i.hasNext()) {
+				String id = i.next();
+				ArticleInfoBean article = dataUtil.getArticle(id, masterTypeId, null);
+				if(article!=null) {
+					map.put("info", article);
+					try {
+						String htmlName = article.getId().replace(".txt", ".htm");
+						out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, htmlName)), "UTF-8"));
+						out("template/info.ftl", map, out);
+					} catch(Exception e) {
+						e.printStackTrace();
+						sysmsg.append("<br/>");
+						sysmsg.append("生成静态页面时出错："+e);
+					} finally {
+						if(out!=null) try {
+							out.close();
+						} catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+				} else {
+					sysmsg.append("<br/>");
+					sysmsg.append("要生成静态页面的文章不存在："+masterTypeId+File.separator+id);
+				}
+			}
+			map.remove("info");
+			for(String slaveTypeId:TypeUtil.getSlaveType(masterTypeId)) {
+				sysmsg.append("<br/>");
+				map.put("slaveTypeId", slaveTypeId);
+				dir = new File(staticPath+slaveTypeId);
+				dir.mkdir();
+				try {
+					out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, "index.htm")), "UTF-8"));
+					out("template/list.ftl", map, out);
+					sysmsg.append("成功生成文章列表的静态页面：<a href=\"static/"+dir.getName()+"/index.htm\" target=\"_blank\"/>"+TypeUtil.getName(dir.getName())+"</a>");
+				} catch(Exception e) {
+					e.printStackTrace();
+					sysmsg.append("生成文章列表的静态页面时出错："+e);
+				} finally {
+					if(out!=null) try {
+						out.close();
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
+				map.remove("slaveTypeId");
+				i = dataUtil.getList(masterTypeId, slaveTypeId).keySet().iterator();
+				while(i.hasNext()) {
+					String id = i.next();
+					ArticleInfoBean article = dataUtil.getArticle(id, masterTypeId, slaveTypeId);
+					if(article!=null) {
+						map.put("info", article);
+						try {
+							String htmlName = article.getId().replace(".txt", ".htm");
+							out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, htmlName)), "UTF-8"));
+							out("template/info.ftl", map, out);
+						} catch(Exception e) {
+							e.printStackTrace();
+							sysmsg.append("<br/>");
+							sysmsg.append("生成静态页面时出错："+e);
+						} finally {
+							if(out!=null) try {
+								out.close();
+							} catch(IOException e) {
+								e.printStackTrace();
+							}
+						}
+					} else {
+						sysmsg.append("<br/>");
+						sysmsg.append("要生成静态页面的文章不存在："+masterTypeId+File.separator+id);
+					}
+				}
+				map.remove("info");
 			}
 		}
 		req.setAttribute("sysmsg", sysmsg.toString());
