@@ -73,9 +73,8 @@ public class DataUtil {
 	}
 	
 	public void saveArticle(ArticleInfoBean article) {
-		boolean flag = false;
+		boolean flag = true;
 		if(article.getId()==null) {
-			flag = true;
 			article.setId(System.currentTimeMillis()+""+System.nanoTime()+".txt");
 		}
 		File data = new File(dataDir, (CommonUtil.isNotEmpty(article.getMasterTypeId())?article.getMasterTypeId()+File.separator:"")+(CommonUtil.isNotEmpty(article.getSlaveTypeId())?article.getSlaveTypeId()+File.separator:"")+article.getId());
@@ -105,8 +104,13 @@ public class DataUtil {
 						count = Integer.valueOf(temp);
 						while((temp=in.readLine())!=null) {
 							if(temp.length()>0) {
-								sb.append(temp).append("\r\n");
-								if(flag && temp.startsWith(article.getId()+"=")) flag = false;
+								if(flag && temp.startsWith(article.getId()+"=")) {
+									flag = false;
+									sb.append(article.getId()).append("=").append(article.getIsIndexShow()).append("=").append(article.getTitle());
+								} else {
+									sb.append(temp);
+								}
+								sb.append("\r\n");
 							}
 						}
 					}
@@ -141,8 +145,13 @@ public class DataUtil {
 						count = Integer.valueOf(temp);
 						while((temp=in.readLine())!=null) {
 							if(temp.length()>0) {
-								sb.append(temp).append("\r\n");
-								if(flag && temp.startsWith(article.getId()+"=")) flag = false;
+								if(flag && temp.startsWith(article.getId()+"=")) {
+									flag = false;
+									sb.append(article.getId()).append("=").append(article.getIsIndexShow()).append("=").append(article.getSlaveTypeId()==null?"":article.getSlaveTypeId()).append("=").append(article.getTitle());
+								} else {
+									sb.append(temp);
+								}
+								sb.append("\r\n");
 							}
 						}
 					}

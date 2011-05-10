@@ -9,9 +9,11 @@
     <td width="799" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m04">
-            <tr>
-              <td width="107" class="m01_zi">当前位置 &gt; ${typeName[masterTypeId]!""}<#if slaveTypeId??> &gt; ${typeName[slaveTypeId]!""}</#if></td>
-              </tr>
+          <tr>
+            <td width="511" class="m01_zi">当前位置 &gt; ${typeName[masterTypeId]!""}<#if slaveTypeId??> &gt; ${typeName[slaveTypeId]!""}</#if></td>
+            <td width="290" align="right">&nbsp;</td>
+            <td width="11" align="right">&nbsp;</td>
+          </tr>
         </table></td>
       </tr>
       <tr>

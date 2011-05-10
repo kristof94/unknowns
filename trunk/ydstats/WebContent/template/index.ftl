@@ -79,8 +79,8 @@ document.write('</object>');
               <tr>
                 <td><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m04">
                   <tr>
-                    <td width="166" class="m01_zi"><strong>统计动态</strong></td>
-                    <td width="644">统计职业道德：忠诚统计　乐于奉献　实事求是　不出假数　依法统计　严守秘密　公正透明　服务社会</td>
+                    <td width="166" align="middle" class="m01_zi"><strong>统计职业道德：</strong></td>
+                    <td width="644" align="middle"> <marquee width="644" behavior="scroll" scrollamount="5" >忠诚统计　乐于奉献　实事求是　不出假数　依法统计　严守秘密　公正透明　服务社会 </marquee>                      </td>
                   </tr>
                 </table></td>
               </tr>
@@ -121,7 +121,7 @@ document.write('</object>');
                   </table></td>
                 </tr>
                 <tr>
-                  <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+                  <td height="190" align="left" valign="top" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
 <#assign map = getList("tjfx", "", "Y", 6) /><#list map?keys as k>
                     <tr class="news_h">
                       <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
@@ -138,7 +138,7 @@ document.write('</object>');
                         <td >
 						<div class="m67">
 						<ul>
-						<li><a href="#" class="menu_cj02 first" onclick="showtj(true); return false;" id="tjnba">统计年报</a></li>
+						<li><a href="#" class="menu_cj02 first" onclick="showtj(true); return false;" id="tjgba">统计公报</a></li>
 						<li><a href="#" class="menu_cj02" onclick="showtj(false); return false;" id="tjyba">统计月报</a></li>
 						</ul>
 						</li>
@@ -146,14 +146,14 @@ document.write('</object>');
 <script type="text/javascript">
 function showtj(flag) {
 	if(flag) {
-		document.getElementById("tjnba").className="menu_cj02 first";
-		document.getElementById("tjnbd").style.display="";
-		document.getElementById("tj").href="tjnb/index.htm";
+		document.getElementById("tjgba").className="menu_cj02 first";
+		document.getElementById("tjgbd").style.display="";
+		document.getElementById("tj").href="tjgb/index.htm";
 		document.getElementById("tjyba").className="menu_cj02";
 		document.getElementById("tjybd").style.display="none";
 	} else {
-		document.getElementById("tjnba").className="menu_cj02";
-		document.getElementById("tjnbd").style.display="none";
+		document.getElementById("tjgba").className="menu_cj02";
+		document.getElementById("tjgbd").style.display="none";
 		document.getElementById("tj").href="tjyb/index.htm";
 		document.getElementById("tjyba").className="menu_cj02 first";
 		document.getElementById("tjybd").style.display="";
@@ -161,22 +161,22 @@ function showtj(flag) {
 }
 </script>
 						</td>
-                        <td width="42"><a href="tjnb/index.htm" class="menu_cj02" id="tj">更多</a></td>
+                        <td width="42"><a href="tjgb/index.htm" class="menu_cj02" id="tj">更多</a></td>
                       </tr>
                   </table></td>
                 </tr>
                 <tr>
-                  <td height="190" class="m07"><div id="tjnbd"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
-<#assign map = getList("tjsj", "tjnb", "Y", 6) /><#list map?keys as k>
+                  <td height="190" align="left" valign="top" class="m07"><div id="tjgbd"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("tjsj", "tjgb", "Y", 6) /><#list map?keys as k>
                       <tr class="news_h">
-                        <td class="news_h"><span class="yellow">·</span><a href="tjnb/${k?replace(".txt", ".htm")}"><#assign title=map[k]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                        <td class="news_h"><span class="yellow">·</span><a href="tjgb/${k?replace(".txt", ".htm")}"><#assign title=map[k]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
                       </tr>
 </#list>
                   </table></div>
                   <div id="tjybd" style="display:none;"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
 <#assign map = getList("tjsj", "tjyb", "Y", 6) /><#list map?keys as k>
                       <tr class="news_h">
-                        <td class="news_h"><span class="yellow">·</span><a href="tjnb/${k?replace(".txt", ".htm")}"><#assign title=map[k]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
+                        <td class="news_h"><span class="yellow">·</span><a href="tjyb/${k?replace(".txt", ".htm")}"><#assign title=map[k]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
                       </tr>
 </#list>
                   </table></div></td>
@@ -187,14 +187,14 @@ function showtj(flag) {
                 <tr>
                   <td width="263"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m06">
                       <tr>
-                        <td width="" class="m01_zi">统计公告</td>
-                        <td width="42"><a href="tjgg/index.htm" class="menu_cj02">更多</a></td>
+                        <td width="" class="m01_zi">文件通知</td>
+                        <td width="42"><a href="wjtz/index.htm" class="menu_cj02">更多</a></td>
                       </tr>
                   </table></td>
                 </tr>
                 <tr>
-                  <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
-<#assign map = getList("tjgg", "", "Y", 6) /><#list map?keys as k>
+                  <td height="190" align="left" valign="top" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+<#assign map = getList("wjtz", "", "Y", 6) /><#list map?keys as k>
                       <tr class="news_h">
                         <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
                       </tr>
@@ -227,7 +227,7 @@ function showtj(flag) {
                     </table></td>
                   </tr>
                   <tr>
-                    <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+                    <td height="190" align="left" valign="top" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
 <#assign map = getList("tjyd", "", "Y", 6) /><#list map?keys as k>
                       <tr class="news_h">
                         <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
@@ -247,7 +247,7 @@ function showtj(flag) {
                     </table></td>
                   </tr>
                   <tr>
-                    <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+                    <td height="190" align="left" valign="top" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
 <#assign map = getList("zwgk", "", "Y", 6) /><#list map?keys as k>
                       <tr class="news_h">
                         <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
@@ -267,7 +267,7 @@ function showtj(flag) {
                     </table></td>
                   </tr>
                   <tr>
-                    <td height="190" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+                    <td height="190" align="left" valign="top" class="m07"><table width="91%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:5px;">
 <#assign map = getList("pczc", "", "Y", 6) /><#list map?keys as k>
                       <tr class="news_h">
                         <td class="news_h"><span class="yellow">·</span><#assign s=map[k]/><a href="${s[0]}/${k?replace(".txt", ".htm")}"><#assign title=s[1]/><#if title?length gt 17>${title?substring(0, 17)}...<#else>${title}</#if></a></td>
@@ -291,35 +291,34 @@ function showtj(flag) {
           <tr>
             <td class="r_02"><table width="147" border="0" align="center" cellspacing="5" style="margin:auto; margin-top:8px; margin-bottom:8px;">
                   <tr>
-                    <td><a href="#"><img src="images/1.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.yingde.gov.cn/" target="_blank"><img src="images/logo01.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/2.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.stats.gov.cn/" target="_blank"><img src="images/logo02.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/3.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.gdstats.gov.cn/" target="_blank"><img src="images/logo03.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/4.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.qystats.gov.cn/" target="_blank"><img src="images/logo04.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/6.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.gdqygs.gov.cn/sub/ydhd/" target="_blank"><img src="images/logo05.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.yingde.gov.cn/web/price/index.jsp" target="_blank"><img src="images/logo06.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.ydyzly.cn/" target="_blank"><img src="images/logo07.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
-                  </tr>
-                  
-                  <tr>
-                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.ydcement.com/" target="_blank"><img src="images/logo08.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="#"><img src="images/7.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://www.teayq.cn/" target="_blank"><img src="images/logo09.jpg" width="141" height="31" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="http://www.baojinggong.com.cn/" target="_blank"><img src="images/logo10.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
               </table></td>
           </tr>

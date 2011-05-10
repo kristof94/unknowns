@@ -61,6 +61,7 @@ $j("#masterTypeId").val("${masterTypeId}");
 <tr><td>
 操作：
 <a href="#" onclick="generate('gindex.do'); return false;">生成主页</a>
+<a href="#" onclick="generate('all.do'); return false;">生成所有页面</a>
 </td></tr>
 <#if sysmsg?exists>
 <tr><td align="center">
