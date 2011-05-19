@@ -37,7 +37,7 @@ function setDomObj(formDomObj, messageDomObj) {
  */
 function getMessage() {
 	var message = wysiwyg ? bbcode2html(html2bbcode(getEditorContents())) : bbcode2html(postmessage.value);
-	message = message.replace(/(^\s*)|(\s*$)/g,"");
+	//message = message.replace(/(^\s*)|(\s*$)/g,"");
 	postmessage.value = message;
 	//bbcode2html(message);
 	return message;

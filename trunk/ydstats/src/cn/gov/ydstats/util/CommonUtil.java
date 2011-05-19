@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CommonUtil {
 	/**
-	 * 以String类型获取request里的parameter，并去掉前后空格
+	 * 以String类型获取request里的parameter
 	 * @param request
 	 * @param parameterName
 	 * @return
@@ -22,7 +22,7 @@ public class CommonUtil {
 	}
 	
 	/**
-	 * 以String类型获取request里的parameter，并去掉前后空格
+	 * 以String类型获取request里的parameter
 	 * @param request
 	 * @param parameterName
 	 * @param defaultValue
@@ -32,7 +32,6 @@ public class CommonUtil {
 			String defaultValue) {
 		String value = request.getParameter(parameterName);
 		if(value != null) {
-			value = value.trim();
 			try {
 				if(request.getCharacterEncoding() == null) {
 					return new String(value.getBytes("ISO-8859-1"), "UTF-8");
