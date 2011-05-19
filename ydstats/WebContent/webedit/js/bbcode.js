@@ -41,9 +41,7 @@ function atag(aoptions, text) {
  */
 function bbcode2html(str) {
 
-	str = trim(str);
-
-	if(str == '') {
+	if(trim(str) == '') {
 		return '';
 	}
 
@@ -198,7 +196,7 @@ function html2bbcode(str) {
 
 	str= str.replace(/(\r\n|\n|\r)/ig, '');
 
-	str= trim(str.replace(/&((#(32|127|160|173))|shy|nbsp);/ig, ' '));
+	str= str.replace(/&((#(32|127|160|173))|shy|nbsp);/ig, ' ');
 
 	str = str.replace(/<br\s+?style=(["']?)clear: both;?(\1)[^\>]*>/ig, '');
 	str = str.replace(/<br[^\>]*>/ig, "\n");
