@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/yearSpinner" android:layout_weight="1"></Spinner>
+		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/monthSpinner" android:layout_weight="1"></Spinner>
+		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/daySpinner" android:layout_weight="1"></Spinner>
+	</LinearLayout>
+	<TableLayout android:id="@+id/tableLayout1"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:stretchColumns="1">
+		<View android:layout_height="2dip" android:background="#FF909090" />
+		<TableRow android:id="@+id/tableRow2" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="大类" android:textStyle="bold" android:gravity="right" android:padding="3dip"></TextView>
+			<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/masterSpinner"></Spinner>
+		</TableRow>
+		<EditText android:id="@+id/masterEditText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone" android:inputType="text"></EditText>
+		<View android:layout_height="2dip" android:background="#FF909090" />
+		<TableRow android:id="@+id/tableRow3" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="小类" android:textStyle="bold" android:gravity="right" android:padding="3dip"></TextView>
+			<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/slaveSpinner"></Spinner>
+		</TableRow>
+		<EditText android:id="@+id/slaveEditText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone" android:inputType="text"></EditText>
+		<View android:layout_height="2dip" android:background="#FF909090" />
+		<TableRow android:id="@+id/tableRow1" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="金额" android:textStyle="bold" android:gravity="right" android:padding="3dip"></TextView>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/moneyEditText" android:padding="3dip" android:scrollHorizontally="true" android:inputType="numberDecimal"></EditText>
+		</TableRow>
+		<View android:layout_height="2dip" android:background="#FF909090" />
+	</TableLayout>
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+		<Button android:text="查看" android:id="@+id/listButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+		<Button android:text="保存" android:id="@+id/saveButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+		<Button android:text="关闭" android:id="@+id/exitButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+	</LinearLayout>
+</LinearLayout>
