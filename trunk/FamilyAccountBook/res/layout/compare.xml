@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TableLayout android:id="@+id/tableLayout1"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:stretchColumns="1">
+		<TableRow android:id="@+id/tableRow2" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="大类" android:textStyle="bold" android:gravity="right" android:padding="3dip"></TextView>
+			<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/masterSpinner"></Spinner>
+		</TableRow>
+		<TableRow android:id="@+id/tableRow3" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="小类" android:textStyle="bold" android:gravity="right" android:padding="3dip"></TextView>
+			<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/slaveSpinner"></Spinner>
+		</TableRow>
+	</TableLayout>
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+		<Button android:text="比较" android:id="@+id/compareButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+		<Button android:text="返回" android:id="@+id/exitButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+	</LinearLayout>
+</LinearLayout>

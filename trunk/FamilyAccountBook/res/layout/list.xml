@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+	<LinearLayout android:id="@+id/LinearLayout01"
+		android:layout_height="wrap_content" android:layout_width="fill_parent">
+		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/yearSpinner"></Spinner>
+		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/monthSpinner"></Spinner>
+		<Button android:text="图表" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/compareButton"></Button>
+		<Button android:text="返回" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/exitButton"></Button>
+	</LinearLayout>
+
+	<ListView android:layout_height="wrap_content" android:id="@+id/dateListView" android:layout_width="fill_parent"></ListView>
+</LinearLayout>
