@@ -30,6 +30,7 @@ public class ListActivity extends Activity {
         monthSpinner.setOnItemSelectedListener(DATE_SPINNER_LISTENER);
         ((ListView)findViewById(R.id.dateListView)).setOnItemClickListener(ITEM_CLICK_LISTENER);
         ((ListView)findViewById(R.id.dateListView)).setOnCreateContextMenuListener(CREATE_CONTEXT_MENU_LISTENER);
+        ((Button)findViewById(R.id.exportButton)).setOnClickListener(EXPORT_CLICK_LISTENER);
         ((Button)findViewById(R.id.compareButton)).setOnClickListener(COMPARE_SELECT_CLICK_LISTENER);
         ((Button)findViewById(R.id.exitButton)).setOnClickListener(EXIT_CLICK_LISTENER);
     }

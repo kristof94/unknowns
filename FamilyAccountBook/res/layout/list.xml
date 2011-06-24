@@ -7,6 +7,11 @@
 		android:layout_height="wrap_content" android:layout_width="fill_parent">
 		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/yearSpinner"></Spinner>
 		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/monthSpinner"></Spinner>
+		<Button android:text="导出" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/exportButton"></Button>
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/LinearLayout02"
+		android:layout_height="wrap_content" android:layout_width="fill_parent">
 		<Button android:text="图表" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/compareButton"></Button>
 		<Button android:text="返回" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/exitButton"></Button>
 	</LinearLayout>

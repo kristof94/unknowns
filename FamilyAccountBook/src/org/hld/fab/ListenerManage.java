@@ -1,9 +1,9 @@
 package org.hld.fab;
 
-import static org.hld.fab.MiscUtil.createMasterAdapter;
-import static org.hld.fab.MiscUtil.createSlaveAdapter;
-import static org.hld.fab.MiscUtil.refreshDataListView;
-import static org.hld.fab.MiscUtil.toast;
+import static org.hld.fab.MiscUtil.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -107,10 +108,53 @@ public class ListenerManage {
 		}
 	};
 	
-	public static final OnClickListener SHOW_CLICK_LISTENER = new OnClickListener() {
+	public static final OnClickListener EXPORT_CLICK_LISTENER = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			refreshDataListView((Activity)v.getContext());
+			Activity activity = (Activity)v.getContext();
+			ListAdapter adapter = ((ListView)activity.findViewById(R.id.dateListView)).getAdapter();
+			int count = adapter.getCount();
+			if(count==0) {
+				toast(activity, "没有数据需要导出");
+				return;
+			}
+			String year = ((Spinner)activity.findViewById(R.id.yearSpinner)).getSelectedItem().toString();
+	    	String month = ((Spinner)activity.findViewById(R.id.monthSpinner)).getSelectedItem().toString();
+			FileOutputStream out = null;
+			File file = new File(PreferencesManage.getSDCardDir(), "FAB_"+year+month+".txt");
+			try {
+				out = new FileOutputStream(file);
+				for(int i = 0; i<count; i++) {
+					Map item = (Map)adapter.getItem(i);
+					String date = (String)item.get("date");
+					List<HistoryLog> data = (List)item.get("data");
+					Double total = (Double)item.get("total");
+					out.write(date.getBytes("UTF-8"));
+					out.write('\r');
+					out.write('\n');
+					for(HistoryLog log:data) {
+						out.write(log.getMaster().getBytes("UTF-8"));
+						out.write('\t');
+						if(log.getSlave()!=null) out.write(log.getSlave().getBytes("UTF-8"));
+						out.write('\t');
+						out.write(log.getMoney().toString().getBytes());
+						out.write('\r');
+						out.write('\n');
+					}
+					out.write("合计".getBytes("UTF-8"));
+					out.write('\t');
+					out.write(total.toString().getBytes());
+					out.write('\r');
+					out.write('\n');
+					out.write('\r');
+					out.write('\n');
+				}
+				toast(activity, "数据已成功导出到"+file.getAbsolutePath());
+			} catch(Exception e) {
+				toast(activity, "导出数据时出错："+e);
+			} finally {
+				closeOutputStream(out);
+			}
 		}
 	};
 	
