@@ -28,6 +28,12 @@ public class SaveActivity extends Activity {
         daySpinner.setAdapter(dayAdapter);
         daySpinner.setSelection(result[2]);
         //设置分类列表
+        Spinner typeSpinner = (Spinner)findViewById(R.id.typeSpinner);
+        ArrayAdapter typeAdapter = MiscUtil.createAdapter(this);
+        typeAdapter.add("支出");
+        typeAdapter.add("余额");
+        typeSpinner.setAdapter(typeAdapter);
+        typeSpinner.setOnItemSelectedListener(TYPE_SPINNER_LISTENER);
         Spinner masterSpinner = (Spinner)findViewById(R.id.masterSpinner);
         masterSpinner.setAdapter(MiscUtil.createMasterAdapter(this, "自定义"));
         masterSpinner.setOnItemSelectedListener(MASTER_SPINNER_LISTENER);
@@ -35,6 +41,7 @@ public class SaveActivity extends Activity {
         slaveSpinner.setOnItemSelectedListener(SLAVE_SPINNER_LISTENER);
         //设置按钮的监听器
         ((Button)findViewById(R.id.listButton)).setOnClickListener(LIST_CLICK_LISTENER);
+        ((Button)findViewById(R.id.balanceButton)).setOnClickListener(BALANCE_CLICK_LISTENER);
         ((Button)findViewById(R.id.saveButton)).setOnClickListener(SAVE_CLICK_LISTENER);
         ((Button)findViewById(R.id.exitButton)).setOnClickListener(EXIT_CLICK_LISTENER);
     }

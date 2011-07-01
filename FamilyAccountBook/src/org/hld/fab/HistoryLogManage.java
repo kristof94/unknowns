@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,9 @@ public class HistoryLogManage {
 	public static boolean saveLog(HistoryLog log) {
 		OutputStream out = null;
 		try {
+			DecimalFormat format = new DecimalFormat();
+			format.setGroupingUsed(false);
+			format.setDecimalSeparatorAlwaysShown(false);
 			File file = getDataFile(log);
 			file.getParentFile().mkdirs();
 			out = new FileOutputStream(file, true);
@@ -51,7 +55,7 @@ public class HistoryLogManage {
 			out.write('\t');
 			if(log.getSlave()!=null) out.write(log.getSlave().getBytes("UTF-8"));
 			out.write('\t');
-			out.write(log.getMoney().toString().getBytes());
+			out.write(format.format(log.getMoney()).getBytes());
 			out.write('\r');
 			out.write('\n');
 			return true;
@@ -73,6 +77,9 @@ public class HistoryLogManage {
 		if(data==null || data.isEmpty()) return deleteLog(file);
 		OutputStream out = null;
 		try {
+			DecimalFormat format = new DecimalFormat();
+			format.setGroupingUsed(false);
+			format.setDecimalSeparatorAlwaysShown(false);
 			file.getParentFile().mkdirs();
 			out = new FileOutputStream(file);
 			for(HistoryLog log:data) {
@@ -80,7 +87,7 @@ public class HistoryLogManage {
 				out.write('\t');
 				if(log.getSlave()!=null) out.write(log.getSlave().getBytes("UTF-8"));
 				out.write('\t');
-				out.write(log.getMoney().toString().getBytes());
+				out.write(format.format(log.getMoney()).getBytes());
 				out.write('\r');
 				out.write('\n');
 			}
