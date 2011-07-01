@@ -7,6 +7,16 @@
 		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/monthSpinner" android:layout_weight="1"></Spinner>
 		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/daySpinner" android:layout_weight="1"></Spinner>
 	</LinearLayout>
+	<TableLayout android:id="@+id/tableLayout3"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:stretchColumns="1">
+		<View android:layout_height="2dip" android:background="#FF909090" />
+		<TableRow android:id="@+id/tableRow4" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="类型" android:textStyle="bold" android:gravity="right" android:padding="3dip"></TextView>
+			<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/typeSpinner"></Spinner>
+		</TableRow>
+	</TableLayout>
 	<TableLayout android:id="@+id/tableLayout1"
 		android:layout_width="fill_parent" android:layout_height="wrap_content" android:stretchColumns="1">
 		<View android:layout_height="2dip" android:background="#FF909090" />
@@ -25,6 +35,9 @@
 			<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/slaveSpinner"></Spinner>
 		</TableRow>
 		<EditText android:id="@+id/slaveEditText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone" android:inputType="text"></EditText>
+	</TableLayout>
+	<TableLayout android:id="@+id/tableLayout2"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:stretchColumns="1">
 		<View android:layout_height="2dip" android:background="#FF909090" />
 		<TableRow android:id="@+id/tableRow1" android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
@@ -35,8 +48,11 @@
 		</TableRow>
 		<View android:layout_height="2dip" android:background="#FF909090" />
 	</TableLayout>
-	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
-		<Button android:text="查看" android:id="@+id/listButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2">
+		<Button android:text="查看支出" android:id="@+id/listButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+		<Button android:text="查看余额" android:id="@+id/balanceButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+	</LinearLayout>
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout3">
 		<Button android:text="保存" android:id="@+id/saveButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
 		<Button android:text="关闭" android:id="@+id/exitButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
 	</LinearLayout>

@@ -17,6 +17,7 @@
         <activity android:name=".SaveActivity"/>
         <activity android:name=".ShowActivity"/>
         <activity android:name=".CompareActivity"/>
+        <activity android:name=".BalanceActivity"/>
         <activity android:name="org.achartengine.GraphicalActivity" />
 
     </application>

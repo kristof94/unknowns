@@ -1,14 +1,22 @@
 package org.hld.fab;
 
-import static org.hld.fab.MiscUtil.*;
+import static org.hld.fab.MiscUtil.closeOutputStream;
+import static org.hld.fab.MiscUtil.createMasterAdapter;
+import static org.hld.fab.MiscUtil.createSlaveAdapter;
+import static org.hld.fab.MiscUtil.refreshBalanceListView;
+import static org.hld.fab.MiscUtil.refreshDataListView;
+import static org.hld.fab.MiscUtil.toast;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -41,6 +49,17 @@ public class ListenerManage {
 		}
 	};
 	
+	public static final OnClickListener BALANCE_CLICK_LISTENER = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Activity activity = (Activity)v.getContext();
+			Intent intent = new Intent();
+	    	intent.setClass(activity, BalanceActivity.class);
+	    	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    	activity.startActivity(intent);
+		}
+	};
+	
 	public static final OnClickListener SAVE_CLICK_LISTENER = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -51,49 +70,55 @@ public class ListenerManage {
 			}
 			isLock = true;
 			try {
-				boolean flag = false;
-				Spinner spinner = (Spinner)activity.findViewById(R.id.masterSpinner);
-				String master = spinner.getSelectedItem().toString();
-				EditText masterEditText = (EditText)activity.findViewById(R.id.masterEditText);
-				if("自定义".equals(master)) {
-					master = masterEditText.getText().toString().trim();
-					flag = true;
-				}
-				if(master.length()==0) {
-					toast(activity, "主类无效");
-					return;
-				}
-				String slave = ((Spinner)activity.findViewById(R.id.slaveSpinner)).getSelectedItem().toString();
-				EditText slaveEditText = (EditText)activity.findViewById(R.id.slaveEditText);
-				if("自定义".equals(slave)) {
-					slave = slaveEditText.getText().toString().trim();
-					if(slave.length()!=0) flag = true;
-				}
 				EditText edit = (EditText)activity.findViewById(R.id.moneyEditText);
-				String money = edit.getText().toString().trim();
-				if(!DECIMAL_PATTERN.matcher(money).matches()) {
+				String m = edit.getText().toString().trim();
+				if(!DECIMAL_PATTERN.matcher(m).matches()) {
 					toast(activity, "金额无效");
 					return;
 				}
-				HistoryLog log = new HistoryLog();
+				Double money = Double.valueOf(m);
 				String year = ((Spinner)activity.findViewById(R.id.yearSpinner)).getSelectedItem().toString();
 		    	String month = ((Spinner)activity.findViewById(R.id.monthSpinner)).getSelectedItem().toString();
 		    	String day = ((Spinner)activity.findViewById(R.id.daySpinner)).getSelectedItem().toString();
-				log.setDate(year+month+day);
-				log.setMaster(master);
-				log.setSlave(slave);
-				log.setMoney(Double.valueOf(money));
-				if(HistoryLogManage.saveLog(log)) {
-					masterEditText.setText("");
-					slaveEditText.setText("");
-					edit.setText("");
-					toast(activity, "保存成功");
+		    	String date = year+month+day;
+				if("余额".equals(((Spinner)activity.findViewById(R.id.typeSpinner)).getSelectedItem())) {
+					toast(activity, BalanceLogManage.saveLog(date, money)?"保存成功":"保存失败");
 				} else {
-					toast(activity, "保存失败");
-				}
-				if(flag) {
-					TypeManage.addType(master, slave);
-					spinner.setAdapter(createMasterAdapter(activity, "自定义"));
+					boolean flag = false;
+					Spinner spinner = (Spinner)activity.findViewById(R.id.masterSpinner);
+					String master = spinner.getSelectedItem().toString();
+					EditText masterEditText = (EditText)activity.findViewById(R.id.masterEditText);
+					if("自定义".equals(master)) {
+						master = masterEditText.getText().toString().trim();
+						flag = true;
+					}
+					if(master.length()==0) {
+						toast(activity, "主类无效");
+						return;
+					}
+					String slave = ((Spinner)activity.findViewById(R.id.slaveSpinner)).getSelectedItem().toString();
+					EditText slaveEditText = (EditText)activity.findViewById(R.id.slaveEditText);
+					if("自定义".equals(slave)) {
+						slave = slaveEditText.getText().toString().trim();
+						if(slave.length()!=0) flag = true;
+					}
+					HistoryLog log = new HistoryLog();
+					log.setDate(date);
+					log.setMaster(master);
+					log.setSlave(slave);
+					log.setMoney(money);
+					if(HistoryLogManage.saveLog(log)) {
+						masterEditText.setText("");
+						slaveEditText.setText("");
+						edit.setText("");
+						toast(activity, "保存成功");
+					} else {
+						toast(activity, "保存失败");
+					}
+					if(flag) {
+						TypeManage.addType(master, slave);
+						spinner.setAdapter(createMasterAdapter(activity, "自定义"));
+					}
 				}
 			} finally {
 				isLock = false;
@@ -123,8 +148,11 @@ public class ListenerManage {
 			FileOutputStream out = null;
 			File file = new File(PreferencesManage.getSDCardDir(), "FAB_"+year+month+".txt");
 			try {
+				DecimalFormat format = new DecimalFormat();
+				format.setGroupingUsed(false);
+				format.setDecimalSeparatorAlwaysShown(false);
 				out = new FileOutputStream(file);
-				for(int i = 0; i<count; i++) {
+				for(int i = count-1; i>=0; i--) {
 					Map item = (Map)adapter.getItem(i);
 					String date = (String)item.get("date");
 					List<HistoryLog> data = (List)item.get("data");
@@ -137,7 +165,7 @@ public class ListenerManage {
 						out.write('\t');
 						if(log.getSlave()!=null) out.write(log.getSlave().getBytes("UTF-8"));
 						out.write('\t');
-						out.write(log.getMoney().toString().getBytes());
+						out.write(format.format(log.getMoney()).getBytes());
 						out.write('\r');
 						out.write('\n');
 					}
@@ -146,6 +174,47 @@ public class ListenerManage {
 					out.write(total.toString().getBytes());
 					out.write('\r');
 					out.write('\n');
+					out.write('\r');
+					out.write('\n');
+				}
+				toast(activity, "数据已成功导出到"+file.getAbsolutePath());
+			} catch(Exception e) {
+				toast(activity, "导出数据时出错："+e);
+			} finally {
+				closeOutputStream(out);
+			}
+		}
+	};
+	
+	public static final OnClickListener EXPORT_BALANCE_CLICK_LISTENER = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Activity activity = (Activity)v.getContext();
+			File dir = BalanceLogManage.getBalanceDataDir();
+			File[] list = null;
+			if(dir.isDirectory()) list = dir.listFiles();
+			if(list==null || list.length==0) {
+				toast(activity, "没有数据需要导出");
+				return;
+			}
+			Map<String, String> map = new TreeMap<String, String>();
+			for(File file:list) BalanceLogManage.loadLog(file, map);
+			Iterator<Entry<String, String>> iterator = map.entrySet().iterator();
+			FileOutputStream out = null;
+			File file = new File(PreferencesManage.getSDCardDir(), "FAB_Balance.txt");
+			try {
+				out = new FileOutputStream(file);
+				while(iterator.hasNext()) {
+					Entry<String, String> entry = iterator.next();
+					String date = entry.getKey();
+					out.write(date.substring(0, 4).getBytes());
+					out.write("年".getBytes("UTF-8"));
+					out.write(date.substring(4, 6).getBytes());
+					out.write("月".getBytes("UTF-8"));
+					out.write(date.substring(6).getBytes());
+					out.write("日".getBytes("UTF-8"));
+					out.write('\t');
+					out.write(entry.getValue().getBytes());
 					out.write('\r');
 					out.write('\n');
 				}
@@ -192,6 +261,18 @@ public class ListenerManage {
 		}
 	};
 	
+	public static final OnItemSelectedListener TYPE_SPINNER_LISTENER = new OnItemSelectedListener() {
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			View table = ((Activity)view.getContext()).findViewById(R.id.tableLayout1);
+			if("余额".equals(parent.getItemAtPosition(position))) table.setVisibility(View.GONE);
+			else table.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {}
+	};
+	
 	public static final OnItemSelectedListener MASTER_SPINNER_LISTENER = new OnItemSelectedListener() {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -234,7 +315,9 @@ public class ListenerManage {
 	public static final OnItemSelectedListener DATE_SPINNER_LISTENER = new OnItemSelectedListener() {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			refreshDataListView((Activity)parent.getContext());
+			Context context = parent.getContext();
+			if(context instanceof BalanceActivity) refreshBalanceListView((Activity)context);
+			else refreshDataListView((Activity)context);
 		}
 		
 		@Override
@@ -302,6 +385,12 @@ public class ListenerManage {
 			} else {
 				toast(activity, "要删除的记录不存在");
 			}
+			break;
+		case R.id.balanceListView:
+			map = (Map)listView.getItemAtPosition(menuInfo.position);
+			date = (String)map.get("date");
+			BalanceLogManage.deleteLog(date.replaceAll("[年月日]", ""));
+			refreshBalanceListView(activity);
 			break;
 		}
 		return false;

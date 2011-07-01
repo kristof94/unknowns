@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -119,10 +120,15 @@ public class MiscUtil {
 			dateListView.setAdapter(createAdapter(context));
     		return;
     	}
+    	if(fileArray.length==0) {
+			toast(context, "选择的日期没有数据");
+			dateListView.setAdapter(createAdapter(context));
+    		return;
+    	}
     	Set<Map<String, Object>> dataSet = new TreeSet<Map<String, Object>>(new Comparator<Map>() {
 			@Override
 			public int compare(Map object1, Map object2) {
-				return ((String)object1.get("date")).compareTo((String)object2.get("date"));
+				return -((String)object1.get("date")).compareTo((String)object2.get("date"));
 			}
 		});
     	for(File file:fileArray) {
@@ -151,6 +157,31 @@ public class MiscUtil {
     	}
     	dataSet.clear();
         ((ListView)activity.findViewById(R.id.dateListView)).setAdapter(new SimpleAdapter(context, dataList, android.R.layout.simple_list_item_2, new String[]{"date", "total"}, new int[]{android.R.id.text1, android.R.id.text2}));
+    }
+    
+    public static void refreshBalanceListView(Activity activity) {
+    	Context context = activity.getBaseContext();
+    	ListView dateListView = (ListView)activity.findViewById(R.id.balanceListView);
+    	String year = ((Spinner)activity.findViewById(R.id.yearSpinner)).getSelectedItem().toString();
+    	String month = ((Spinner)activity.findViewById(R.id.monthSpinner)).getSelectedItem().toString();
+    	File file = BalanceLogManage.getDataFile(year+month);
+    	if(!file.canRead()) {
+			toast(context, "选择的日期没有数据");
+			dateListView.setAdapter(createAdapter(context));
+    		return;
+    	}
+    	Map<String, Double> map = BalanceLogManage.loadLog(file);
+    	List<Map<String,Object>> dataList = new LinkedList<Map<String,Object>>();
+    	Iterator<Entry<String, Double>> iterator = map.entrySet().iterator();
+    	while(iterator.hasNext()) {
+    		Entry<String, Double> entry = iterator.next();
+    		Map<String, Object> temp = new HashMap<String, Object>();
+    		String date = entry.getKey();
+    		temp.put("date", date.substring(0, 4)+"年"+date.substring(4, 6)+"月"+date.substring(6)+"日");
+    		temp.put("balance", entry.getValue());
+    		dataList.add(temp);
+    	}
+    	dateListView.setAdapter(new SimpleAdapter(context, dataList, android.R.layout.simple_list_item_2, new String[]{"date", "balance"}, new int[]{android.R.id.text1, android.R.id.text2}));
     }
     
     public static int[] initDateAdapter(ArrayAdapter yearAdapter, ArrayAdapter monthAdapter, ArrayAdapter dayAdapter) {
