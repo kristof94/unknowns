@@ -7,15 +7,15 @@ import java.util.Map;
 public class NScripterMap {
 	public static final String TRUE = "1";
 	public static final String FALSE = "0";
-	private Map<String, Map<String, String>> labelMap = new HashMap<String, Map<String, String>>();
+	Map<String, Map<String, String>> labelMap = new HashMap<String, Map<String, String>>();
 	private int number = 0;
 	private int text = 0;
 	private int music = 0;
 	private int image = 0;
-	private Map<String, String> numberVariableMap = new HashMap<String, String>();
-	private Map<String, String> textVariableMap = new HashMap<String, String>();
-	private Map<String, Integer> musicVariableMap = new HashMap<String, Integer>();
-	private Map<String, Integer> imageVariableMap = new HashMap<String, Integer>();
+	Map<String, String> numberVariableMap = new HashMap<String, String>();
+	Map<String, String> textVariableMap = new HashMap<String, String>();
+	Map<String, Integer> musicVariableMap = new HashMap<String, Integer>();
+	Map<String, Integer> imageVariableMap = new HashMap<String, Integer>();
 	
 	@Override
 	public String toString() {

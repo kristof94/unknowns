@@ -36,9 +36,10 @@ public class Krkr2NScripter {
 	private String ifName = null;
 	private StringBuilder ifValue = null;
 	private Map<String, String> macroMap = new HashMap<String, String>();
-	private Map<String, String> macroLabelMap = new HashMap<String, String>();
+//	private Map<String, String> macroLabelMap = new HashMap<String, String>();
 	private Map<String, Integer> fileMap = new HashMap<String, Integer>();
 	private Map<String, String> ifMap = new HashMap<String, String>();
+	private StringBuilder log = new StringBuilder();
 	public static void main(String[] args) {
 		Krkr2NScripter k2n = new Krkr2NScripter();
 		File dir = new File("E:\\avg\\data");
@@ -66,9 +67,7 @@ public class Krkr2NScripter {
 		k2n.put(dir, "rmenu.ks");
 		k2n.put(dir, "save.ks");
 		k2n.execute();
-		System.out.println(k2n.resource);
-		System.out.println(k2n.fileMap);
-		System.out.println(k2n.nscripterMap.toString());
+		k2n.log();
 	}
 	
 	private void parseMacro() {
@@ -77,6 +76,8 @@ public class Krkr2NScripter {
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
 		while(iterator.hasNext()) {
 			Entry<String, File> entry = iterator.next();
+			currentFilename = entry.getValue().getName();
+			nscripterMap.addLabel(currentFilename, null);
 			BufferedReader in = null;
 			try {
 				in = new BufferedReader(new InputStreamReader(new FileInputStream(entry.getValue()), "UTF-16"));
@@ -151,7 +152,59 @@ public class Krkr2NScripter {
 	}
 	
 	private void log(String message) {
+		log.append(currentFilename);
+		log.append(":");
+		log.append(String.valueOf(num));
+		log.append(":");
+		log.append(message);
+		log.append("\r\n");
 		System.out.println(currentFilename+":"+num+":"+message);
+	}
+	
+	private void log() {
+		BufferedWriter out = null;
+		try {
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("log.txt")), "GBK"));
+			Map<String, Map> map = new LinkedHashMap<String, Map>();
+			map.put("resource", resource);
+			map.put("file", fileMap);
+			map.put("label", nscripterMap.labelMap);
+			map.put("numberVariable", nscripterMap.numberVariableMap);
+			map.put("textVariable", nscripterMap.textVariableMap);
+			map.put("musicVariable", nscripterMap.musicVariableMap);
+			map.put("imageVariable", nscripterMap.imageVariableMap);
+			Iterator<Entry<String, Map>> iterator = map.entrySet().iterator();
+			while(iterator.hasNext()) {
+				Entry<String, Map> entry = iterator.next();
+				out.write(entry.getKey());
+				out.write(':');
+				out.newLine();
+				Iterator i = entry.getValue().entrySet().iterator();
+				while(i.hasNext()) {
+					Entry e = (Entry)i.next();
+					out.write(e.getKey().toString());
+					out.write('=');
+					out.write(e.getValue().toString());
+					out.newLine();
+				}
+				out.write("==================================");
+				out.newLine();
+			}
+			out.write("log:");
+			out.newLine();
+			out.write(log.toString());
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(out!=null) try {
+				out.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+//		System.out.println(resource);
+//		System.out.println(fileMap);
+//		System.out.println(nscripterMap.toString());
 	}
 	
 	private void execute() {
@@ -169,10 +222,13 @@ public class Krkr2NScripter {
 				in = new BufferedReader(new InputStreamReader(new FileInputStream(entry.getValue()), "UTF-16"));
 				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(t+".txt")), "GBK"));
 				if(t==0) {
+					writer(out, "mode800");
 					writer(out, "*define");
 					writer(out, "caption \"test\"");
 					writer(out, "roff");
 					writer(out, "savenumber 10");
+					writer(out, "kidokuskip");
+					writer(out, "windowback");
 					writer(out, "game");
 					writer(out, "*start");
 				}
@@ -248,31 +304,29 @@ public class Krkr2NScripter {
 				}
 			}
 		}
-		if(!macroMap.isEmpty()) {
-			BufferedWriter out = null;
-			try {
-				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(t+++".txt")), "GBK"));
-				Iterator<Entry<String, String>> iter = macroMap.entrySet().iterator();
-				while(iter.hasNext()) {
-					Entry<String, String> entry = iter.next();
-					out.write(macroLabelMap.get(entry.getKey()));
-					out.newLine();
-					out.write(entry.getValue());
-					out.newLine();
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(out!=null) try {
-					out.close();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+//		if(!macroMap.isEmpty()) {
+//			BufferedWriter out = null;
+//			try {
+//				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(t+++".txt")), "GBK"));
+//				Iterator<Entry<String, String>> iter = macroMap.entrySet().iterator();
+//				while(iter.hasNext()) {
+//					Entry<String, String> entry = iter.next();
+//					out.write(macroLabelMap.get(entry.getKey()));
+//					out.newLine();
+//					out.write(entry.getValue());
+//					out.newLine();
+//				}
+//			} catch(Exception e) {
+//				e.printStackTrace();
+//			} finally {
+//				if(out!=null) try {
+//					out.close();
+//				} catch(IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 	}
-	
-	private static final Pattern MACRO_VARIABLE_PATTERN = Pattern.compile("\"?\\&\\((.*?mp\\..+?)\\)\"?");
 	
 	private void writer(BufferedWriter out, String line) throws IOException {
 		if(iscript) {
@@ -286,29 +340,30 @@ public class Krkr2NScripter {
 			out.write(line);
 			out.newLine();
 		} else {
-			Matcher matcher = MACRO_VARIABLE_PATTERN.matcher(line);
-			boolean flag = false;
-			StringBuffer sb = null;
-			while(matcher.find()) {
-				if(sb==null) sb = new StringBuffer();
-				String variable = nscripterMap.getTextVariable(matcher.group(2));
-				String v = matcher.group(1);
-				if(v.length()>0) {
-					macro.append("mov $temp,\"");
-					macro.append(v.substring(1, v.length()-2));
-					macro.append("\"\r\n");
-					macro.append("add ");
-				} else {
-					macro.append("mov ");
-				}
-				macro.append("");
-			}
-			if(sb==null) {
-				macro.append(line);
-			} else {
-				matcher.appendTail(sb);
-				macro.append(sb);
-			}
+//			Matcher matcher = MACRO_VARIABLE_PATTERN.matcher(line);
+//			boolean flag = false;
+//			StringBuffer sb = null;
+//			while(matcher.find()) {
+//				if(sb==null) sb = new StringBuffer();
+//				String variable = nscripterMap.getTextVariable(matcher.group(2));
+//				String v = matcher.group(1);
+//				if(v.length()>0) {
+//					macro.append("mov $temp,\"");
+//					macro.append(v.substring(1, v.length()-2));
+//					macro.append("\"\r\n");
+//					macro.append("add ");
+//				} else {
+//					macro.append("mov ");
+//				}
+//				macro.append("");
+//			}
+//			if(sb==null) {
+//				macro.append(line);
+//			} else {
+//				matcher.appendTail(sb);
+//				macro.append(sb);
+//			}
+			macro.append(line);
 			macro.append("\r\n");
 		}
 		if(isIf==0) isIf = 1;
@@ -413,24 +468,26 @@ public class Krkr2NScripter {
 		log("无法处理的tjs命令:"+tjs);
 	}
 	
+	private static final Pattern MACRO_VARIABLE_PATTERN = Pattern.compile("\\&\\((.*?)mp\\.(.+?)\\)");
+	
 	private void macro(String command, Map<String, String> value, StringBuilder sb) {
-		String label = macroLabelMap.get(command);
-		if(label!=null) {
-			if(value!=null) {
-				Iterator<Entry<String, String>> iterator = value.entrySet().iterator();
-				while(iterator.hasNext()) {
-					Entry<String, String> entry = iterator.next();
-					sb.append("mov ");
-					sb.append(nscripterMap.getTextVariable(entry.getKey()));
-					sb.append(",\"");
-					sb.append(entry.getValue());
-					sb.append("\"");
-					sb.append("\r\n");
+		String m = macroMap.get(command);
+		if(m!=null) {
+			StringBuffer s = new StringBuffer();
+			Matcher matcher = MACRO_VARIABLE_PATTERN.matcher(m);
+			while(matcher.find()) {
+				String v1 = matcher.group(1);
+				String v2 = matcher.group(2);
+				String v = value.get(v2);
+				if(v==null) {
+					log("缺少宏参数:"+v2);
+					v = "0";
 				}
+				if(v1.length()>3) v = v1.substring(1, v1.length()-2)+v;
+				matcher.appendReplacement(s, getFilePath(v).replace("\\", "\\\\").replace("$", "\\$"));
 			}
-			sb.append("gosub ");
-			sb.append(label);
-			sb.append("\r\n");
+			matcher.appendTail(s);
+			sb.append(s);
 		}
 	}
 	
@@ -501,10 +558,22 @@ public class Krkr2NScripter {
 			case IMAGE:
 				values = getValue(command);
 				storage = getFilePath(values.get("storage"));
-				Matcher matcher = MACRO_VARIABLE_PATTERN.matcher(storage);
-				if(matcher.find()) {
-					
-				}
+//				Matcher matcher = MACRO_VARIABLE_PATTERN.matcher(storage);
+//				if(matcher.find()) {
+//					String variable = nscripterMap.getTextVariable(matcher.group(2));
+//					String v = matcher.group(1);
+//					if(v.length()>3) {
+//						sb.append("mov $temp,");
+//						sb.append(v.subSequence(0, v.length()-1));
+//						sb.append(":add $temp,");
+//						sb.append(variable);
+//						sb.append(":mov ");
+//						sb.append(variable);
+//						sb.append(",$temp\r\n");
+//					} else {
+//						
+//					}
+//				}
 				Integer id = nscripterMap.getImageVariable(storage);
 				String layer = values.get("layer");
 				if(layer==null) layer = "base";
@@ -723,25 +792,24 @@ public class Krkr2NScripter {
 			case MACRO:
 				values = getValue(command);
 				macroName = values.get("name");
-				macroLabelMap.put(macroName, "*"+NScripterMap.md5("macro_"+macroName));
+//				macroLabelMap.put(macroName, "*"+NScripterMap.md5("macro_"+macroName));
 				macro = new StringBuilder();
 				break;
 			case ENDMACRO:
-				macro.append("return");
+//				macro.append("return");
 				macroMap.put(macroName, macro.toString());
 				macroName = null;
 				break;
-//			case FONT:
-//				values = getValue(command);
-//				String color = values.get("color");
-//				if(color!=null && color.startsWith("0x")) {
-//					sb.append("#");
-//					sb.append(color.substring(2));
-//				}
-//				break;
+			case FONT:
+				values = getValue(command);
+				String color = values.get("color");
+				if(color!=null && color.startsWith("0x")) {
+					sb.append("#");
+					sb.append(color.substring(2));
+				}
+				break;
 			default:
 //				log("忽略命令:"+command);
-				macro(commandName, getValue(command), sb);
 				break;
 			}
 		} else {
