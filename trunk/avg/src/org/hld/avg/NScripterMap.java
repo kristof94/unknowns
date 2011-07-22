@@ -7,7 +7,8 @@ import java.util.Map;
 public class NScripterMap {
 	public static final String TRUE = "1";
 	public static final String FALSE = "0";
-	Map<String, Map<String, String>> labelMap = new HashMap<String, Map<String, String>>();
+//	Map<String, Map<String, String>> labelMap = new HashMap<String, Map<String, String>>();
+	Map<String, String> labelMap = new HashMap<String, String>();
 	private int number = 0;
 	private int text = 0;
 	private int music = 0;
@@ -17,44 +18,35 @@ public class NScripterMap {
 	Map<String, Integer> musicVariableMap = new HashMap<String, Integer>();
 	Map<String, Integer> imageVariableMap = new HashMap<String, Integer>();
 	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("labelMap:");
-		sb.append(labelMap.toString());
-		sb.append("\r\n");
-		sb.append("numberVariableMap:");
-		sb.append(numberVariableMap.toString());
-		sb.append("\r\n");
-		sb.append("textVariableMap:");
-		sb.append(textVariableMap.toString());
-		sb.append("\r\n");
-		sb.append("musicVariableMap:");
-		sb.append(musicVariableMap.toString());
-		sb.append("\r\n");
-		sb.append("imageVariableMap:");
-		sb.append(imageVariableMap.toString());
-		return sb.toString();
-	}
-	
 	public String addLabel(String filename, String labelname) {
-		Map<String, String> map = labelMap.get(filename);
-		if(map==null) {
-			map = new HashMap<String, String>();
-			labelMap.put(filename, map);
-		}
-		String label = null;
-		if(labelname==null) label = createLabel(filename);
-		else label = createLabel(filename+"_"+labelname);
-		map.put(labelname, label);
+//		Map<String, String> map = labelMap.get(filename);
+//		if(map==null) {
+//			map = new HashMap<String, String>();
+//			labelMap.put(filename, map);
+//		}
+//		String label = null;
+//		if(labelname==null) label = createLabel(filename);
+//		else label = createLabel(filename+"_"+labelname);
+//		map.put(labelname, label);
+//		return label;
+		String name = labelname==null?filename:(filename+"_"+labelname);
+		String label = createLabel(name);
+		labelMap.put(name, label);
 		return label;
 	}
 	
 	public String getLabel(String filename, String labelname) {
-		Map<String, String> map = labelMap.get(filename);
-		String label = null;
-		if(map!=null) label = map.get(labelname);
-		if(label==null) label = addLabel(filename, labelname);
+//		Map<String, String> map = labelMap.get(filename);
+//		String label = null;
+//		if(map!=null) label = map.get(labelname);
+//		if(label==null) label = addLabel(filename, labelname);
+//		return label;
+		String name = labelname==null?filename:(filename+"_"+labelname);
+		String label = labelMap.get(name);
+		if(label==null) {
+			label = createLabel(name);
+			labelMap.put(name, label);
+		}
 		return label;
 	}
 	

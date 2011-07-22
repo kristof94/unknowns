@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Krkr2NScripter {
+	private static final File targetDir = new File("E:\\avg\\data");
 	private Map<String, File> files = new LinkedHashMap<String, File>();
 	private Map<String, String> resource = new HashMap<String, String>();
 	private NScripterMap nscripterMap = new NScripterMap();
@@ -30,7 +31,8 @@ public class Krkr2NScripter {
 	private String[] locate = new String[2];
 	private int btn = 1;
 	private Map<Integer, String> btnMap = new HashMap<Integer, String>();
-	private StringBuilder exbtn_d = new StringBuilder("exbtn_d \"");
+	private Map<Integer, String> exbtnMap = new HashMap<Integer, String>();
+	private StringBuilder exbtn_d = new StringBuilder();
 	private String macroName = null;
 	private StringBuilder macro = null;
 	private String ifName = null;
@@ -101,8 +103,7 @@ public class Krkr2NScripter {
 					while(matcher.find()) {
 						String command = transform(matcher.group(1));
 						if(command==null) command = "";
-						command = command.replace("\\", "\\\\").replace("$", "\\$");
-						matcher.appendReplacement(sb, command);
+						matcher.appendReplacement(sb, Matcher.quoteReplacement(command));
 					}
 					matcher.appendTail(sb);
 					if(sb.length()>0) {
@@ -164,7 +165,7 @@ public class Krkr2NScripter {
 	private void log() {
 		BufferedWriter out = null;
 		try {
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("log.txt")), "GBK"));
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(targetDir, "log.txt")), "GBK"));
 			Map<String, Map> map = new LinkedHashMap<String, Map>();
 			map.put("resource", resource);
 			map.put("file", fileMap);
@@ -211,6 +212,7 @@ public class Krkr2NScripter {
 		Iterator<Entry<String, File>> iterator = files.entrySet().iterator();
 		int t = 0;
 		Pattern pattern = Pattern.compile("\\[(.+?)\\]");
+		Pattern replacePattern = Pattern.compile(".*[/\\\\_@].*");
 		while(iterator.hasNext()) {
 			Entry<String, File> entry = iterator.next();
 			currentFilename = entry.getValue().getName();
@@ -220,15 +222,16 @@ public class Krkr2NScripter {
 			BufferedWriter out = null;
 			try {
 				in = new BufferedReader(new InputStreamReader(new FileInputStream(entry.getValue()), "UTF-16"));
-				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(t+".txt")), "GBK"));
+				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(targetDir, t+".txt")), "GBK"));
 				if(t==0) {
-					writer(out, "mode800");
+					writer(out, ";mode800");
 					writer(out, "*define");
-					writer(out, "caption \"test\"");
+					writer(out, "caption \"甘井子传说\"");
 					writer(out, "roff");
 					writer(out, "savenumber 10");
 					writer(out, "kidokuskip");
 					writer(out, "windowback");
+					writer(out, "numalias temp_num,"+nscripterMap.getNumberVariable("temp_num").substring(1));
 					writer(out, "game");
 					writer(out, "*start");
 				}
@@ -254,14 +257,47 @@ public class Krkr2NScripter {
 						continue;
 					}
 					Matcher matcher = pattern.matcher(line);
-					StringBuffer sb = new StringBuffer();
+//					StringBuffer sb = new StringBuffer();
+//					while(matcher.find()) {
+//						String command = transform(matcher.group(1));
+//						if(command==null) command = "";
+//						matcher.appendReplacement(sb, Matcher.quoteReplacement(command));
+//					}
+//					matcher.appendTail(sb);
+					StringBuilder sb = new StringBuilder();
+					int index = 0;
 					while(matcher.find()) {
+						String temp = line.substring(index, matcher.start());
+						if(replacePattern.matcher(temp).matches()) {
+							 for (int j=0; j<temp.length(); j++) {
+					            char c = temp.charAt(j);
+					            switch(c) {
+								case '/':
+									sb.append('／');
+									break;
+								case '\\':
+									sb.append('＼');
+									break;
+								case '_':
+									sb.append('＿');
+									break;
+								case '@':
+									sb.append('＠');
+									break;
+								default:
+									sb.append(c);
+									break;
+								}
+					        }
+						} else {
+							sb.append(temp);
+						}
+						index = matcher.end();
 						String command = transform(matcher.group(1));
 						if(command==null) command = "";
-						command = command.replace("\\", "\\\\").replace("$", "\\$");
-						matcher.appendReplacement(sb, command);
+						sb.append(command);
 					}
-					matcher.appendTail(sb);
+					sb.append(line.substring(index, line.length()));
 					if(sb.length()>0) {
 						writer(out, sb.toString());
 					}
@@ -285,7 +321,7 @@ public class Krkr2NScripter {
 		if(!ifMap.isEmpty()) {
 			BufferedWriter out = null;
 			try {
-				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(t+++".txt")), "GBK"));
+				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(targetDir, t+++".txt")), "GBK"));
 				Iterator<Entry<String, String>> iter = ifMap.entrySet().iterator();
 				while(iter.hasNext()) {
 					Entry<String, String> entry = iter.next();
@@ -484,7 +520,7 @@ public class Krkr2NScripter {
 					v = "0";
 				}
 				if(v1.length()>3) v = v1.substring(1, v1.length()-2)+v;
-				matcher.appendReplacement(s, getFilePath(v).replace("\\", "\\\\").replace("$", "\\$"));
+				matcher.appendReplacement(s, Matcher.quoteReplacement(getFilePath(v)));
 			}
 			matcher.appendTail(s);
 			sb.append(s);
@@ -673,10 +709,10 @@ public class Krkr2NScripter {
 				sb.append(locate[0]);
 				sb.append(",");
 				sb.append(locate[1]);
-				sb.append(":");
 				if(over!=null) {
 					over = getFilePath(over);
 					oid = nscripterMap.getImageVariable(over);
+					sb.append(":");
 					sb.append("lsph ");
 					sb.append(oid);
 					sb.append(",\":a/1,0,3;");
@@ -685,34 +721,35 @@ public class Krkr2NScripter {
 					sb.append(locate[0]);
 					sb.append(",");
 					sb.append(locate[1]);
-					sb.append(":");
 					exbtn_d.append("P");
 					exbtn_d.append(id);
 					exbtn_d.append("C");
 					exbtn_d.append(oid);
 				}
 				Integer bid = btn++;
-				sb.append("exbtn ");
-				sb.append(nscripterMap.getImageVariable(normal));
-				sb.append(",");
-				sb.append(bid);
+				StringBuilder s = new StringBuilder();
+//				sb.append("exbtn ");
+				s.append(nscripterMap.getImageVariable(normal));
+				s.append(",");
+				s.append(bid);
 				if(over!=null || clickse!=null) {
-					sb.append(",");
-					sb.append("\"");
+					s.append(",");
+					s.append("\"");
 					if(over!=null) {
-						sb.append("P");
-						sb.append(oid);
-						sb.append("C");
-						sb.append(id);
+						s.append("P");
+						s.append(oid);
+						s.append("C");
+						s.append(id);
 					}
 					if(clickse!=null) {
-						sb.append("S1,(");
-						sb.append(getFilePath(clickse));
-						sb.append(")");
+						s.append("S1,(");
+						s.append(getFilePath(clickse));
+						s.append(")");
 					}
-					sb.append("\"");
+					s.append("\"");
 				}
-				StringBuilder s = new StringBuilder();
+				exbtnMap.put(bid, s.toString());
+				s = new StringBuilder();
 				if(enterse!=null) {
 					enterse = getFilePath(enterse);
 					s.append("dwave ");
@@ -729,17 +766,26 @@ public class Krkr2NScripter {
 				break;
 			case S:
 				if(!btnMap.isEmpty()) {
-					exbtn_d.append("\"");
-					sb.append(exbtn_d);
-					sb.append("\r\n");
 					String variable = "btnwait_"+System.currentTimeMillis()+System.nanoTime();
 					String label = nscripterMap.getLabel(currentFilename, variable);
 					sb.append(label);
+					sb.append("\r\nbtndef clear\r\n");
+					Iterator<Entry<Integer, String>> iterator = exbtnMap.entrySet().iterator();
+					while(iterator.hasNext()) {
+						sb.append("exbtn ");
+						sb.append(iterator.next().getValue());
+						sb.append("\r\n");
+					}
+					if(exbtn_d.length()>0) {
+						sb.append("exbtn_d \"");
+						sb.append(exbtn_d);
+						sb.append("\"");
+					}
 					sb.append("\r\n");
 					variable = nscripterMap.getNumberVariable(variable);
-					sb.append("btnwait2 ");
+					sb.append("btnwait ");
 					sb.append(variable);
-					Iterator<Entry<Integer, String>> iterator = btnMap.entrySet().iterator();
+					iterator = btnMap.entrySet().iterator();
 					while(iterator.hasNext()) {
 						Entry<Integer, String> entry = iterator.next();
 						sb.append("\r\n");
@@ -747,7 +793,7 @@ public class Krkr2NScripter {
 						sb.append(variable);
 						sb.append("==");
 						sb.append(entry.getKey());
-						sb.append(" btndef clear:");
+						sb.append(" ");
 						sb.append(entry.getValue());
 					}
 					sb.append("\r\n");
@@ -755,7 +801,7 @@ public class Krkr2NScripter {
 					sb.append(label);
 					btnMap.clear();
 					btn = 1;
-					exbtn_d = new StringBuilder("exbtn_d \"");
+					exbtn_d = new StringBuilder();
 				}
 				break;
 			case JUMP:
