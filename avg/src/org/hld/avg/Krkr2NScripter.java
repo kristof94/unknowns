@@ -68,6 +68,10 @@ public class Krkr2NScripter {
 		k2n.put(dir, "history.ks");
 		k2n.put(dir, "rmenu.ks");
 		k2n.put(dir, "save.ks");
+		k2n.btnMap.clear();
+		k2n.exbtnMap.clear();
+		k2n.exbtn_d = new StringBuilder();
+		k2n.btn = 1;
 		k2n.execute();
 		k2n.log();
 	}
@@ -224,16 +228,16 @@ public class Krkr2NScripter {
 				in = new BufferedReader(new InputStreamReader(new FileInputStream(entry.getValue()), "UTF-16"));
 				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(targetDir, t+".txt")), "GBK"));
 				if(t==0) {
-					writer(out, ";mode800");
-					writer(out, "*define");
-					writer(out, "caption \"甘井子传说\"");
-					writer(out, "roff");
-					writer(out, "savenumber 10");
-					writer(out, "kidokuskip");
-					writer(out, "windowback");
-					writer(out, "numalias temp_num,"+nscripterMap.getNumberVariable("temp_num").substring(1));
-					writer(out, "game");
-					writer(out, "*start");
+					writer(out, ";mode800"); //画面尺寸变为800x600
+					writer(out, "*define"); //定义区块开始
+					writer(out, "caption \"甘井子传说\""); //窗口标题栏
+					writer(out, "roff"); //右键点击无效
+					writer(out, "savenumber 10"); //指定存档总数，最大为20，默认为9
+					writer(out, "kidokuskip"); //设定只有看过的text才能skip
+					writer(out, "windowback"); //使文字框与站立图位于同一遮挡顺位。应用于需要让其他对象遮挡文字框的情况。但文字框中的文字是不可遮挡的
+					writer(out, "numalias tempnum,"+nscripterMap.getNumberVariable("temp_num").substring(1));
+					writer(out, "game"); //定义区块结束
+					writer(out, "*start"); //执行区块开始
 				}
 				writer(out, label);
 				String line;
@@ -760,7 +764,7 @@ public class Krkr2NScripter {
 				}
 				storage = values.get("storage");
 				if(storage==null) storage = currentFilename;
-				s.append("gosub ");
+				s.append("goto ");
 				s.append(nscripterMap.getLabel(storage, values.get("target")));
 				btnMap.put(bid, s.toString());
 				break;
@@ -799,6 +803,7 @@ public class Krkr2NScripter {
 					sb.append("\r\n");
 					sb.append("goto ");
 					sb.append(label);
+					exbtnMap.clear();
 					btnMap.clear();
 					btn = 1;
 					exbtn_d = new StringBuilder();
