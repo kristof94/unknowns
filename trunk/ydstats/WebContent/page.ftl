@@ -33,8 +33,10 @@
     <td class="f01">&nbsp;</td>
   </tr>
   <tr>
-    <td align="center" valign="top" class="f02">版权所有：广东省英德市统计局 本站地址：www.ydstats.gov.cn<br />
-      通讯地址：英德市市政府大院 邮政编码：513000 联系电话：0763-2238188</td>
+    <td align="center" valign="top" class="f02">版权所有：广东省英德市统计局  本站地址：<a href="http://www.ydstats.gov.cn">www.ydstats.gov.cn</a><br />
+    投诉邮箱：<a href=" mailto:ydtjj2238188@126.com">ydtjj2238188@126.com</a>  联系电话：0763-2238188<br />
+      通讯地址：英德市市政府大院  邮政编码：513000 <br />
+      网站备案/许可证号： 粤ICP备11045043号</td>
   </tr>
 </table>
 </body>
