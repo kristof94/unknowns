@@ -13,19 +13,25 @@
 var pic_width=400; //图片宽度
 var pic_height=300; //图片高度
 var button_pos=4; //按扭位置 1左 2右 3上 4下
-var stop_time=3000; //图片停留时间(1000为1秒钟)
+var stop_time=6000; //图片停留时间(1000为1秒钟)
 var show_text=0; //是否显示文字标签 1显示 0不显示
 var txtcolor="000000"; //文字色
 var bgcolor="FFFFFF"; //背景色
 var imag=new Array();
 var link=new Array();
 var text=new Array();
- imag[1]="http://www.3guu.com/3guuadmin/uploadImage/2009/09/28/1254120073440.jpg";
- link[1]="http://www.3guu.com/3guuadmin/uploadfile/2009/09/28/1254126525717.html";
- text[1]="国庆六十周年 《YY三国》升温献礼";
- imag[2]="http://www.3guu.com/3guuadmin/uploadImage/2009/07/07/1246959746792.jpg";
- link[2]="http://www.3guu.com/3guuadmin/uploadfile/2009/07/07/1246959882646.html";
- text[2]="《YY三国》新版本“一骑当千”即将登场";
+ imag[1]="images/new1.jpg";
+ link[1]="#";
+ text[1]="你好";
+ imag[2]="images/new2.jpg";
+ link[2]="#";
+ text[2]="我好";
+  imag[3]="images/new3.jpg";
+ link[3]="#";
+ text[3]="大家好";
+  imag[4]="images/new4.jpg";
+ link[4]="#";
+ text[4]="非常好";
 //可编辑内容结束
 var swf_height=show_text==1?pic_height+20:pic_height;
 var pics="", links="", texts="";
@@ -80,25 +86,25 @@ document.write('</object>');
                 <td><table width="100%" border="0" cellpadding="0" cellspacing="0" class="m04">
                   <tr>
                     <td width="166" align="middle" class="m01_zi"><strong>统计职业道德：</strong></td>
-                    <td width="644" align="middle"> <marquee width="644" behavior="scroll" scrollamount="5" >忠诚统计　乐于奉献　实事求是　不出假数　依法统计　严守秘密　公正透明　服务社会 </marquee>                      </td>
+                    <td width="644" align="middle"> <marquee width=644 behavior=scroll scrollamount=5 >忠诚统计　乐于奉献　实事求是　不出假数　依法统计　严守秘密　公正透明　服务社会 </marquee>                      </td>
                   </tr>
                 </table></td>
               </tr>
               <tr>
                 <td class="m05"><table width="83%" height="151" border="0" align="center" cellpadding="0" cellspacing="8">
                   <tr>
-                    <td height="123"><img src="images/image0.jpg" width="150" height="115" /></td>
-                    <td><img src="images/image1.jpg" width="150" height="115" /></td>
-                    <td><img src="images/image2.jpg" width="150" height="115" /></td>
-                    <td><img src="images/image3.jpg" width="150" height="115" /></td>
-                    <td><img src="images/image4.jpg" width="150" height="115" /></td>
+                    <td height="123"><img src="images/s5.jpg" width="150" height="115" /></td>
+                    <td><img src="images/s1.jpg" width="150" height="115" /></td>
+                    <td><img src="images/s2.jpg" width="150" height="115" /></td>
+                    <td><img src="images/s3.jpg" width="150" height="115" /></td>
+                    <td><img src="images/s4.jpg" width="150" height="115" /></td>
                     </tr>
                   <tr>
-                    <td height="20" align="center"><a href="#">英德市召开2010年全</a></td>
-                    <td align="center"><a href="#">英德市召开2010年全</a></td>
-                    <td align="center"><a href="#">英德市召开2010年全</a></td>
-                    <td align="center"><a href="#">英德市召开2010年全</a></td>
-                    <td align="center"><a href="#">英德市召开2010年全</a></td>
+                    <td height="20" align="center"><a href="#">3.12植树活动</a></td>
+                    <td align="center"><a href="#">党日活动</a></td>
+                    <td align="center"><a href="#">党日活动</a></td>
+                    <td align="center"><a href="#">党日活动</a></td>
+                    <td align="center"><a href="#">党日活动</a></td>
                   </tr>
                 </table></td>
               </tr>
@@ -312,7 +318,7 @@ function showtj(flag) {
                     <td><a href="http://www.ydyzly.cn/" target="_blank"><img src="images/logo07.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
-                    <td><a href="http://www.ydcement.com/" target="_blank"><img src="images/logo08.jpg" width="141" height="31" border="0" /></a></td>
+                    <td><a href="http://210.76.64.44:7001/bjstat_web/login.do" target="_blank"><img src="images/logo08.jpg" width="141" height="31" border="0" /></a></td>
                   </tr>
                   <tr>
                     <td><a href="http://www.teayq.cn/" target="_blank"><img src="images/logo09.jpg" width="141" height="31" border="0" /></a></td>
