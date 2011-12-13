@@ -28,7 +28,7 @@
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td style="line-height:24px;"><p>${info.content}</p></td>
+            <td class="info"><p>${info.content}</p></td>
           </tr>
           
         </table></td>
