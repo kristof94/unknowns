@@ -167,70 +167,275 @@ public class Test {
 		sb.append("\r\n");
 	}
 	
+
+	private static Map<String, String> gm = new HashMap<String, String>();
+	private static Map<String, String> om = new HashMap<String, String>();
+	static {
+		gm.put("g+i游戏", "搜狐");
+		gm.put("g+暴风城", "动力创想");
+		gm.put("g+电影大片", "掌中米格");
+		gm.put("g+好又多", "盈正");
+		gm.put("g+嘉年华", "摩瑞贝");
+		gm.put("g+尽情玩吧", "兆荣联合");
+		gm.put("g+经典游戏", "新浪");
+		gm.put("g+开心畅游", "掌趣");
+		gm.put("g+热门游戏-热舞天使", "空中信使");
+		gm.put("g+热门游戏T", "空中信使");
+		gm.put("g+热门游戏", "雷霆万钧");
+		gm.put("g+私藏经典", "秦网");
+		gm.put("g+旺旺包", "易动无限");
+		gm.put("g+新潮流", "申达宏通");
+		gm.put("g+游戏狂人", "丰尚佳诚");
+		gm.put("g+游戏大作", "掌中地带");
+		gm.put("g+游戏发烧包", "掌趣");
+		gm.put("g+游戏盒子", "空中信使");
+		gm.put("g+游戏达人", "摩讯");
+		gm.put("g+游戏区", "因特莱斯");
+		gm.put("g+最佳游戏", "中西网联");
+		gm.put("g+游戏精选", "丰尚佳诚");
+		gm.put("g+精选合集", "新浪");
+		gm.put("g+休闲部落", "搜狐");
+		gm.put("g+掌上乐园", "广州诠星网络科技");
+		gm.put("g+游戏大本营", "广州蓝喜鹊");
+	}
+	
 	private static StringBuilder sb = new StringBuilder();
 	public strictfp static void main(String[] args) throws Exception {
-		Map<String,String> map = new HashMap<String, String>();
-		map.put("g+i游戏(搜狐)", "500231875000");
-		map.put("g+暴风城(动力创想)", "500231874000");
-		map.put("g＋电影大片(掌中米格)", "500231868000");
-		map.put("g+好又多(盈正)", "500231876000");
-		map.put("g+欢乐游戏包-动漫大赛", "500231894000");
-		map.put("g+嘉年华(摩瑞贝)", "500231878000");
-		map.put("g+尽情玩吧(兆荣联合)", "500231877000");
-		map.put("g+经典游戏(新浪)", "500231870000");
-		map.put("g+精选合集（新浪）", "500231911000");
-		map.put("g+开心畅游(掌趣)", "500231899000");
-		map.put("g+热门游戏(雷霆万钧)", "500231872000");
-		map.put("g+热门游戏T（空中信使）", "500231880000");
-		map.put("g+私藏经典(秦网)", "500231869000");
-		map.put("g+旺旺包(易动无限)", "500231873000");
-		map.put("g+新潮流(申达宏通)", "500231901000");
-		map.put("g+休闲部落（搜狐）", "700011993000");
-		map.put("g+游戏达人(摩讯)", "500231900000");
-		map.put("g+游戏大本营(广州蓝喜鹊)", "700011899000");
-		map.put("g+游戏大作(掌中地带)", "500231902000");
-		map.put("g+游戏发烧包(掌趣)", "500231881000");
-		map.put("g+游戏盒子(空中信使)", "500231898000");
-		map.put("g+游戏精选（丰尚佳诚）", "700012000000");
-		map.put("g+游戏狂人(丰尚佳诚)", "500231882000");
-		map.put("g+游戏区(因特莱斯)", "500231879000");
-		map.put("g+最佳游戏(中西网联)", "500231871000");
-		map.put("创业游戏包", "700013200000");
-		map.put("滚石30年游戏包", "500231907000");
-		map.put("游戏玩家", "500230544000");
-		map.put("游戏玩家动感版", "500231883000");
-		map.put("游戏玩家欢乐版", "500231905000");
-		map.put("游戏玩家至尊版", "500231906000");
-		Map<String,BufferedWriter> m = new HashMap<String, BufferedWriter>();
-		Iterator<Entry<String, String>> iterator = map.entrySet().iterator();
-		while(iterator.hasNext()) {
-			Entry<String, String> e = iterator.next();
-			m.put(e.getValue(), new BufferedWriter(new OutputStreamWriter(new FileOutputStream("E:\\G+\\"+e.getKey()+".csv"), "GBK")));
-		}
-		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("E:\\39576_20111207.csv"), "GBK"));
-		String line = null;
+		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\G+.csv"), "GBK"));
+		Map<String, Long> map = new LinkedHashMap<String, Long>();
+		String line;
 		while((line=in.readLine())!=null) {
-			if(line.length()==0) continue;
 			String[] s = line.split(",");
-			BufferedWriter out = m.get(s[4]);
-			if(out==null) out = m.get(s[5]);
-			if(out!=null) {
-				out.write(s[0]);
-				out.write(',');
-				out.write(s[1]);
-				out.write(',');
-				out.write(s[2]);
-				out.newLine();
+			if(s.length==4) {
+				if(!"0".equals(s[3])) {
+					String key = s[1]+","+s[2];
+					Long l = map.get(key);
+					if(l==null) l = 0L;
+					map.put(key, l+Long.parseLong(s[3]));
+				}
 			} else {
-				System.out.println("无法找到对应文件："+line);
+				System.out.println("无效记录："+line);
 			}
 		}
 		in.close();
-		Iterator<Entry<String, BufferedWriter>> i = m.entrySet().iterator();
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("D:\\G+收入.csv"), "GBK"));
+		Iterator<Entry<String, Long>> i = map.entrySet().iterator();
 		while(i.hasNext()) {
-			Entry<String, BufferedWriter> e = i.next();
-			e.getValue().close();
+			Entry<String, Long> e = i.next();
+			String[] s = e.getKey().split(",");
+			out.write(s[0]);
+    		if(gm.containsKey(s[0])) {
+				out.write('（');
+				out.write(gm.get(s[0]));
+				out.write('）');
+			}
+    		out.write(',');
+    		out.write(s[1]);
+    		out.write(',');
+    		out.write(e.getValue().toString());
+    		out.write("\r\n");
 		}
+		out.close();
+//		Map<String, List<String[]>> map = new TreeMap<String, List<String[]>>();
+//		String line;
+//		while((line=in.readLine())!=null) {
+//			String[] s = line.split(",");
+//			if(s.length==4) {
+//				if(!"0".equals(s[3])) {
+//					List<String[]> list = map.get(s[0]);
+//					if(list==null) {
+//						list = new ArrayList<String[]>(1000);
+//						map.put(s[0], list);
+//					}
+//					list.add(s);
+//				}
+//			} else {
+//				System.out.println("无效记录："+line);
+//			}
+//		}
+//		in.close();
+//		Map<String, Double> sum = new HashMap<String, Double>();
+//		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("D:\\网游排序.csv"), "GBK"));
+//		Iterator<Entry<String, List<String[]>>> i = map.entrySet().iterator();
+//		while(i.hasNext()) {
+//			Entry<String, List<String[]>> e = i.next();
+//			String date = e.getKey();
+//			Map<String, Double> data = new HashMap<String, Double>();
+//			Map<String, List<Object[]>> log = new HashMap<String, List<Object[]>>();
+//			List list = e.getValue();
+//			Iterator<String[]> i2 = list.iterator();
+//			while(i2.hasNext()) {
+//				String[] s = i2.next();
+//				String key = s[1];
+//				List<Object[]> list2 = log.get(key);
+//				if(list2==null) {
+//					list2 = new ArrayList<Object[]>();
+//					log.put(key, list2);
+//				}
+//				list2.add(new Object[]{s[2], Double.parseDouble(s[3])});
+//				Double l = data.get(key);
+//				if(l==null) l = 0D;
+//				BigDecimal bd = new BigDecimal(s[3]);
+//				data.put(key, bd.add(new BigDecimal(l.toString())).doubleValue());
+//				Double t = sum.get(key);
+//				if(t==null) t = 0D;
+//				BigDecimal td = new BigDecimal(s[3]);
+//				sum.put(key, td.add(new BigDecimal(t.toString())).doubleValue());
+//			}
+//			Object[][] o = new Object[data.size()][2];
+//			Iterator<Entry<String, Double>> i3 = data.entrySet().iterator();
+//			int l = 0;
+//			while(i3.hasNext()) {
+//				Entry<String, Double> e3 = i3.next();
+//				o[l][0] = e3.getKey();
+//				o[l][1] = e3.getValue();
+//				l++;
+//			}
+//	    	for(l=0;l<o.length-1;l++){
+//	    		for(int j=0;j<o.length-l-1;j++){
+//	    			if((Double)o[j][1]<(Double)o[j+1][1]){
+//	    				Object[] temp = o[j];
+//	    				o[j] = o[j+1];
+//	    				o[j+1] = temp;
+//	    			}
+//	    		}
+//	    	}
+//	    	StringBuilder sb = new StringBuilder();
+//	    	sb.append(date);
+//	    	sb.append(':');
+//	    	sb.append('{');
+//	    	for(l=0;l<o.length;l++) {
+//	    		if(l>0) sb.append(',');
+//	    		sb.append('[');
+//	    		sb.append(o[l][0]);
+//	    		sb.append(',');
+//	    		sb.append(o[l][1]);
+//	    		sb.append(']');
+//	    		
+//	    	}
+//	    	sb.append('}');
+//	    	System.out.println(sb.toString());
+//	    	for(l=0;l<o.length;l++) {
+//	    		Object[] d = o[l];
+//	    		Iterator<Object[]> i4 = log.get(d[0]).iterator();
+//	    		Object[][] sss = new Object[log.get(d[0]).size()][2];
+//				int k = 0;
+//				while(i4.hasNext()) {
+//					Object[] ss = i4.next();
+//					sss[k++] = ss;
+//				}
+//		    	for(k=0;k<sss.length-1;k++){
+//		    		for(int j=0;j<sss.length-k-1;j++){
+//		    			if((Double)sss[j][1]<(Double)sss[j+1][1]){
+//		    				Object[] temp = sss[j];
+//		    				sss[j] = sss[j+1];
+//		    				sss[j+1] = temp;
+//		    			}
+//		    		}
+//		    	}
+//	    		out.write(date);
+//	    		out.write(',');
+//	    		out.write(d[0].toString());
+//	    		if(gm.containsKey(d[0])) {
+//	    			out.write('（');
+//	    			out.write(gm.get(d[0]));
+//	    			out.write('）');
+//	    		}
+//	    		out.write(',');
+//	    		out.write("总计");
+//	    		out.write(',');
+//	    		out.write(data.get(d[0]).toString());
+//	    		out.write("\r\n");
+//		    	for(k=0;k<sss.length;k++) {
+//	    			Object[] ss = sss[k];
+//		    		out.write(date);
+//		    		out.write(',');
+//		    		out.write(d[0].toString());
+//		    		if(gm.containsKey(d[0])) {
+//		    			out.write('（');
+//		    			out.write(gm.get(d[0]));
+//		    			out.write('）');
+//		    		}
+//		    		out.write(',');
+//		    		out.write(ss[0].toString());
+//		    		out.write(',');
+//		    		out.write(ss[1].toString());
+//		    		out.write("\r\n");
+//		    	}
+//	    	}
+//		}
+//		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("D:\\网游总排序.csv"), "GBK"));
+//		Iterator<Entry<String, Double>> ii = sum.entrySet().iterator();
+//		while(ii.hasNext()) {
+//			Entry<String, Double> e = ii.next();
+//			out.write(e.getKey());
+//			out.write(',');
+//			out.write(e.getValue().toString());
+//			out.write("\r\n");
+//		}
+//		out.close();
+//		Map<String,String> map = new HashMap<String, String>();
+//		map.put("g+i游戏(搜狐)", "500231875000");
+//		map.put("g+暴风城(动力创想)", "500231874000");
+//		map.put("g＋电影大片(掌中米格)", "500231868000");
+//		map.put("g+好又多(盈正)", "500231876000");
+//		map.put("g+欢乐游戏包-动漫大赛", "500231894000");
+//		map.put("g+嘉年华(摩瑞贝)", "500231878000");
+//		map.put("g+尽情玩吧(兆荣联合)", "500231877000");
+//		map.put("g+经典游戏(新浪)", "500231870000");
+//		map.put("g+精选合集（新浪）", "500231911000");
+//		map.put("g+开心畅游(掌趣)", "500231899000");
+//		map.put("g+热门游戏(雷霆万钧)", "500231872000");
+//		map.put("g+热门游戏T（空中信使）", "500231880000");
+//		map.put("g+私藏经典(秦网)", "500231869000");
+//		map.put("g+旺旺包(易动无限)", "500231873000");
+//		map.put("g+新潮流(申达宏通)", "500231901000");
+//		map.put("g+休闲部落（搜狐）", "700011993000");
+//		map.put("g+游戏达人(摩讯)", "500231900000");
+//		map.put("g+游戏大本营(广州蓝喜鹊)", "700011899000");
+//		map.put("g+游戏大作(掌中地带)", "500231902000");
+//		map.put("g+游戏发烧包(掌趣)", "500231881000");
+//		map.put("g+游戏盒子(空中信使)", "500231898000");
+//		map.put("g+游戏精选（丰尚佳诚）", "700012000000");
+//		map.put("g+游戏狂人(丰尚佳诚)", "500231882000");
+//		map.put("g+游戏区(因特莱斯)", "500231879000");
+//		map.put("g+最佳游戏(中西网联)", "500231871000");
+//		map.put("创业游戏包", "700013200000");
+//		map.put("滚石30年游戏包", "500231907000");
+//		map.put("游戏玩家", "500230544000");
+//		map.put("游戏玩家动感版", "500231883000");
+//		map.put("游戏玩家欢乐版", "500231905000");
+//		map.put("游戏玩家至尊版", "500231906000");
+//		Map<String,BufferedWriter> m = new HashMap<String, BufferedWriter>();
+//		Iterator<Entry<String, String>> iterator = map.entrySet().iterator();
+//		while(iterator.hasNext()) {
+//			Entry<String, String> e = iterator.next();
+//			m.put(e.getValue(), new BufferedWriter(new OutputStreamWriter(new FileOutputStream("E:\\G+\\"+e.getKey()+".csv"), "GBK")));
+//		}
+//		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("E:\\39576_20111207.csv"), "GBK"));
+//		String line = null;
+//		while((line=in.readLine())!=null) {
+//			if(line.length()==0) continue;
+//			String[] s = line.split(",");
+//			BufferedWriter out = m.get(s[4]);
+//			if(out==null) out = m.get(s[5]);
+//			if(out!=null) {
+//				out.write(s[0]);
+//				out.write(',');
+//				out.write(s[1]);
+//				out.write(',');
+//				out.write(s[2]);
+//				out.newLine();
+//			} else {
+//				System.out.println("无法找到对应文件："+line);
+//			}
+//		}
+//		in.close();
+//		Iterator<Entry<String, BufferedWriter>> i = m.entrySet().iterator();
+//		while(i.hasNext()) {
+//			Entry<String, BufferedWriter> e = i.next();
+//			e.getValue().close();
+//		}
 //		gbk2utf8(new File("D:\\workspaces\\Copy of spread\\src"), new FileFilter() {
 //			@Override
 //			public boolean accept(File pathname) {
