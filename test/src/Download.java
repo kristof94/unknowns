@@ -3,13 +3,29 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 
 public class Download {
-	public static void main(String[] args) {
-		System.out.println(download("http://opinion.nfdaily.cn/content/2010-12/17/content_18525429.htm", new File("content_18525429")));
+	public static void main(String[] args) throws Exception {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				File file = new File("spring-security-3.0.7.RELEASE.zip");
+				while(true) {
+					try {
+						Thread.sleep(1000*60);
+					} catch(InterruptedException e) {
+						e.printStackTrace();
+					}
+					System.out.println(file.length());
+				}
+			}
+		}).start();
+		System.out.println(download("http://s3.amazonaws.com/dist.springframework.org/release/SEC/spring-security-3.0.7.RELEASE.zip", new File("spring-security-3.0.7.RELEASE.zip")));
 	}
 	
 	public static boolean download(String url, File file) {
@@ -20,6 +36,7 @@ public class Download {
 			conn = (HttpURLConnection)new URL(url).openConnection();
 			conn.connect();
 			if(conn.getResponseCode()==200) {
+				System.out.println("length:"+conn.getContentLength());
 				in = new BufferedInputStream(conn.getInputStream());
 				out = new BufferedOutputStream(new FileOutputStream(file));
 				byte[] b = new byte[1024<<10];
