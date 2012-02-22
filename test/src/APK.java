@@ -22,20 +22,21 @@ import java.util.zip.ZipOutputStream;
 
 
 public class APK {
-	private static String apkPath = "C:\\Documents and Settings\\Administrator\\桌面\\iQuest.apk";
+	private static String apkPath = "C:\\Documents and Settings\\Administrator\\桌面\\360MobileSafe_androidbeta.apk";
 	private static String smaliSrcPath = "C:\\Documents and Settings\\Administrator\\桌面\\iQuest_1285815618046\\classes.dex.smali";
-	private static String dex2jar = "D:\\android-sdk-windows\\platforms\\android-7\\tools\\dex2jar-0.0.7.3-SNAPSHOT\\lib";
-	private static String smali = "D:\\android-sdk-windows\\platforms\\android-7\\tools\\smali.jar";
-	private static String baksmali = "D:\\android-sdk-windows\\platforms\\android-7\\tools\\baksmali.jar";
-	private static String dexdump = "D:\\android-sdk-windows\\platforms\\android-7\\tools\\dexdump.exe";
-	private static String AXMLPrinter2 = "D:\\android-sdk-windows\\platforms\\android-7\\tools\\AXMLPrinter2.jar";
-	private static String testsign = "file:///"+"D:\\android-sdk-windows\\platforms\\android-7\\tools\\testsign.jar";
+	private static String dex2jar = "F:\\android-sdk-windows\\dex2jar-0.0.9.7\\lib";
+	private static String dex2jarMainClass = "com.googlecode.dex2jar.v3.Main";
+	private static String smali = "F:\\android-sdk-windows\\tools\\Decompiler\\smali.jar";
+	private static String baksmali = "F:\\android-sdk-windows\\tools\\Decompiler\\baksmali.jar";
+	private static String dexdump = "F:\\android-sdk-windows\\platform-tools\\dexdump.exe";
+	private static String AXMLPrinter2 = "F:\\android-sdk-windows\\AXMLPrinter2.jar";
+	private static String testsign = "file:///"+"F:\\android-sdk-windows\\tools\\Signing APKs\\testsign.jar";
 	private static String dex = "classes.dex";
 	private static ProcessBuilder builder = new ProcessBuilder("cmd", "/c", "jad -ff -space -nonlb *.class");
 	
 	public static void main(String[] args) throws Exception {
-//		unpack();
-		pack();
+		unpack();
+//		pack();
 	}
 	
 	private static void unpack() throws Exception {
@@ -183,13 +184,13 @@ public class APK {
 				if(file.getName().endsWith(".jar")) urls.add(file.toURI().toURL());
 			}
 			URLClassLoader loader = URLClassLoader.newInstance(urls.toArray(new URL[urls.size()]));
-			Class clazz = loader.loadClass("pxb.android.dex2jar.v3.Main");
-			Method method = clazz.getMethod("main", String[].class);
-			method.invoke(null, (Object)new String[]{path});
-			File zip = new File(path+".dex2jar.jar");
+			Class clazz = loader.loadClass(dex2jarMainClass);
+			Method method = clazz.getMethod("doFile", File.class, File.class);
+			File jar = new File(path+"_dex2jar.jar");
+			method.invoke(null, dex, jar);
 			File src = new File(path+".src");
-			extractZip(zip, src);
-			zip.delete();
+			extractZip(jar, src);
+			jar.delete();
 			decompileClass(src);
 			System.out.println("decompileDex:"+src);
 			String cmd = "java -jar \""+baksmali+"\" \""+path+"\" -o \""+path+".smali\"";
