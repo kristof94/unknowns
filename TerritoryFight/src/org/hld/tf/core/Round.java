@@ -26,9 +26,10 @@ public class Round {
 	public int maxPower = -1;
 	public int maxHandPosition;
 	/**
-	 * 回合开始补充人物卡时的加成
+	 * 当前回合各个玩家使用卡片技能的次数
+	 * Map<玩家ID, Map<卡片类型, 使用次数>>
 	 */
-	public Map<String, Integer> supplyFigure = new HashMap<String, Integer>();
+	public Map<String, Map<Class, Integer>> useCardCountMap = new HashMap<String, Map<Class,Integer>>();
 	
 	public void playFigure(Player player, Figure figure) {
 		List<Figure> list = figureMap.get(player.getId());
@@ -39,7 +40,12 @@ public class Round {
 		list.add(figure);
 	}
 	
+	/**
+	 * 回合结束后的处理
+	 * @param library
+	 */
 	public void trickContinue(Library library) {
+		//将使用过后的人物卡放入弃牌堆
 		Iterator<Entry<String, List<Figure>>> iterator = figureMap.entrySet().iterator();
 		while(iterator.hasNext()) {
 			Entry<String, List<Figure>> entry = iterator.next();
@@ -50,9 +56,12 @@ public class Round {
 				i.remove();
 			}
 		}
+		//重新设置下一回合的先手
 		if(maxPower>-1) {
 			maxPower = -1;
 			earlyHandPosition = maxHandPosition;
 		}
+		//清除当前回合卡牌使用次数
+		useCardCountMap.clear();
 	}
 }

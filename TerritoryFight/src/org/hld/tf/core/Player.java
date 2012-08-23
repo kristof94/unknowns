@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.UUID;
 import org.hld.tf.card.base.Figure;
 import org.hld.tf.card.base.Territory;
+import org.hld.tf.core.event.WipeOutTerritoryBefore;
 
 /**
  * 玩家
@@ -14,6 +15,7 @@ import org.hld.tf.card.base.Territory;
 public class Player {
 	private List<Figure> figures = new ArrayList<Figure>();
 	private List<Territory> territories = new ArrayList<Territory>();
+	protected Game game;
 	private String id;
 	private String name;
 	
@@ -52,6 +54,7 @@ public class Player {
 	 */
 	public void drawFigure(Figure card) {
 		figures.add(card);
+		card.setEvent(game, this);
 	}
 	
 	/**
@@ -76,6 +79,16 @@ public class Player {
 			return figures.remove(new Random().nextInt(figures.size()));
 		}
 		return null;
+	}
+	
+	/**
+	 * 清空所有人物卡
+	 * @return
+	 */
+	public List<Figure> cleanFigure() {
+		List<Figure> list = figures;
+		figures = new ArrayList<Figure>();
+		return list;
 	}
 	
 	/**
@@ -104,6 +117,7 @@ public class Player {
 	 */
 	public void drawTerritory(Territory card) {
 		territories.add(card);
+		card.setEvent(game, this);
 		Game.checkGameWinner(this);
 	}
 	
@@ -112,9 +126,37 @@ public class Player {
 	 */
 	public Territory discardTerritory() {
 		if(!territories.isEmpty()) {
-			return territories.remove(new Random().nextInt(territories.size()));
+			Territory territory = territories.remove(new Random().nextInt(territories.size()));
+			territory.removeEvent(game, this);
+			return territory;
 		}
 		return null;
+	}
+	
+	/**
+	 * 弃一张领土卡
+	 */
+	public Territory discardTerritory(Class<? extends Territory> type) {
+		Iterator<Territory> iterator = territories.iterator();
+		while(iterator.hasNext()) {
+			Territory territory = iterator.next();
+			if(type.isInstance(territory)) {
+				iterator.remove();
+				territory.removeEvent(game, this);
+				return territory;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 清空所有领土卡
+	 * @return
+	 */
+	public List<Territory> cleanTerritory() {
+		List<Territory> list = territories;
+		territories = new ArrayList<Territory>();
+		return list;
 	}
 	
 	/**
@@ -128,8 +170,18 @@ public class Player {
 			Territory territory = iterator.next();
 			if(type.isInstance(territory)) {
 				if(territory.canWipeOut()) {
-					iterator.remove();
-					return territory;
+					boolean allow = true;
+					List<WipeOutTerritoryBefore> list = game.getEvent(this, WipeOutTerritoryBefore.class);
+					for (WipeOutTerritoryBefore wipeOutTerritoryBefore : list) {
+						allow = wipeOutTerritoryBefore.handle(null, this, territory);
+					}
+					if(allow) {
+						iterator.remove();
+						territory.removeEvent(game, this);
+						return territory;
+					} else {
+						return null;
+					}
 				} else {
 					break;
 				}
@@ -147,7 +199,10 @@ public class Player {
 		Iterator<Territory> iterator = territories.iterator();
 		while(iterator.hasNext()) {
 			Territory territory = iterator.next();
-			if(type.isInstance(territory)) return territory;
+			if(type.isInstance(territory)) {
+				territory.removeEvent(game, this);
+				return territory;
+			}
 		}
 		return null;
 	}
