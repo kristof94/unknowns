@@ -1,5 +1,6 @@
 package org.hld.tf.core;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,15 +18,16 @@ import org.hld.tf.core.event.AmendHandLimit;
 import org.hld.tf.core.event.AmendPower;
 import org.hld.tf.core.event.DrawTerritoryBefore;
 import org.hld.tf.core.event.FightBeginBefore;
+import org.hld.tf.core.event.PlayFigureAfter;
 
 public class Game {
 	private static final ThreadLocal<Game> THREAD_LOCAL_GAME = new ThreadLocal<Game>();
 	private Listener listener;
 	private Class<? extends Library> libraryType;
-	public Player[] players;
+	private Player[] players;
 	private int playerCount;
 	public Library library;
-	private Round round;
+	public Round round;
 	/**
 	 * 单次事件
 	 * Map<事件类型, Map<玩家ID, List<事件>>>
@@ -98,6 +100,7 @@ public class Game {
 			for (AmendDrawCount amendDrawCount : event) {
 				n+=amendDrawCount.handle(player);
 			}
+			System.out.println(player.getName()+"补充人物卡"+n+"张");
 			drawFigure(player, n);
 		}
 		//执行争夺阶段前的事件
@@ -122,6 +125,10 @@ public class Game {
 				for (AmendPower amendPower : event) {
 //					System.out.println("==========处理事件："+player.getName()+":"+amendPower.getClass());
 					power+=amendPower.handle(player, figure);
+				}
+				//处理使用人物卡后的事件
+				for(PlayFigureAfter playFigureAfter:getEvent(player, PlayFigureAfter.class)) {
+					playFigureAfter.handle(player, figure);
 				}
 				if(power>=round.maxPower) {
 					round.maxPower = power;
@@ -156,7 +163,7 @@ public class Game {
 			if(player.getFigureCount()>l) {
 				do {
 					library.discardFigure(player.discardFigure());
-				} while (player.getFigureCount()>--l);
+				} while (player.getFigureCount()>l);
 			}
 		}
 		//回合结束进行整理
@@ -271,6 +278,21 @@ public class Game {
 			if(i!=null) return i;
 		}
 		return 0;
+	}
+	
+	public Player[] getOtherPlayers(Player player) {
+		Player[] otherPlayers = new Player[playerCount-1];
+		int i = 0;
+		for(Player p : players) {
+			if(p.getId().equals(player.getId())) break;
+			i++;
+		}
+		i++;
+		for(int j=0; j<otherPlayers.length; j++) {
+			if(i==playerCount) i = 0;
+			otherPlayers[j] = players[i++];
+		}
+		return otherPlayers;
 	}
 	
 	public static void checkGameWinner(Player player) {

@@ -32,6 +32,11 @@ public class Player {
 		return name;
 	}
 	
+	@Override
+	public String toString() {
+		return id+":"+name;
+	}
+	
 	/**
 	 * 返回拥有的人物卡
 	 * @return
@@ -82,6 +87,22 @@ public class Player {
 	}
 	
 	/**
+	 * 弃一张人物卡
+	 */
+	public Figure discardFigure(Class<? extends Figure> type) {
+		Iterator<Figure> iterator = figures.iterator();
+		while(iterator.hasNext()) {
+			Figure figure = iterator.next();
+			if(type.isInstance(figure)) {
+				iterator.remove();
+				figure.removeEvent(game, this);
+				return figure;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * 清空所有人物卡
 	 * @return
 	 */
@@ -97,10 +118,23 @@ public class Player {
 	 * @return
 	 */
 	public boolean checkFigure(Class<? extends Figure> type) {
-		for(Figure character:figures) {
-			if(type.isInstance(character)) return true;
+		for(Figure figure:figures) {
+			if(type.isInstance(figure)) return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 判断指定人物卡一共有多少张
+	 * @param type
+	 * @return
+	 */
+	public int checkFigureCount(Class<? extends Figure> type) {
+		int i = 0;
+		for(Figure figure:figures) {
+			if(type.isInstance(figure)) i++;
+		}
+		return i;
 	}
 	
 	/**
