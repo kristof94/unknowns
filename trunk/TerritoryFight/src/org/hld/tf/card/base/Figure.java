@@ -28,4 +28,11 @@ public abstract class Figure {
 	 * @param player
 	 */
 	public void setEvent(Game game, Player player) {}
+	
+	/**
+	 * 移除事件
+	 * @param game
+	 * @param player
+	 */
+	public void removeEvent(Game game, Player player) {}
 }

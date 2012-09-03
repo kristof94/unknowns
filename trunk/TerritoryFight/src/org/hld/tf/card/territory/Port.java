@@ -34,7 +34,7 @@ public class Port extends Territory {
 			if(player.checkTerritory(Port.class)) {
 				//TODO 以后需要补充提示信息
 				Game game = Game.getGame();
-				for(Player other:game.players) {
+				for(Player other:game.getOtherPlayers(player)) {
 					if(other.getFigureCount()>player.getFigureCount()) {
 						List<Figure> f1 = other.cleanFigure();
 						List<Figure> f2 = player.cleanFigure();
