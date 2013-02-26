@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+	<!-- 节点顺序必须是appender、logger、root -->
+
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.SimpleLayout" />
+	</appender>
+
+	<!-- pattern的一些配置参数
+		%m 输出代码中指定的消息
+		%p 输出优先级 即debug info warn error
+		%r 输出自应用启动到输出该log信息耗费的毫秒数
+		%c 输出所属的类目 通常是类所在的全名
+		%t 输出产生该日志时间的线程名
+		%n 输出一个回车换行符 win \r\n  unix \n
+		%d 输出日志点的时间格式，如{yy-MM-dd HH:mm:ss,SSS}
+		%l 输出日志事件的发生位置
+	-->
+	<appender name="spring-console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[spring][%p]%m%n" />
+		</layout>
+	</appender>
+	<appender name="hibernate-console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[hibernate][%p]%m%n" />
+		</layout>
+	</appender>
+	<appender name="dwr-console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[dwr][%p]%m%n" />
+		</layout>
+	</appender>
+
+	<!-- 配置指定包的输出级别，additivity为false表示不继承父类（root标签）的配置，默认是true -->
+	<logger name="org.springframework" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="spring-console" />
+	</logger>
+	<logger name="org.hibernate" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="hibernate-console" />
+	</logger>
+	<logger name="org.directwebremoting" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="dwr-console" />
+	</logger>
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="console" />
+	</root>
+</log4j:configuration>

@@ -1,0 +1,128 @@
+var host = window.location.host;
+
+function $id(id) {
+	return document.getElementById(id);
+}
+
+function updatePage(data) {
+	if(!data) {
+		//hideDialog();
+		//showDialog("服务器出现意外错误，请稍候再试", "系统提示");
+		//hideMessage(tab_id);
+		//showMessage(tab_id, "服务器出现意外错误，请稍候再试", "系统提示");
+		return;
+	}
+	$(".wml").html(data);
+	addOnclickToA();
+	addOnsubmitToForm();
+	var url = $("#ontimer").val();
+	if(url && url.length>0) {
+		var timer = $("#timer").val();
+		var sec = 1;
+		if(timer) sec = parseInt(timer);
+		if(isNaN(sec)) sec = 1;
+		setOntimer(url,sec);
+	}
+}
+
+function addOnclickToA() {
+	$(".card a").click(function() {
+		if(this.href.indexOf("#")>-1) return true;
+	  	var ahost = this.host;
+	  	var herf;
+	  	if(host==ahost) {
+	  		href = this.pathname+this.search;
+	  	} else {
+	  		href = this.href;
+	  	}
+		toUrl(href,"get");
+		return false;
+	});
+}
+
+function addOnsubmitToForm() {
+	$(".card form").submit(function() {
+		var requestData = "";
+		var frm = $(this);
+		frm.find("input:hidden").map(function(){
+			var value = this.value;
+			if(value.match(/^\$\(.*\)$/)!=null) {
+				//是$(.*)形式的结构
+	  			value = value.substring(2, value.length-1);
+				//var tempobj = document.getElementById(value);
+	  			var tempobj = $("#"+value);
+				//if(tempobj && tempobj.value) {
+	  			if(tempobj.attr("value")) {
+	  				requestData+=(this.name+"="+tempobj.attr("value")+"&");
+	  			}
+			} else if(value.match(/^\$.*$/)!=null) {
+				//是$.*形式的结构
+	  			value = value.substring(1, value.length);
+				//var tempobj = document.getElementById(value);
+	  			var tempobj = $("#"+value);
+				//if(tempobj && tempobj.value) {
+	  			if(tempobj.attr("value")) {
+	  				requestData+=(this.name+"="+tempobj.attr("value")+"&");
+	  			}
+			} else {
+				//不是$(.*)或$.*形式的结构
+				requestData+=(this.name+"="+value+"&");
+			}
+ 		});
+ 		requestData = requestData.replace(/&$/g, "");
+		var action = frm.attr("action");
+		if(!action) action = "/";
+		var method = frm.attr("method");
+		if(!method) method = "post";
+		toUrl(action, method, requestData);
+		return false;
+	});
+}
+
+function toUrl(url, type, requestData) {
+	if(!type) type = "get";
+	var gameurl = "url="+encodeURIComponent(url);
+	var params = "";
+	if(requestData) {
+		if(typeof(requestData)== "object") {
+			params = $.param(requestData);
+		} else if(typeof(requestData)== "string") {
+			params = encodeURIComponent(requestData);
+		}
+	}
+	if(params) {
+		if(gameurl.indexOf("%3F")==-1) {
+			gameurl+="%3F";
+		} else if(gameurl.indexOf("%26")==-1) {
+			gameurl+="%26";
+		}
+		params = gameurl+params;
+	} else {
+		params = gameurl;
+	}
+	if(type=="get") {
+		$.get("./wtw",params,function(data){
+			updatePage(data);
+		});
+	} else {
+		$.post("./wtw",params,function(data){
+			updatePage(data);
+		});
+	}
+}
+
+function setOntimer(url,sec) {
+	setTimeout('toUrl("'+url+'", "get")', sec*1000);
+	//不进行等待
+	//setTimeout("toUrl(\""+url+"\", \"get\")", 1);
+}
+
+function updateContent(id, content) {
+	var wapbody = $("#content"+id).children(".wapbody");
+	wapbody.children(".message").hide();
+	wapbody.children(".card").show().html(content);
+}
+
+$(function() {
+	$("body").append("<input type=\"text\" id=\"url\" value=\"http://wap.3guu.com\" size=\"120\" /><input type=\"button\" value=\"浏览\" onclick=\"toUrl($id('url').value);\" /><hr /><div class=\"wml\"></div>");
+});
