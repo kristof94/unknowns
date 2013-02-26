@@ -1,0 +1,162 @@
+html,body {
+    background-color:AppWorkspace;
+}
+
+.wml div.critical {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+    padding: 0.5em;
+}
+
+.wml div.card {
+    margin: 1%;
+    float:left;
+    border:2px inset ThreedHighlight;
+    clear:both;
+    width:auto;
+    background-color:Window;
+    color:WindowText;
+    width: 98%;
+}
+
+.wml div.innercard{
+    margin: 0 0.5em 2pt 0.5em;
+}
+
+.wml h1{
+    font-size:1.5em;
+    width:auto;
+    background-color:ActiveCaption;
+    color:CaptionText;
+    margin:0;
+    padding:0.3em 0.5em 0.3em 0.5em;
+}
+
+/* Not ready yet:
+
+// Headers by default are inactive
+
+// But they're active if they're the current link target 
+div:target h1  { background-color: ActiveCaption; color: CaptionText; }
+
+// Or if we've marked them as selected
+div.selectedcard h1 { background-color: ActiveCaption; color: CaptionText; }
+
+div.card { opacity: 0.3; }
+
+div.selectedcard { opacity: 1; }
+*/
+
+.wml div.do {
+    width:auto;
+    background-color:ThreedLightShadow;
+    margin:0;
+    text-align:center;
+    padding:2px 0.5em 2px 0.5em;
+}
+
+.wml button.dobutton{
+    height:2.1em;
+    padding:0px 0.2em 1px 0.2em;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+}
+
+.wml span.sign{
+    background-color:Window;
+    color:WindowText;
+    border:1px solid Highlight;
+    -moz-border-radius:100%;
+}
+
+.wml span.prev{
+    padding-right:2px;
+    color:HighlightText;
+    background-color:Highlight;
+}
+
+.wml span.help{
+    color:Highlight;
+    font-weight:bold;
+    padding-left:0.2em;
+    padding-right:0.4em;
+}
+
+.wml span.accept{
+    font-weight:bold;
+    font-style:italic;
+    color:rgb(0,153,0);
+    padding-left:0;
+    padding-right:0.5em;
+}
+
+.wml span.reset{
+    color:HighlightText;
+    background-color:Highlight;
+    padding-left:0.2em;
+    padding-right:0.3em;
+    
+}
+
+.wml span.delete{
+    color:rgb(255,255,255);
+    background-color:rgb(255,0,0);
+    border-color:rgb(255,0,0);
+    padding-left:0.2em;
+    padding-right:0.3em;
+    
+}
+
+.wml span.options{
+    color:InfoText;
+    background-color:InfoBackground;
+    padding-left:0.3em;
+    padding-right:0.3em;
+}
+
+.wml span.refresh{
+    color:HighlightText;
+    background-color:Highlight;
+    padding-left:0.2em;
+    padding-right:0.2em;
+}
+
+.wml p.nowrap {
+    white-space:nowrap;
+}
+
+.wml span.b {
+    font-weight: bolder;
+}
+
+.wml span.i {
+    font-style: italic;
+}
+
+.wml span.u {
+    text-decoration: underline;
+}
+
+.wml form {
+    display: inline;
+    margin:0;
+}
+
+.wml *[accesskey]:before {
+    content:attr(accesskey);
+    background-color:Highlight;
+    color:HighlightText;
+    text-decoration:none;
+    padding:0.1em 0.4em 0.1em 0.4em;
+    -moz-border-radius:100%;
+}
+
+.wml .warning {
+    background-color: InfoBackground;
+    color: InfoText;
+    font-style: italic;
+    padding: 0em 0.5em;
+    margin: 0em -0.5em;
+}
